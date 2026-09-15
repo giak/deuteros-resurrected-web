@@ -12,10 +12,11 @@
 | Domaine | Statut |
 |---|---|
 | Documentation cadrage | 🟢 Réalisée |
-| Repo / git | 🔲 À initialiser |
-| Build Vite + TS | 🔲 À créer |
+| Recherche de référence (original) | 🟢 `RESEARCH.md` |
+| Repo / git | 🟢 init + commit `060a402` |
+| Build Vite + TS | 🟢 Squelette OK (bun) |
 | Simulation squelettique | 🔲 À créer |
-| CI (lint, typecheck, tests) | 🔲 À créer |
+| CI (lint, typecheck, tests) | 🟡 Scripts OK, pipeline GH à créer |
 
 ---
 
@@ -48,6 +49,7 @@
 | ADR | `docs/DECISIONS.md` | 🟢 |
 | Dashboard | `docs/DASHBOARD.md` | 🟢 |
 | Trace (journal) | `docs/TRACE.md` | 🟢 |
+| Recherche original Deuteros | `docs/RESEARCH.md` | 🟢 v0.1 |
 
 ---
 
@@ -55,10 +57,10 @@
 
 | Métrique | Valeur |
 |---|---|
-| Sessions de travail | 1 |
+| Sessions de travail | 2 |
 | Tickets ouverts | 0 |
-| Commits | 0 |
-| Tests | 0 |
+| Commits | 1 |
+| Tests | 1 |
 | Build jouable | non |
 
 *(colonnes à alimenter au fil du projet)*

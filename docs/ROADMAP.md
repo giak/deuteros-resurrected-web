@@ -8,7 +8,8 @@
 ## Phase 0 — Fondations (en cours) ✅
 
 - [x] Documents de cadrage (VISION, PFD, GAMEPLAY, DATA, ARCHITECTURE, TECH_STACK, ADR)
-- [ ] Init projet Vite + TS strict
+- [x] Recherche de référence original (RESEARCH.md) — écarts à arbitrer
+- [x] Init projet Vite + TS strict
 - [ ] CI minimale : `npm run lint`, `npm run typecheck`, `npm run test`
 - [ ] Skeleton : store, `tick()` vide, écran blanc avec barre de temps
 - **Livrable** : `npm run dev` affiche un canvas + une barre de statut.

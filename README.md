@@ -27,6 +27,7 @@ La documentation complète vit dans [`docs/`](docs/).
 | [DECISIONS.md](docs/DECISIONS.md) | ADR — registre des décisions architecturales |
 | [DASHBOARD.md](docs/DASHBOARD.md) | État d'avancement, stats, liens utiles |
 | [TRACE.md](docs/TRACE.md) | Journal de sessions de travail |
+| [RESEARCH.md](docs/RESEARCH.md) | Recherche de référence sur l'original *Deuteros* (règles, chiffres, lore) |
 
 ## Statut actuel
 
