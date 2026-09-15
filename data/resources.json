@@ -1,0 +1,152 @@
+{
+  "meta": {
+    "version": 1,
+    "source": "Deuteros-Resurrected develop (source:f53f5ba3fa), Enums.cs ItemTypes 1-16"
+  },
+  "resources": [
+    {
+      "id": "iron",
+      "name": "Fer",
+      "symbol": "Fe",
+      "type": "raw",
+      "minable": true,
+      "derrickRate": 2,
+      "surveyMultiplier": 1
+    },
+    {
+      "id": "titanium",
+      "name": "Titane",
+      "symbol": "Ti",
+      "type": "raw",
+      "minable": true,
+      "derrickRate": 2,
+      "surveyMultiplier": 1
+    },
+    {
+      "id": "aluminium",
+      "name": "Aluminium",
+      "symbol": "Al",
+      "type": "raw",
+      "minable": true,
+      "derrickRate": 2,
+      "surveyMultiplier": 1
+    },
+    {
+      "id": "carbon",
+      "name": "Carbone",
+      "symbol": "C",
+      "type": "raw",
+      "minable": true,
+      "derrickRate": 2,
+      "surveyMultiplier": 1
+    },
+    {
+      "id": "copper",
+      "name": "Cuivre",
+      "symbol": "Cu",
+      "type": "raw",
+      "minable": true,
+      "derrickRate": 2,
+      "surveyMultiplier": 1
+    },
+    {
+      "id": "hydrogen",
+      "name": "Hydrogène",
+      "symbol": "H",
+      "type": "raw",
+      "minable": true,
+      "derrickRate": 1,
+      "surveyMultiplier": 1
+    },
+    {
+      "id": "deuterium",
+      "name": "Deutérium",
+      "symbol": "D",
+      "type": "raw",
+      "minable": true,
+      "derrickRate": 1,
+      "surveyMultiplier": 1
+    },
+    {
+      "id": "methane",
+      "name": "Méthane",
+      "symbol": "CH4",
+      "type": "raw",
+      "minable": true,
+      "derrickRate": 1,
+      "surveyMultiplier": 1
+    },
+    {
+      "id": "helium",
+      "name": "Hélium",
+      "symbol": "He",
+      "type": "raw",
+      "minable": true,
+      "derrickRate": 1,
+      "surveyMultiplier": 4
+    },
+    {
+      "id": "palladium",
+      "name": "Palladium",
+      "symbol": "Pd",
+      "type": "precious",
+      "minable": true,
+      "derrickRate": 1,
+      "surveyMultiplier": 1
+    },
+    {
+      "id": "platinum",
+      "name": "Platine",
+      "symbol": "Pt",
+      "type": "precious",
+      "minable": true,
+      "derrickRate": 1,
+      "surveyMultiplier": 2
+    },
+    {
+      "id": "silver",
+      "name": "Argent",
+      "symbol": "Ag",
+      "type": "precious",
+      "minable": true,
+      "derrickRate": 1,
+      "surveyMultiplier": 2
+    },
+    {
+      "id": "gold",
+      "name": "Or",
+      "symbol": "Au",
+      "type": "precious",
+      "minable": true,
+      "derrickRate": 1,
+      "surveyMultiplier": 3
+    },
+    {
+      "id": "silica",
+      "name": "Silice",
+      "symbol": "Si",
+      "type": "raw",
+      "minable": true,
+      "derrickRate": 2,
+      "surveyMultiplier": 1
+    },
+    {
+      "id": "meh_fuel",
+      "name": "Carburant MeH",
+      "symbol": "MeH",
+      "type": "compound_fuel",
+      "minable": false,
+      "derrickRate": 1,
+      "surveyMultiplier": 1
+    },
+    {
+      "id": "hed_fuel",
+      "name": "Carburant HeD",
+      "symbol": "HeD",
+      "type": "compound_fuel",
+      "minable": false,
+      "derrickRate": 1,
+      "surveyMultiplier": 1
+    }
+  ]
+}

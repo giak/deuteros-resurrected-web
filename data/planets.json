@@ -1,0 +1,3338 @@
+{
+  "meta": {
+    "version": 1,
+    "source": "CoreData.cs + deposits_matrix.csv (cross-check RESEARCH.md §8)",
+    "v1Scope": "the_sun",
+    "segmentBearers": {
+      "atlantic": 1,
+      "chloe": 2,
+      "babylon": 3,
+      "hadrian": 4,
+      "romulus": 5,
+      "caesius": 6,
+      "pliocene": 7,
+      "alpha": 8
+    },
+    "scenario": {
+      "methanoidStartBodies": [
+        "jupiter",
+        "uranus",
+        "titania",
+        "neptune",
+        "triton",
+        "pluto"
+      ]
+    }
+  },
+  "systems": [
+    {
+      "id": "the_sun",
+      "name": "Soleil",
+      "index": 1
+    },
+    {
+      "id": "proxima",
+      "name": "Proxima",
+      "index": 2
+    },
+    {
+      "id": "centauri",
+      "name": "Centauri",
+      "index": 3
+    },
+    {
+      "id": "barnard",
+      "name": "Barnard",
+      "index": 4
+    },
+    {
+      "id": "lalande",
+      "name": "Lalande",
+      "index": 5
+    },
+    {
+      "id": "sirius",
+      "name": "Sirius",
+      "index": 6
+    },
+    {
+      "id": "cygni",
+      "name": "Cygni",
+      "index": 7
+    },
+    {
+      "id": "procyon",
+      "name": "Procyon",
+      "index": 8
+    },
+    {
+      "id": "tau_ceti",
+      "name": "Tau Ceti",
+      "index": 9
+    }
+  ],
+  "bodies": [
+    {
+      "id": "mycenae",
+      "name": "Mycènes",
+      "starId": "barnard",
+      "order": 0,
+      "type": "planet",
+      "moonParentId": null,
+      "deposits": [
+        "copper",
+        "deuterium",
+        "gold",
+        "helium",
+        "methane",
+        "palladium",
+        "platinum",
+        "silica"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "ur",
+      "name": "Ur",
+      "starId": "barnard",
+      "order": 0,
+      "type": "moon",
+      "moonParentId": "tyre",
+      "deposits": [
+        "gold",
+        "helium",
+        "iron",
+        "palladium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "tanis",
+      "name": "Tanis",
+      "starId": "barnard",
+      "order": 0,
+      "type": "moon",
+      "moonParentId": "thebes",
+      "deposits": [
+        "carbon",
+        "copper",
+        "gold",
+        "helium",
+        "hydrogen",
+        "methane",
+        "palladium",
+        "silver"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "petra",
+      "name": "Petra",
+      "starId": "barnard",
+      "order": 0,
+      "type": "moon",
+      "moonParentId": "pompeii",
+      "deposits": [
+        "copper",
+        "gold",
+        "hydrogen",
+        "palladium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "babylon",
+      "name": "Babylone",
+      "starId": "barnard",
+      "order": 0,
+      "type": "moon",
+      "moonParentId": "jericho",
+      "deposits": [
+        "gold",
+        "helium",
+        "hydrogen",
+        "palladium",
+        "platinum",
+        "silica",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": 3,
+      "methanoidColony": false
+    },
+    {
+      "id": "knossos",
+      "name": "Knossos",
+      "starId": "barnard",
+      "order": 0,
+      "type": "moon",
+      "moonParentId": "crete",
+      "deposits": [
+        "gold",
+        "helium",
+        "palladium",
+        "silica"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "cuzco",
+      "name": "Cuzco",
+      "starId": "barnard",
+      "order": 0,
+      "type": "moon",
+      "moonParentId": "mari",
+      "deposits": [
+        "aluminium",
+        "carbon",
+        "copper",
+        "deuterium",
+        "gold",
+        "helium",
+        "hydrogen",
+        "iron",
+        "methane",
+        "silver",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "tyre",
+      "name": "Tyr",
+      "starId": "barnard",
+      "order": 1,
+      "type": "planet",
+      "moonParentId": null,
+      "deposits": [
+        "copper",
+        "gold",
+        "iron",
+        "silver"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "memphis",
+      "name": "Memphis",
+      "starId": "barnard",
+      "order": 1,
+      "type": "moon",
+      "moonParentId": "thebes",
+      "deposits": [
+        "copper",
+        "gold",
+        "helium",
+        "methane",
+        "platinum",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "palmyra",
+      "name": "Palmyra",
+      "starId": "barnard",
+      "order": 1,
+      "type": "moon",
+      "moonParentId": "pompeii",
+      "deposits": [
+        "copper",
+        "hydrogen",
+        "palladium",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "troy",
+      "name": "Troy",
+      "starId": "barnard",
+      "order": 1,
+      "type": "moon",
+      "moonParentId": "jericho",
+      "deposits": [
+        "copper",
+        "deuterium",
+        "helium",
+        "silver"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "delphi",
+      "name": "Delphi",
+      "starId": "barnard",
+      "order": 1,
+      "type": "moon",
+      "moonParentId": "crete",
+      "deposits": [
+        "carbon",
+        "gold",
+        "helium",
+        "iron"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "thebes",
+      "name": "Thèbes",
+      "starId": "barnard",
+      "order": 2,
+      "type": "planet",
+      "moonParentId": null,
+      "deposits": [
+        "copper",
+        "helium",
+        "methane",
+        "palladium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "karnak",
+      "name": "Karnak",
+      "starId": "barnard",
+      "order": 2,
+      "type": "moon",
+      "moonParentId": "thebes",
+      "deposits": [
+        "aluminium",
+        "copper",
+        "deuterium",
+        "helium",
+        "hydrogen",
+        "iron",
+        "methane"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "carthage",
+      "name": "Carthage",
+      "starId": "barnard",
+      "order": 2,
+      "type": "moon",
+      "moonParentId": "jericho",
+      "deposits": [
+        "copper",
+        "gold",
+        "silica",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "ephesus",
+      "name": "Ephesus",
+      "starId": "barnard",
+      "order": 2,
+      "type": "moon",
+      "moonParentId": "crete",
+      "deposits": [
+        "copper",
+        "deuterium",
+        "gold",
+        "silica"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "gizeh",
+      "name": "Gizeh",
+      "starId": "barnard",
+      "order": 3,
+      "type": "moon",
+      "moonParentId": "thebes",
+      "deposits": [
+        "carbon",
+        "helium",
+        "silica",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "pompeii",
+      "name": "Pompéi",
+      "starId": "barnard",
+      "order": 3,
+      "type": "planet",
+      "moonParentId": null,
+      "deposits": [
+        "copper",
+        "helium",
+        "iron",
+        "palladium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "corinth",
+      "name": "Corinth",
+      "starId": "barnard",
+      "order": 3,
+      "type": "moon",
+      "moonParentId": "crete",
+      "deposits": [
+        "aluminium",
+        "copper",
+        "gold",
+        "iron"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "calah",
+      "name": "Calah",
+      "starId": "barnard",
+      "order": 4,
+      "type": "moon",
+      "moonParentId": "thebes",
+      "deposits": [
+        "copper",
+        "deuterium",
+        "gold",
+        "helium",
+        "hydrogen",
+        "iron",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "jericho",
+      "name": "Jéricho",
+      "starId": "barnard",
+      "order": 4,
+      "type": "planet",
+      "moonParentId": null,
+      "deposits": [
+        "aluminium",
+        "carbon",
+        "copper",
+        "hydrogen"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "athens",
+      "name": "Athens",
+      "starId": "barnard",
+      "order": 4,
+      "type": "moon",
+      "moonParentId": "crete",
+      "deposits": [
+        "aluminium",
+        "copper",
+        "deuterium",
+        "gold",
+        "hydrogen"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "noria",
+      "name": "Noria",
+      "starId": "barnard",
+      "order": 5,
+      "type": "moon",
+      "moonParentId": "thebes",
+      "deposits": [
+        "helium",
+        "palladium",
+        "platinum",
+        "silica"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "crete",
+      "name": "Crète",
+      "starId": "barnard",
+      "order": 5,
+      "type": "planet",
+      "moonParentId": null,
+      "deposits": [
+        "deuterium",
+        "gold",
+        "platinum",
+        "silver"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "olympia",
+      "name": "Olympia",
+      "starId": "barnard",
+      "order": 5,
+      "type": "moon",
+      "moonParentId": "crete",
+      "deposits": [
+        "aluminium",
+        "copper",
+        "iron",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "abydos",
+      "name": "Abydos",
+      "starId": "barnard",
+      "order": 6,
+      "type": "moon",
+      "moonParentId": "thebes",
+      "deposits": [
+        "palladium",
+        "platinum",
+        "silica",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "mari",
+      "name": "Mari",
+      "starId": "barnard",
+      "order": 6,
+      "type": "planet",
+      "moonParentId": null,
+      "deposits": [
+        "aluminium",
+        "carbon",
+        "copper",
+        "deuterium",
+        "hydrogen",
+        "iron",
+        "methane",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "saqqara",
+      "name": "Saqqara",
+      "starId": "barnard",
+      "order": 7,
+      "type": "moon",
+      "moonParentId": "thebes",
+      "deposits": [
+        "copper",
+        "deuterium",
+        "helium",
+        "iron",
+        "silica"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "chiron",
+      "name": "Chiron",
+      "starId": "centauri",
+      "order": 0,
+      "type": "planet",
+      "moonParentId": null,
+      "deposits": [
+        "aluminium",
+        "carbon",
+        "copper",
+        "deuterium",
+        "hydrogen",
+        "iron",
+        "methane",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "circe",
+      "name": "Circe",
+      "starId": "centauri",
+      "order": 0,
+      "type": "moon",
+      "moonParentId": "cercops",
+      "deposits": [
+        "aluminium",
+        "gold",
+        "iron",
+        "palladium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "cronus",
+      "name": "Cronus",
+      "starId": "centauri",
+      "order": 0,
+      "type": "moon",
+      "moonParentId": "cerberus",
+      "deposits": [
+        "copper",
+        "deuterium",
+        "hydrogen",
+        "iron",
+        "platinum"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "cybele",
+      "name": "Cybele",
+      "starId": "centauri",
+      "order": 0,
+      "type": "moon",
+      "moonParentId": "creon",
+      "deposits": [
+        "copper",
+        "hydrogen",
+        "iron",
+        "platinum"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "cercops",
+      "name": "Cercops",
+      "starId": "centauri",
+      "order": 1,
+      "type": "planet",
+      "moonParentId": null,
+      "deposits": [
+        "copper",
+        "gold",
+        "helium",
+        "hydrogen",
+        "iron",
+        "silica",
+        "silver"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "chimaera",
+      "name": "Chimaera",
+      "starId": "centauri",
+      "order": 1,
+      "type": "moon",
+      "moonParentId": "cercops",
+      "deposits": [
+        "aluminium",
+        "iron",
+        "platinum",
+        "silica"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "chloe",
+      "name": "Chloé",
+      "starId": "centauri",
+      "order": 1,
+      "type": "moon",
+      "moonParentId": "cerberus",
+      "deposits": [
+        "deuterium",
+        "helium",
+        "platinum"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": 2,
+      "methanoidColony": false
+    },
+    {
+      "id": "cupid",
+      "name": "Cupid",
+      "starId": "centauri",
+      "order": 1,
+      "type": "moon",
+      "moonParentId": "creon",
+      "deposits": [
+        "copper",
+        "helium",
+        "hydrogen",
+        "platinum"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "cerberus",
+      "name": "Cerberus",
+      "starId": "centauri",
+      "order": 2,
+      "type": "planet",
+      "moonParentId": null,
+      "deposits": [
+        "aluminium",
+        "copper",
+        "helium",
+        "hydrogen",
+        "palladium",
+        "platinum",
+        "silica",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "calchas",
+      "name": "Calchas",
+      "starId": "centauri",
+      "order": 2,
+      "type": "moon",
+      "moonParentId": "cerberus",
+      "deposits": [
+        "gold",
+        "hydrogen",
+        "iron",
+        "silver"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "cadmus",
+      "name": "Cadmus",
+      "starId": "centauri",
+      "order": 3,
+      "type": "moon",
+      "moonParentId": "cerberus",
+      "deposits": [
+        "aluminium",
+        "copper",
+        "iron",
+        "silica"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "creon",
+      "name": "Creon",
+      "starId": "centauri",
+      "order": 3,
+      "type": "planet",
+      "moonParentId": null,
+      "deposits": [
+        "copper",
+        "hydrogen",
+        "methane",
+        "silica"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "helios",
+      "name": "Helios",
+      "starId": "cygni",
+      "order": 0,
+      "type": "planet",
+      "moonParentId": null,
+      "deposits": [
+        "copper",
+        "gold",
+        "helium",
+        "iron"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "alumen",
+      "name": "Alumen",
+      "starId": "cygni",
+      "order": 0,
+      "type": "moon",
+      "moonParentId": "burah",
+      "deposits": [
+        "deuterium",
+        "helium",
+        "palladium",
+        "silica"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "chloros",
+      "name": "Chloros",
+      "starId": "cygni",
+      "order": 0,
+      "type": "moon",
+      "moonParentId": "sulfurum",
+      "deposits": [
+        "aluminium",
+        "carbon",
+        "copper",
+        "deuterium",
+        "hydrogen",
+        "iron",
+        "methane",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "vanadis",
+      "name": "Vanadis",
+      "starId": "cygni",
+      "order": 0,
+      "type": "moon",
+      "moonParentId": "titanes",
+      "deposits": [
+        "aluminium",
+        "copper",
+        "deuterium",
+        "helium",
+        "hydrogen",
+        "iron"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "niobe",
+      "name": "Niobe",
+      "starId": "cygni",
+      "order": 0,
+      "type": "moon",
+      "moonParentId": "zargun",
+      "deposits": [
+        "deuterium",
+        "helium",
+        "methane",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "iris",
+      "name": "Iris",
+      "starId": "cygni",
+      "order": 0,
+      "type": "moon",
+      "moonParentId": "osme",
+      "deposits": [
+        "carbon",
+        "hydrogen",
+        "palladium",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "aktis",
+      "name": "Aktis",
+      "starId": "cygni",
+      "order": 0,
+      "type": "moon",
+      "moonParentId": "radius",
+      "deposits": [
+        "copper",
+        "helium",
+        "iron",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "lithos",
+      "name": "Lithos",
+      "starId": "cygni",
+      "order": 1,
+      "type": "planet",
+      "moonParentId": null,
+      "deposits": [
+        "copper",
+        "gold",
+        "helium",
+        "iron",
+        "palladium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "silex",
+      "name": "Silex",
+      "starId": "cygni",
+      "order": 1,
+      "type": "moon",
+      "moonParentId": "burah",
+      "deposits": [
+        "copper",
+        "deuterium",
+        "hydrogen",
+        "iron",
+        "palladium",
+        "platinum",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "argos",
+      "name": "Argos",
+      "starId": "cygni",
+      "order": 1,
+      "type": "moon",
+      "moonParentId": "sulfurum",
+      "deposits": [
+        "helium",
+        "iron",
+        "silver",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "chronos",
+      "name": "Chronos",
+      "starId": "cygni",
+      "order": 1,
+      "type": "moon",
+      "moonParentId": "titanes",
+      "deposits": [
+        "copper",
+        "deuterium",
+        "helium",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "kadmeia",
+      "name": "Kadmeia",
+      "starId": "cygni",
+      "order": 1,
+      "type": "moon",
+      "moonParentId": "zargun",
+      "deposits": [
+        "copper",
+        "helium",
+        "iron",
+        "platinum"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "platina",
+      "name": "Platina",
+      "starId": "cygni",
+      "order": 1,
+      "type": "moon",
+      "moonParentId": "osme",
+      "deposits": [
+        "copper",
+        "hydrogen",
+        "palladium",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "protos",
+      "name": "Protos",
+      "starId": "cygni",
+      "order": 1,
+      "type": "moon",
+      "moonParentId": "radius",
+      "deposits": [
+        "deuterium",
+        "helium",
+        "silica",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "burah",
+      "name": "Burah",
+      "starId": "cygni",
+      "order": 2,
+      "type": "planet",
+      "moonParentId": null,
+      "deposits": [
+        "carbon",
+        "copper",
+        "deuterium",
+        "gold"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "calx",
+      "name": "Calx",
+      "starId": "cygni",
+      "order": 2,
+      "type": "moon",
+      "moonParentId": "sulfurum",
+      "deposits": [
+        "copper",
+        "deuterium",
+        "hydrogen",
+        "iron",
+        "methane",
+        "palladium",
+        "platinum",
+        "silica"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "selene",
+      "name": "Selene",
+      "starId": "cygni",
+      "order": 2,
+      "type": "moon",
+      "moonParentId": "titanes",
+      "deposits": [
+        "aluminium",
+        "copper",
+        "deuterium",
+        "helium",
+        "hydrogen",
+        "methane",
+        "platinum",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "tellus",
+      "name": "Tellus",
+      "starId": "cygni",
+      "order": 2,
+      "type": "moon",
+      "moonParentId": "zargun",
+      "deposits": [
+        "aluminium",
+        "copper",
+        "iron",
+        "palladium",
+        "platinum"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "aurum",
+      "name": "Aurum",
+      "starId": "cygni",
+      "order": 2,
+      "type": "moon",
+      "moonParentId": "osme",
+      "deposits": [
+        "copper",
+        "gold",
+        "helium",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "prasios",
+      "name": "Prasios",
+      "starId": "cygni",
+      "order": 2,
+      "type": "moon",
+      "moonParentId": "radius",
+      "deposits": [
+        "copper",
+        "helium",
+        "hydrogen",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "sulfurum",
+      "name": "Sulfurum",
+      "starId": "cygni",
+      "order": 3,
+      "type": "planet",
+      "moonParentId": null,
+      "deposits": [
+        "aluminium",
+        "copper",
+        "gold",
+        "helium",
+        "iron",
+        "palladium",
+        "platinum",
+        "silver"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "bromos",
+      "name": "Bromos",
+      "starId": "cygni",
+      "order": 3,
+      "type": "moon",
+      "moonParentId": "titanes",
+      "deposits": [
+        "copper",
+        "helium",
+        "hydrogen",
+        "iron"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "iodes",
+      "name": "Iodes",
+      "starId": "cygni",
+      "order": 3,
+      "type": "moon",
+      "moonParentId": "zargun",
+      "deposits": [
+        "deuterium",
+        "helium",
+        "iron",
+        "silver",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "thallos",
+      "name": "Thallos",
+      "starId": "cygni",
+      "order": 3,
+      "type": "moon",
+      "moonParentId": "osme",
+      "deposits": [
+        "iron",
+        "platinum",
+        "silica",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "titanes",
+      "name": "Titanes",
+      "starId": "cygni",
+      "order": 4,
+      "type": "planet",
+      "moonParentId": null,
+      "deposits": [
+        "copper",
+        "iron",
+        "platinum",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "kryptos",
+      "name": "Kryptos",
+      "starId": "cygni",
+      "order": 4,
+      "type": "moon",
+      "moonParentId": "titanes",
+      "deposits": [
+        "carbon",
+        "helium",
+        "silica",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "xenos",
+      "name": "Xenos",
+      "starId": "cygni",
+      "order": 4,
+      "type": "moon",
+      "moonParentId": "zargun",
+      "deposits": [
+        "hydrogen",
+        "iron",
+        "platinum",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "astatos",
+      "name": "Astatos",
+      "starId": "cygni",
+      "order": 4,
+      "type": "moon",
+      "moonParentId": "osme",
+      "deposits": [
+        "aluminium",
+        "helium",
+        "iron",
+        "platinum"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "rubidos",
+      "name": "Rubidos",
+      "starId": "cygni",
+      "order": 5,
+      "type": "moon",
+      "moonParentId": "titanes",
+      "deposits": [
+        "aluminium",
+        "deuterium",
+        "helium",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "zargun",
+      "name": "Zargun",
+      "starId": "cygni",
+      "order": 5,
+      "type": "planet",
+      "moonParentId": null,
+      "deposits": [
+        "copper",
+        "deuterium",
+        "iron",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "caesius",
+      "name": "Césius",
+      "starId": "cygni",
+      "order": 5,
+      "type": "moon",
+      "moonParentId": "zargun",
+      "deposits": [
+        "helium",
+        "palladium",
+        "silica"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": 6,
+      "methanoidColony": false
+    },
+    {
+      "id": "rhenus",
+      "name": "Rhenus",
+      "starId": "cygni",
+      "order": 6,
+      "type": "moon",
+      "moonParentId": "zargun",
+      "deposits": [
+        "copper",
+        "gold",
+        "helium",
+        "silver"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "osme",
+      "name": "Osme",
+      "starId": "cygni",
+      "order": 6,
+      "type": "planet",
+      "moonParentId": null,
+      "deposits": [
+        "helium",
+        "iron",
+        "palladium",
+        "platinum"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "radius",
+      "name": "Radius",
+      "starId": "cygni",
+      "order": 7,
+      "type": "planet",
+      "moonParentId": null,
+      "deposits": [
+        "carbon",
+        "helium",
+        "hydrogen",
+        "iron"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "septimus",
+      "name": "Septimus",
+      "starId": "lalande",
+      "order": 0,
+      "type": "moon",
+      "moonParentId": "julius",
+      "deposits": [
+        "gold",
+        "hydrogen",
+        "iron",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "julius",
+      "name": "Julius",
+      "starId": "lalande",
+      "order": 1,
+      "type": "planet",
+      "moonParentId": null,
+      "deposits": [
+        "aluminium",
+        "gold",
+        "platinum",
+        "silver"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "augustus",
+      "name": "Augustus",
+      "starId": "lalande",
+      "order": 1,
+      "type": "moon",
+      "moonParentId": "julius",
+      "deposits": [
+        "gold",
+        "iron",
+        "platinum",
+        "silica"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "claudius",
+      "name": "Claudius",
+      "starId": "lalande",
+      "order": 2,
+      "type": "moon",
+      "moonParentId": "julius",
+      "deposits": [
+        "copper",
+        "helium",
+        "iron",
+        "palladium",
+        "silica"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "hadrian",
+      "name": "Hadrien",
+      "starId": "lalande",
+      "order": 3,
+      "type": "moon",
+      "moonParentId": "julius",
+      "deposits": [
+        "gold",
+        "helium",
+        "silica"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": 4,
+      "methanoidColony": false
+    },
+    {
+      "id": "cambrian",
+      "name": "Cambrian",
+      "starId": "procyon",
+      "order": 0,
+      "type": "planet",
+      "moonParentId": null,
+      "deposits": [
+        "gold",
+        "helium",
+        "hydrogen",
+        "iron",
+        "palladium",
+        "platinum",
+        "silica",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "tertiary",
+      "name": "Tertiary",
+      "starId": "procyon",
+      "order": 0,
+      "type": "moon",
+      "moonParentId": "cainozoic",
+      "deposits": [
+        "deuterium",
+        "gold",
+        "helium",
+        "iron"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "silurian",
+      "name": "Silurian",
+      "starId": "procyon",
+      "order": 0,
+      "type": "moon",
+      "moonParentId": "paleozoic",
+      "deposits": [
+        "carbon",
+        "copper",
+        "gold",
+        "silica"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "cainozoic",
+      "name": "Cainozoic",
+      "starId": "procyon",
+      "order": 1,
+      "type": "planet",
+      "moonParentId": null,
+      "deposits": [
+        "deuterium",
+        "helium",
+        "iron",
+        "silica"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "paleocene",
+      "name": "Paleocene",
+      "starId": "procyon",
+      "order": 1,
+      "type": "moon",
+      "moonParentId": "cainozoic",
+      "deposits": [
+        "gold",
+        "platinum",
+        "silica",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "eocene",
+      "name": "Éocène",
+      "starId": "procyon",
+      "order": 2,
+      "type": "moon",
+      "moonParentId": "cainozoic",
+      "deposits": [
+        "gold",
+        "helium",
+        "iron",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "paleozoic",
+      "name": "Paleozoic",
+      "starId": "procyon",
+      "order": 2,
+      "type": "planet",
+      "moonParentId": null,
+      "deposits": [
+        "aluminium",
+        "deuterium",
+        "gold",
+        "methane"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "oligocene",
+      "name": "Oligocène",
+      "starId": "procyon",
+      "order": 3,
+      "type": "moon",
+      "moonParentId": "cainozoic",
+      "deposits": [
+        "aluminium",
+        "helium",
+        "palladium",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "miocene",
+      "name": "Miocène",
+      "starId": "procyon",
+      "order": 4,
+      "type": "moon",
+      "moonParentId": "cainozoic",
+      "deposits": [
+        "aluminium",
+        "carbon",
+        "copper",
+        "deuterium",
+        "hydrogen",
+        "iron",
+        "methane",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "pliocene",
+      "name": "Pliocène",
+      "starId": "procyon",
+      "order": 5,
+      "type": "moon",
+      "moonParentId": "cainozoic",
+      "deposits": [
+        "gold",
+        "helium",
+        "palladium",
+        "platinum",
+        "silver"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": 7,
+      "methanoidColony": false
+    },
+    {
+      "id": "atlantic",
+      "name": "Atlantic",
+      "starId": "proxima",
+      "order": 0,
+      "type": "planet",
+      "moonParentId": null,
+      "deposits": [
+        "aluminium",
+        "carbon",
+        "copper",
+        "deuterium",
+        "hydrogen",
+        "iron",
+        "methane",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": 1,
+      "methanoidColony": false
+    },
+    {
+      "id": "barent",
+      "name": "Barent",
+      "starId": "proxima",
+      "order": 0,
+      "type": "moon",
+      "moonParentId": "pacific",
+      "deposits": [
+        "copper",
+        "deuterium",
+        "iron",
+        "palladium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "pacific",
+      "name": "Pacific",
+      "starId": "proxima",
+      "order": 1,
+      "type": "planet",
+      "moonParentId": null,
+      "deposits": [
+        "gold",
+        "helium",
+        "iron",
+        "palladium",
+        "platinum",
+        "silica",
+        "silver",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "baltic",
+      "name": "Baltic",
+      "starId": "proxima",
+      "order": 1,
+      "type": "moon",
+      "moonParentId": "pacific",
+      "deposits": [
+        "aluminium",
+        "helium",
+        "iron",
+        "platinum"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "romulus",
+      "name": "Romulus",
+      "starId": "sirius",
+      "order": 0,
+      "type": "planet",
+      "moonParentId": null,
+      "deposits": [
+        "aluminium",
+        "carbon",
+        "copper",
+        "deuterium",
+        "hydrogen",
+        "methane",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": 5,
+      "methanoidColony": false
+    },
+    {
+      "id": "remus",
+      "name": "Remus",
+      "starId": "sirius",
+      "order": 1,
+      "type": "planet",
+      "moonParentId": null,
+      "deposits": [
+        "gold",
+        "helium",
+        "hydrogen",
+        "palladium",
+        "platinum",
+        "silica",
+        "silver",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "alpha",
+      "name": "Alpha",
+      "starId": "tau_ceti",
+      "order": 0,
+      "type": "planet",
+      "moonParentId": null,
+      "deposits": [
+        "aluminium",
+        "carbon",
+        "gold",
+        "helium",
+        "hydrogen",
+        "silica",
+        "silver"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": 8,
+      "methanoidColony": false
+    },
+    {
+      "id": "delta",
+      "name": "Delta",
+      "starId": "tau_ceti",
+      "order": 0,
+      "type": "moon",
+      "moonParentId": "beta",
+      "deposits": [
+        "gold",
+        "helium",
+        "iron",
+        "palladium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "theta",
+      "name": "Thêta",
+      "starId": "tau_ceti",
+      "order": 0,
+      "type": "moon",
+      "moonParentId": "gamma",
+      "deposits": [
+        "aluminium",
+        "carbon",
+        "copper",
+        "gold",
+        "helium",
+        "iron",
+        "palladium",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "lambda",
+      "name": "Lambda",
+      "starId": "tau_ceti",
+      "order": 0,
+      "type": "moon",
+      "moonParentId": "epsilon",
+      "deposits": [
+        "gold",
+        "iron",
+        "methane",
+        "silica"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "rho",
+      "name": "Rho",
+      "starId": "tau_ceti",
+      "order": 0,
+      "type": "moon",
+      "moonParentId": "zeta",
+      "deposits": [
+        "copper",
+        "gold",
+        "iron",
+        "silica"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "beta",
+      "name": "Bêta",
+      "starId": "tau_ceti",
+      "order": 1,
+      "type": "planet",
+      "moonParentId": null,
+      "deposits": [
+        "copper",
+        "gold",
+        "iron",
+        "silver",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "iota",
+      "name": "Iota",
+      "starId": "tau_ceti",
+      "order": 1,
+      "type": "moon",
+      "moonParentId": "gamma",
+      "deposits": [
+        "carbon",
+        "deuterium",
+        "helium",
+        "iron",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "mu",
+      "name": "Mu",
+      "starId": "tau_ceti",
+      "order": 1,
+      "type": "moon",
+      "moonParentId": "epsilon",
+      "deposits": [
+        "gold",
+        "iron",
+        "platinum",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "sigma",
+      "name": "Sigma",
+      "starId": "tau_ceti",
+      "order": 1,
+      "type": "moon",
+      "moonParentId": "zeta",
+      "deposits": [
+        "aluminium",
+        "helium",
+        "iron",
+        "palladium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "gamma",
+      "name": "Gamma",
+      "starId": "tau_ceti",
+      "order": 2,
+      "type": "planet",
+      "moonParentId": null,
+      "deposits": [
+        "carbon",
+        "iron",
+        "platinum",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "kappa",
+      "name": "Kappa",
+      "starId": "tau_ceti",
+      "order": 2,
+      "type": "moon",
+      "moonParentId": "gamma",
+      "deposits": [
+        "aluminium",
+        "gold",
+        "helium",
+        "hydrogen",
+        "silica",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "nu",
+      "name": "Nu",
+      "starId": "tau_ceti",
+      "order": 2,
+      "type": "moon",
+      "moonParentId": "epsilon",
+      "deposits": [
+        "copper",
+        "deuterium",
+        "hydrogen",
+        "iron"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "upsilon",
+      "name": "Upsilon",
+      "starId": "tau_ceti",
+      "order": 2,
+      "type": "moon",
+      "moonParentId": "zeta",
+      "deposits": [
+        "aluminium",
+        "carbon",
+        "copper",
+        "deuterium",
+        "hydrogen",
+        "iron",
+        "methane",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "epsilon",
+      "name": "Epsilon",
+      "starId": "tau_ceti",
+      "order": 3,
+      "type": "planet",
+      "moonParentId": null,
+      "deposits": [
+        "carbon",
+        "gold",
+        "iron",
+        "platinum"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "xi",
+      "name": "Xi",
+      "starId": "tau_ceti",
+      "order": 3,
+      "type": "moon",
+      "moonParentId": "epsilon",
+      "deposits": [
+        "gold",
+        "iron",
+        "palladium",
+        "silver"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "phi",
+      "name": "Phi",
+      "starId": "tau_ceti",
+      "order": 3,
+      "type": "moon",
+      "moonParentId": "zeta",
+      "deposits": [
+        "carbon",
+        "gold",
+        "helium",
+        "iron",
+        "palladium",
+        "platinum"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "omicron",
+      "name": "Omicron",
+      "starId": "tau_ceti",
+      "order": 4,
+      "type": "moon",
+      "moonParentId": "epsilon",
+      "deposits": [
+        "gold",
+        "iron",
+        "platinum",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "zeta",
+      "name": "Zêta",
+      "starId": "tau_ceti",
+      "order": 4,
+      "type": "planet",
+      "moonParentId": null,
+      "deposits": [
+        "helium",
+        "iron",
+        "silver",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "chi",
+      "name": "Chi",
+      "starId": "tau_ceti",
+      "order": 4,
+      "type": "moon",
+      "moonParentId": "zeta",
+      "deposits": [
+        "copper",
+        "gold",
+        "hydrogen",
+        "iron",
+        "palladium",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "pi",
+      "name": "Pi",
+      "starId": "tau_ceti",
+      "order": 5,
+      "type": "moon",
+      "moonParentId": "epsilon",
+      "deposits": [
+        "aluminium",
+        "iron",
+        "silica",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "psi",
+      "name": "Psi",
+      "starId": "tau_ceti",
+      "order": 5,
+      "type": "moon",
+      "moonParentId": "zeta",
+      "deposits": [
+        "copper",
+        "gold",
+        "helium",
+        "iron"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "omega",
+      "name": "Oméga",
+      "starId": "tau_ceti",
+      "order": 6,
+      "type": "moon",
+      "moonParentId": "zeta",
+      "deposits": [
+        "hydrogen",
+        "iron",
+        "palladium",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "mercury",
+      "name": "Mercure",
+      "starId": "the_sun",
+      "order": 0,
+      "type": "planet",
+      "moonParentId": null,
+      "deposits": [
+        "carbon",
+        "iron",
+        "palladium",
+        "silica",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "the_moon",
+      "name": "Lune",
+      "starId": "the_sun",
+      "order": 0,
+      "type": "moon",
+      "moonParentId": "earth",
+      "deposits": [
+        "aluminium",
+        "carbon",
+        "deuterium",
+        "gold",
+        "iron",
+        "silica",
+        "titanium"
+      ],
+      "baseBuildParts": 2,
+      "baseDamaged": true,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "phobos",
+      "name": "Phobos",
+      "starId": "the_sun",
+      "order": 0,
+      "type": "moon",
+      "moonParentId": "mars",
+      "deposits": [
+        "carbon",
+        "silica"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "mimas",
+      "name": "Mimas",
+      "starId": "the_sun",
+      "order": 0,
+      "type": "moon",
+      "moonParentId": "saturn",
+      "deposits": [
+        "carbon",
+        "silica"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "miranda",
+      "name": "Miranda",
+      "starId": "the_sun",
+      "order": 0,
+      "type": "moon",
+      "moonParentId": "uranus",
+      "deposits": [
+        "carbon",
+        "copper",
+        "iron",
+        "platinum",
+        "silica",
+        "silver"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "triton",
+      "name": "Triton",
+      "starId": "the_sun",
+      "order": 0,
+      "type": "moon",
+      "moonParentId": "neptune",
+      "deposits": [
+        "carbon",
+        "deuterium",
+        "gold",
+        "hydrogen",
+        "methane",
+        "platinum",
+        "silica",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": true
+    },
+    {
+      "id": "charon",
+      "name": "Charon",
+      "starId": "the_sun",
+      "order": 0,
+      "type": "moon",
+      "moonParentId": "pluto",
+      "deposits": [
+        "carbon",
+        "silica"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "venus",
+      "name": "Vénus",
+      "starId": "the_sun",
+      "order": 1,
+      "type": "planet",
+      "moonParentId": null,
+      "deposits": [
+        "aluminium",
+        "carbon",
+        "hydrogen",
+        "methane",
+        "platinum",
+        "silica"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "deimos",
+      "name": "Deimos",
+      "starId": "the_sun",
+      "order": 1,
+      "type": "moon",
+      "moonParentId": "mars",
+      "deposits": [
+        "carbon",
+        "silica"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "io",
+      "name": "Io",
+      "starId": "the_sun",
+      "order": 1,
+      "type": "moon",
+      "moonParentId": "jupiter",
+      "deposits": [
+        "carbon",
+        "methane",
+        "silica"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "encaladus",
+      "name": "Encaladus",
+      "starId": "the_sun",
+      "order": 1,
+      "type": "moon",
+      "moonParentId": "saturn",
+      "deposits": [
+        "aluminium",
+        "carbon",
+        "deuterium",
+        "hydrogen",
+        "iron",
+        "silica"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "ariel",
+      "name": "Ariel",
+      "starId": "the_sun",
+      "order": 1,
+      "type": "moon",
+      "moonParentId": "uranus",
+      "deposits": [
+        "aluminium",
+        "gold",
+        "hydrogen",
+        "methane",
+        "platinum",
+        "silica"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "neried",
+      "name": "Neried",
+      "starId": "the_sun",
+      "order": 1,
+      "type": "moon",
+      "moonParentId": "neptune",
+      "deposits": [
+        "carbon",
+        "palladium",
+        "silica"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "earth",
+      "name": "Terre",
+      "starId": "the_sun",
+      "order": 2,
+      "type": "planet",
+      "moonParentId": null,
+      "deposits": [
+        "aluminium",
+        "carbon",
+        "copper",
+        "deuterium",
+        "hydrogen",
+        "iron",
+        "methane",
+        "titanium"
+      ],
+      "baseBuildParts": 2,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "europa",
+      "name": "Europe",
+      "starId": "the_sun",
+      "order": 2,
+      "type": "moon",
+      "moonParentId": "jupiter",
+      "deposits": [
+        "carbon",
+        "deuterium",
+        "silica"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "tethys",
+      "name": "Téthys",
+      "starId": "the_sun",
+      "order": 2,
+      "type": "moon",
+      "moonParentId": "saturn",
+      "deposits": [
+        "aluminium",
+        "copper",
+        "deuterium",
+        "hydrogen",
+        "methane",
+        "palladium",
+        "silica",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "umbriel",
+      "name": "Umbriel",
+      "starId": "the_sun",
+      "order": 2,
+      "type": "moon",
+      "moonParentId": "uranus",
+      "deposits": [
+        "carbon",
+        "hydrogen",
+        "silica"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "nthree",
+      "name": "Nthree",
+      "starId": "the_sun",
+      "order": 2,
+      "type": "moon",
+      "moonParentId": "neptune",
+      "deposits": [
+        "carbon",
+        "silica"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "mars",
+      "name": "Mars",
+      "starId": "the_sun",
+      "order": 3,
+      "type": "planet",
+      "moonParentId": null,
+      "deposits": [
+        "carbon",
+        "hydrogen",
+        "iron",
+        "silver"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "ganymede",
+      "name": "Ganymède",
+      "starId": "the_sun",
+      "order": 3,
+      "type": "moon",
+      "moonParentId": "jupiter",
+      "deposits": [
+        "aluminium",
+        "hydrogen",
+        "iron",
+        "methane",
+        "platinum",
+        "silica",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "dione",
+      "name": "Dioné",
+      "starId": "the_sun",
+      "order": 3,
+      "type": "moon",
+      "moonParentId": "saturn",
+      "deposits": [
+        "carbon",
+        "silica"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "titania",
+      "name": "Titania",
+      "starId": "the_sun",
+      "order": 3,
+      "type": "moon",
+      "moonParentId": "uranus",
+      "deposits": [
+        "copper",
+        "gold",
+        "hydrogen",
+        "methane",
+        "palladium",
+        "silica",
+        "silver",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": true
+    },
+    {
+      "id": "nfour",
+      "name": "Nfour",
+      "starId": "the_sun",
+      "order": 3,
+      "type": "moon",
+      "moonParentId": "neptune",
+      "deposits": [
+        "silica"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "asteroids",
+      "name": "Ceinture",
+      "starId": "the_sun",
+      "order": 4,
+      "type": "planet",
+      "moonParentId": null,
+      "deposits": [
+        "aluminium",
+        "carbon",
+        "copper",
+        "palladium",
+        "platinum",
+        "silica",
+        "silver",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "callisto",
+      "name": "Callisto",
+      "starId": "the_sun",
+      "order": 4,
+      "type": "moon",
+      "moonParentId": "jupiter",
+      "deposits": [
+        "copper",
+        "hydrogen",
+        "iron",
+        "platinum",
+        "silica",
+        "silver",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "rhea",
+      "name": "Rhéa",
+      "starId": "the_sun",
+      "order": 4,
+      "type": "moon",
+      "moonParentId": "saturn",
+      "deposits": [
+        "carbon",
+        "deuterium",
+        "gold",
+        "hydrogen",
+        "platinum",
+        "silica"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "oberon",
+      "name": "Oberon",
+      "starId": "the_sun",
+      "order": 4,
+      "type": "moon",
+      "moonParentId": "uranus",
+      "deposits": [
+        "aluminium",
+        "deuterium",
+        "hydrogen",
+        "iron",
+        "methane",
+        "palladium",
+        "silica",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "jupiter",
+      "name": "Jupiter",
+      "starId": "the_sun",
+      "order": 5,
+      "type": "moon",
+      "moonParentId": "jupiter",
+      "deposits": [
+        "carbon",
+        "helium",
+        "hydrogen",
+        "silica"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": true
+    },
+    {
+      "id": "leda",
+      "name": "Léda",
+      "starId": "the_sun",
+      "order": 5,
+      "type": "moon",
+      "moonParentId": "jupiter",
+      "deposits": [
+        "copper",
+        "gold",
+        "hydrogen",
+        "iron",
+        "methane",
+        "palladium",
+        "silica",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "titan",
+      "name": "Titan",
+      "starId": "the_sun",
+      "order": 5,
+      "type": "moon",
+      "moonParentId": "saturn",
+      "deposits": [
+        "carbon",
+        "hydrogen",
+        "methane",
+        "palladium",
+        "platinum",
+        "silver",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "himalia",
+      "name": "Himalia",
+      "starId": "the_sun",
+      "order": 6,
+      "type": "moon",
+      "moonParentId": "jupiter",
+      "deposits": [
+        "carbon",
+        "gold",
+        "silica"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "saturn",
+      "name": "Saturne",
+      "starId": "the_sun",
+      "order": 6,
+      "type": "planet",
+      "moonParentId": null,
+      "deposits": [
+        "hydrogen"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "hyperion",
+      "name": "Hypérion",
+      "starId": "the_sun",
+      "order": 6,
+      "type": "moon",
+      "moonParentId": "saturn",
+      "deposits": [
+        "aluminium",
+        "carbon",
+        "copper",
+        "methane",
+        "palladium",
+        "silica"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "elara",
+      "name": "Elara",
+      "starId": "the_sun",
+      "order": 7,
+      "type": "moon",
+      "moonParentId": "jupiter",
+      "deposits": [
+        "carbon",
+        "silica"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "iapetus",
+      "name": "Japet",
+      "starId": "the_sun",
+      "order": 7,
+      "type": "moon",
+      "moonParentId": "saturn",
+      "deposits": [
+        "carbon",
+        "silica"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "uranus",
+      "name": "Uranus",
+      "starId": "the_sun",
+      "order": 7,
+      "type": "planet",
+      "moonParentId": null,
+      "deposits": [
+        "copper",
+        "deuterium",
+        "helium",
+        "hydrogen",
+        "iron",
+        "methane",
+        "silica",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": true
+    },
+    {
+      "id": "pasiphae",
+      "name": "Pasiphaé",
+      "starId": "the_sun",
+      "order": 8,
+      "type": "moon",
+      "moonParentId": "jupiter",
+      "deposits": [
+        "carbon",
+        "silica"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "phoebe",
+      "name": "Phœbé",
+      "starId": "the_sun",
+      "order": 8,
+      "type": "moon",
+      "moonParentId": "saturn",
+      "deposits": [
+        "carbon",
+        "deuterium",
+        "gold",
+        "hydrogen",
+        "iron",
+        "methane",
+        "silica",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "neptune",
+      "name": "Neptune",
+      "starId": "the_sun",
+      "order": 8,
+      "type": "planet",
+      "moonParentId": null,
+      "deposits": [
+        "aluminium",
+        "carbon",
+        "copper",
+        "hydrogen",
+        "iron",
+        "methane",
+        "palladium",
+        "platinum"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": true
+    },
+    {
+      "id": "pluto",
+      "name": "Pluton",
+      "starId": "the_sun",
+      "order": 9,
+      "type": "planet",
+      "moonParentId": null,
+      "deposits": [
+        "carbon",
+        "gold",
+        "hydrogen",
+        "methane",
+        "palladium",
+        "platinum",
+        "silica"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": true
+    },
+    {
+      "id": "decuria",
+      "name": "Decuria",
+      "starId": "the_sun",
+      "order": 10,
+      "type": "planet",
+      "moonParentId": null,
+      "deposits": [
+        "carbon",
+        "silica",
+        "silver",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "amalthea",
+      "name": "Amalthée",
+      "starId": "the_sun",
+      "order": 99,
+      "type": "planet",
+      "moonParentId": null,
+      "deposits": [
+        "carbon",
+        "silica"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "enceladus",
+      "name": "Encelade",
+      "starId": "the_sun",
+      "order": 99,
+      "type": "planet",
+      "moonParentId": null,
+      "deposits": [
+        "aluminium",
+        "carbon",
+        "deuterium",
+        "hydrogen",
+        "iron",
+        "silica"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "nereid",
+      "name": "Néréide",
+      "starId": "the_sun",
+      "order": 99,
+      "type": "planet",
+      "moonParentId": null,
+      "deposits": [
+        "carbon",
+        "palladium",
+        "silica"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "n3",
+      "name": "N3",
+      "starId": "the_sun",
+      "order": 99,
+      "type": "planet",
+      "moonParentId": null,
+      "deposits": [
+        "carbon",
+        "silica"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "n4",
+      "name": "N4",
+      "starId": "the_sun",
+      "order": 99,
+      "type": "planet",
+      "moonParentId": null,
+      "deposits": [
+        "silica"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "nero",
+      "name": "Néron",
+      "starId": "the_sun",
+      "order": 99,
+      "type": "planet",
+      "moonParentId": null,
+      "deposits": [
+        "aluminium",
+        "carbon",
+        "copper",
+        "deuterium",
+        "hydrogen",
+        "iron",
+        "methane",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    }
+  ]
+}

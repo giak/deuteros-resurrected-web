@@ -104,3 +104,39 @@
 1. **Décision utilisateur** : que faire de ce corpus mécaniques ? → (a) enrichir encore (Production.cs déjà lu, reste `Screens/{Navigation,BaysAndDocks}`…), (b) **passer à la conception des tables v1** (DATA.md/GAMEPLAY.md avec les valeurs extraites), (c) commiter le lot de recherche en l'état.
 2. Arbitrer les écarts §15 (ressources 10 vs 16, transport, défaite, Hydroïdes, TMT).
 3. Reprendre la fin de la Phase 0 : `tick()` + store, premier écran canvas, CI GH Actions.
+
+---
+
+## Session 5 — 2026-09-15 (implémentation des tables v1)
+
+**Objectif** : implémenter la spec tables v1 (commit `08107fb`) — `data/*.json`, constantes de simulation, moteur fidèle au code du remake, tests unitaires.
+
+**Réalisé :**
+- **Reconnexion contexte** : MnemoLite sain (health 200, MCP 8002 OK), mémoire `2ce94fcc` (passe code Session 4) intacte — write-back vérifié. Artéfacts `/tmp/opencode/deuteros/` conservés (matrice gisements, sources du remake).
+- **Commit `0ee27d7`** : lot de recherche (RESEARCH.md + docs sessions 2-4).
+- **Données générées** (`scripts/generate_data.py`, reproductible) :
+  - `resources.json` — 16 ressources (derrick rates 2/1, survey He=4/Pt=2/Ag=2/Au=3).
+  - `items.json` — 46 items (31 recherchables), recettes fidèles CoreData.cs.
+  - `planets.json` — 164 corps / 9 systèmes (v1 = Soleil, 47 corps), 8 segments, colonies Méthanoïdes de départ (jupiter, uranus, titania, neptune, triton, pluto — extraites des flags `ActiveMethanoid = true`), Terre 1 derrick, Lune endommagée.
+  - `astronomical.json` (astéroïdes : 7 types minables, 8 classes de masse), `difficulties.json`, `events.json` (timeline minimale).
+- **Moteur** (`src/simulation/`) : `config.ts` (SIM_CONFIG), `types.ts`, `rng.ts` (mulberry32 déterministe), `data.ts` (loaders typés), `state.ts` (miroir setup CoreData.cs), `engine.ts` (tick journalier, ordre GameCore.cs), `production.ts`, `research.ts`, `mining.ts`, `combat.ts`, `travel.ts`, `enemy.ts`, `staff.ts`, `index.ts` (barrel).
+- **Validation** : lint 0 erreur, tsc strict 0 erreur, **vitest 42/42** (data 15 + simulation 26 + skeleton), build Vite OK.
+- **Mnémo write-back vérifié** : mémoire `b81d4267` (session 5, tags `project:deuteros-web`) — top hit en relecture (protocole §5.4).
+
+**Corrections apportées à la spec (relecture du code, à répercuter sur RESEARCH.md/GAMEPLAY) :**
+1. **`ResearchItem(itemType, index, techLevel)`** — la colonne « tech » de la spec §4.2 était en réalité l'**index de recherche** ; le rang requis est le 3e paramètre (derrick : index 2, tech 1 ; pulse_blaster : index 10, tech 3). 31 items recherchables (pas 32).
+2. **Ctor `ProductionItem`** : `Production_Value = ResearchValue` (64) et `Production_Complete = 1` au démarrage → **3 wraps effectifs** (pas 4) ; un pod AOC = 6 jours (pas 8). Changer d'item = retour à la charge initiale, pas à zéro.
+3. **8e segment = `caesius`** (ortho du remake Enums.cs, pas « césius/cesius » des fans).
+4. **Bug générateur corrigé** : mapping noms enum→ids (`paladium`→`palladium`) — CoreData.cs fait foi sur les gisements (Terre 8, Lune 7) ; les carburants MeH/HeD de la matrice oocities sont des artefacts, **jamais minables** (spec §3).
+5. **Fréquences de build ennemies** = hex/100 = `[7,10,9,9,9,8,7,7,8]` jours (index = systèmes reconquis).
+6. **Défauts `ResearchItem()`** : ResearchValue = 64, multiplier = 64, pct initial = 1 (pas 255) — overrides uniquement s_drive (96/32) et sonic_blaster (16/16).
+
+**Points d'attention :**
+- Non implémenté v1 (documenté) : routage MTX → station orbitale, couche vaisseaux/cargo, écrans UI.
+- Incohérence marines du remake (GetLevel 10-39/40+ vs GetLevelString 10-29/30+) : tranchée côté design — **GetLevel() unifié** (Captain 10-39, Admiral 40+).
+- `planets.json` : 4 corps oocities hors remake (fallback, order 99) — à réconcilier en v2.
+
+**Prochaines étapes (TODO) :**
+1. Commiter les tables v1 (data + simulation + tests) après revue.
+2. Premier écran : canvas + barre de temps branchée sur `dayTick()` (fin de la Phase 0).
+3. Arbitrages §15 restants (transport pods vs tonnes, Hydroïdes, défaite par perte d'infra) — à couvrir dans GAMEPLAY v0.2.

@@ -7,15 +7,17 @@
 
 ## 1. Statut global
 
-🟢 **Phase 0 — Fondations documentaires** *(en cours, ~50 %)*
+🟢 **Phase 0 — Fondations** *(en cours, ~80 % — reste écran + CI)*
 
 | Domaine | Statut |
 |---|---|
 | Documentation cadrage | 🟢 Réalisée |
-| Recherche de référence (original) | 🟢 `RESEARCH.md` |
-| Repo / git | 🟢 init + commit `060a402` |
+| Recherche de référence (original) | 🟢 `RESEARCH.md` (commit `0ee27d7`) |
+| Repo / git | 🟢 4 commits (`060a402` → `0ee27d7`) |
 | Build Vite + TS | 🟢 Squelette OK (bun) |
-| Simulation squelettique | 🔲 À créer |
+| Spec tables v1 | 🟢 commit `08107fb` |
+| Tables v1 (data + moteur + tests) | 🟢 implémentées, 42/42 tests — commit à venir |
+| Simulation squelettique | ✅ couvert par tables v1 (`src/simulation/`) |
 | CI (lint, typecheck, tests) | 🟡 Scripts OK, pipeline GH à créer |
 
 ---
@@ -43,7 +45,8 @@
 | PFD (Plan Fonctionnel Détaillé) | `docs/PFD.md` | 🟢 v0.1 |
 | Gameplay (règles chiffrées) | `docs/GAMEPLAY.md` | 🟢 v0.1 valeurs à valider |
 | Architecture | `docs/ARCHITECTURE.md` | 🟢 v0.1 |
-| Data model | `docs/DATA.md` | 🟢 v0.1 |
+| Data model | `docs/DATA.md` | 🟢 v0.1 (§1.3/§2 à aligner sur items.json) |
+| Spec tables v1 | `docs/superpowers/specs/2026-09-15-tables-v1-design.md` | 🟢 validée |
 | Roadmap | `docs/ROADMAP.md` | 🟢 v0.1 |
 | Tech stack | `docs/TECH_STACK.md` | 🟢 v0.1 |
 | ADR | `docs/DECISIONS.md` | 🟢 |
@@ -57,10 +60,10 @@
 
 | Métrique | Valeur |
 |---|---|
-| Sessions de travail | 2 |
+| Sessions de travail | 5 |
 | Tickets ouverts | 0 |
-| Commits | 1 |
-| Tests | 1 |
+| Commits | 4 |
+| Tests | 42 |
 | Build jouable | non |
 
 *(colonnes à alimenter au fil du projet)*
@@ -77,7 +80,7 @@
 
 ## 6. Prochains pas (TODO court terme)
 
-1. Initialiser le repo git + premier commit des docs.
-2. Créer le squelette Vite + TS (`npm create vite`, install Vitest/ESLint/Prettier).
-3. Implémenter `tick()` et le store vide (Phase 0 du ROADMAP).
-4. Rendre le premier écran : canvas + barre de statut avec le temps qui tourne.
+1. Commiter les tables v1 (data + simulation + tests) après revue.
+2. Rendre le premier écran : canvas + barre de statut branchée sur `dayTick()`.
+3. CI GH Actions (lint, typecheck, tests).
+4. GAMEPLAY v0.2 : arbitrer transport/Hydroïdes/défaite + répercuter les corrections tables v1.

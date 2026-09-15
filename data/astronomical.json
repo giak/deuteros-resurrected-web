@@ -1,0 +1,51 @@
+{
+  "meta": {
+    "version": 1,
+    "source": "Asteroid.cs (source:f53f5ba3fa)"
+  },
+  "asteroidTypes": [
+    "titanium",
+    "aluminium",
+    "carbon",
+    "palladium",
+    "platinum",
+    "silver",
+    "silica"
+  ],
+  "asteroidMassClasses": [
+    {
+      "mass": 50,
+      "name": "Small"
+    },
+    {
+      "mass": 100,
+      "name": "Small"
+    },
+    {
+      "mass": 250,
+      "name": "Small"
+    },
+    {
+      "mass": 1000,
+      "name": "Medium"
+    },
+    {
+      "mass": 5000,
+      "name": "Medium"
+    },
+    {
+      "mass": 10000,
+      "name": "Large"
+    },
+    {
+      "mass": 25000,
+      "name": "Large"
+    },
+    {
+      "mass": 60000,
+      "name": "Large"
+    }
+  ],
+  "asteroidScanRegenerates": true,
+  "maxAsteroidsPerBody": 8
+}

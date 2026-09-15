@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "version": 1,
+    "source": "docs/DATA.md §1.7"
+  },
+  "difficulties": [
+    {
+      "id": "discovery",
+      "label": "Découverte",
+      "startBonus": 0.5,
+      "iaMult": 0.6
+    },
+    {
+      "id": "commander",
+      "label": "Commandant",
+      "startBonus": 0.2,
+      "iaMult": 1.0
+    },
+    {
+      "id": "veteran",
+      "label": "Vétéran",
+      "startBonus": 0.0,
+      "iaMult": 1.4
+    },
+    {
+      "id": "methanoid",
+      "label": "Méthanoïde",
+      "startBonus": -0.2,
+      "iaMult": 1.8
+    }
+  ]
+}

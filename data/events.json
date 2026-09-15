@@ -1,0 +1,68 @@
+{
+  "meta": {
+    "version": 1,
+    "source": "docs/GAMEPLAY.md §8 + RESEARCH.md §12"
+  },
+  "events": [
+    {
+      "id": "first_contact",
+      "trigger": {
+        "day": 15
+      },
+      "title": "Premier contact",
+      "body": "Une signature inconnue détectée au-delà de Neptune. Les Méthanoïdes se disent « ouverts au commerce ».",
+      "effects": [
+        {
+          "type": "message",
+          "value": "methanoid_contact"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "methanoid_trade_offer",
+      "trigger": {
+        "day": 40
+      },
+      "title": "Offre d'échange",
+      "body": "Les Méthanoïdes proposent d'échanger des matériaux minés contre de l'équipement.",
+      "effects": [
+        {
+          "type": "flag",
+          "value": "trade_available"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "war_declared",
+      "trigger": {
+        "event": "sixth_orbital_factory"
+      },
+      "title": "Guerre",
+      "body": "La 6e usine orbitale est en service. Les Méthanoïdes assemblaient une flotte.",
+      "effects": [
+        {
+          "type": "flag",
+          "value": "at_war"
+        }
+      ],
+      "choices": []
+    },
+    {
+      "id": "hydroid_message",
+      "trigger": {
+        "day": 300
+      },
+      "title": "Message des Hydroïdes",
+      "body": "« Nous avons transmuté un don aux Méthanoïdes. Ils l'ont démonté — les segments sont éparpillés dans 8 étoiles. »",
+      "effects": [
+        {
+          "type": "flag",
+          "value": "victory_path_revealed"
+        }
+      ],
+      "choices": []
+    }
+  ]
+}
