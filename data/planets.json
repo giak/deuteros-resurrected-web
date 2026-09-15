@@ -206,16 +206,9 @@
       "moonParentId": "mari",
       "deposits": [
         "aluminium",
-        "carbon",
-        "copper",
-        "deuterium",
         "gold",
         "helium",
-        "hydrogen",
-        "iron",
-        "methane",
-        "silver",
-        "titanium"
+        "silver"
       ],
       "baseBuildParts": 0,
       "baseDamaged": false,
@@ -1545,6 +1538,29 @@
       "methanoidColony": false
     },
     {
+      "id": "nero",
+      "name": "Néron",
+      "starId": "lalande",
+      "order": 0,
+      "type": "planet",
+      "moonParentId": null,
+      "deposits": [
+        "aluminium",
+        "carbon",
+        "copper",
+        "deuterium",
+        "hydrogen",
+        "iron",
+        "methane",
+        "titanium"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
       "id": "septimus",
       "name": "Septimus",
       "starId": "lalande",
@@ -2398,7 +2414,7 @@
         "palladium",
         "titanium"
       ],
-      "baseBuildParts": 0,
+      "baseBuildParts": 2,
       "baseDamaged": false,
       "derricks": 0,
       "segment": null,
@@ -2453,6 +2469,23 @@
       "order": 0,
       "type": "moon",
       "moonParentId": "mars",
+      "deposits": [
+        "carbon",
+        "silica"
+      ],
+      "baseBuildParts": 0,
+      "baseDamaged": false,
+      "derricks": 0,
+      "segment": null,
+      "methanoidColony": false
+    },
+    {
+      "id": "amalthea",
+      "name": "Amalthée",
+      "starId": "the_sun",
+      "order": 0,
+      "type": "moon",
+      "moonParentId": "jupiter",
       "deposits": [
         "carbon",
         "silica"
@@ -2676,7 +2709,7 @@
       ],
       "baseBuildParts": 2,
       "baseDamaged": false,
-      "derricks": 0,
+      "derricks": 1,
       "segment": null,
       "methanoidColony": false
     },
@@ -2947,13 +2980,11 @@
       "name": "Jupiter",
       "starId": "the_sun",
       "order": 5,
-      "type": "moon",
-      "moonParentId": "jupiter",
+      "type": "planet",
+      "moonParentId": null,
       "deposits": [
-        "carbon",
         "helium",
-        "hydrogen",
-        "silica"
+        "hydrogen"
       ],
       "baseBuildParts": 0,
       "baseDamaged": false,
@@ -3214,118 +3245,6 @@
         "carbon",
         "silica",
         "silver",
-        "titanium"
-      ],
-      "baseBuildParts": 0,
-      "baseDamaged": false,
-      "derricks": 0,
-      "segment": null,
-      "methanoidColony": false
-    },
-    {
-      "id": "amalthea",
-      "name": "Amalthée",
-      "starId": "the_sun",
-      "order": 99,
-      "type": "planet",
-      "moonParentId": null,
-      "deposits": [
-        "carbon",
-        "silica"
-      ],
-      "baseBuildParts": 0,
-      "baseDamaged": false,
-      "derricks": 0,
-      "segment": null,
-      "methanoidColony": false
-    },
-    {
-      "id": "enceladus",
-      "name": "Encelade",
-      "starId": "the_sun",
-      "order": 99,
-      "type": "planet",
-      "moonParentId": null,
-      "deposits": [
-        "aluminium",
-        "carbon",
-        "deuterium",
-        "hydrogen",
-        "iron",
-        "silica"
-      ],
-      "baseBuildParts": 0,
-      "baseDamaged": false,
-      "derricks": 0,
-      "segment": null,
-      "methanoidColony": false
-    },
-    {
-      "id": "nereid",
-      "name": "Néréide",
-      "starId": "the_sun",
-      "order": 99,
-      "type": "planet",
-      "moonParentId": null,
-      "deposits": [
-        "carbon",
-        "palladium",
-        "silica"
-      ],
-      "baseBuildParts": 0,
-      "baseDamaged": false,
-      "derricks": 0,
-      "segment": null,
-      "methanoidColony": false
-    },
-    {
-      "id": "n3",
-      "name": "N3",
-      "starId": "the_sun",
-      "order": 99,
-      "type": "planet",
-      "moonParentId": null,
-      "deposits": [
-        "carbon",
-        "silica"
-      ],
-      "baseBuildParts": 0,
-      "baseDamaged": false,
-      "derricks": 0,
-      "segment": null,
-      "methanoidColony": false
-    },
-    {
-      "id": "n4",
-      "name": "N4",
-      "starId": "the_sun",
-      "order": 99,
-      "type": "planet",
-      "moonParentId": null,
-      "deposits": [
-        "silica"
-      ],
-      "baseBuildParts": 0,
-      "baseDamaged": false,
-      "derricks": 0,
-      "segment": null,
-      "methanoidColony": false
-    },
-    {
-      "id": "nero",
-      "name": "Néron",
-      "starId": "the_sun",
-      "order": 99,
-      "type": "planet",
-      "moonParentId": null,
-      "deposits": [
-        "aluminium",
-        "carbon",
-        "copper",
-        "deuterium",
-        "hydrogen",
-        "iron",
-        "methane",
         "titanium"
       ],
       "baseBuildParts": 0,

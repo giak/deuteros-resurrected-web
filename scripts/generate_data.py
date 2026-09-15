@@ -197,12 +197,16 @@ def parse_coredata_planets():
     src = COREDATA.read_text(encoding="utf-8")
     bodies = {}
     # Planets.Add(Enum, new Planet/Earth(Enum, order) { ... });
-    pat = re.compile(
-        r"Planets\.Add\(Enums\.StellarBodies\.(\w+), new (?:Objects\.)?(Earth|Planet|Asteroid)\("
-        r"Enums\.StellarBodies\.(\w+), (\d+)\)\s*\{(.*?)\n\s{4}\}\);",
-        re.S)
-    for m in pat.finditer(src):
-        enum_name, cls, pid, order, body = m.group(1), m.group(2), m.group(3), int(m.group(4)), m.group(5)
+    # Découpage structurel : chaque bloc commence à « Planets.Add(... » et finit au
+    # suivant — aucune fuite de champs entre blocs (bug corrigé : amalthea/nero
+    # étaient avalés par le bloc précédent, faussant IsMoon/MoonParent en cascade).
+    heads = list(re.finditer(
+        r"Planets\.Add\(Enums\.StellarBodies\.(\w+),\s*new ([\w.]+)\(Enums\.StellarBodies\.\w+,\s*(\d+)\)",
+        src))
+    for i, h in enumerate(heads):
+        pid, cls, order = h.group(1), h.group(2).rsplit(".", 1)[-1], int(h.group(3))
+        end = heads[i + 1].start() if i + 1 < len(heads) else len(src)
+        body = src[h.end():end]
         is_moon = re.search(r"IsMoon\s*=\s*true", body) is not None
         moon_parent = re.search(r"MoonParentPlanetId\s*=\s*Enums\.StellarBodies\.(\w+)", body)
         parent = re.search(r"ParentStar\s*=\s*Enums\.StellarBodies\.(\w+)", body)
@@ -224,15 +228,30 @@ def parse_coredata_planets():
     return bodies
 
 
+# Orthographe oocities (slug) → enum CoreData.cs : évite les doublons
+# (enceladus/encaladus, nereid/neried, n3/nthree…).
+OOCTIES_ALIASES = {
+    "enceladus": "encaladus", "nereid": "neried", "n3": "nthree", "n4": "nfour",
+    "nix": "nyx",
+}
+
+
 def load_deposits():
-    """Retourne {slug(body): {res_id: 1}} depuis deposits_matrix.csv (160 corps)."""
+    """Retourne (deposits, body_system) :
+    - deposits : {(system_slug, body_slug): {res_id: 1}}
+    - body_system : {body_slug: system_slug} (colonne « system » de la matrice)
+    """
     out = {}
+    body_system = {}
     with DEPOSITS_CSV.open(encoding="utf-8") as f:
         for row in csv.DictReader(f):
             body = slug(row["body"])
+            body = OOCTIES_ALIASES.get(body, body)
+            sys_slug = slug(row["system"])
             deps = {CSV_TO_ID[c]: 1 for c in CSV_RES if c in row and row[c].strip() == "1"}
-            out[body] = deps
-    return out
+            out[(sys_slug, body)] = deps
+            body_system[body] = sys_slug
+    return out, body_system
 
 
 # Noms d'enum CoreData.cs → ids de ressources (seul écart : 'paladium')
@@ -305,19 +324,30 @@ def main():
 
     # --- planets.json + astronomical.json ---
     bodies = parse_coredata_planets()
-    deposits = load_deposits()
+    deposits, body_system = load_deposits()
     # alias slug -> enum id (les slugs oocities ≠ enums du remake pour certains corps)
     star_of = {sid: {"id": sid, "name": nm, "index": idx} for sid, nm, idx in SYSTEMS}
+    # Système (slug CSV) → id d'étoile : la colonne « system » de la matrice tranche
+    # les corps que CoreData.cs n'attribue pas explicitement (amalthea, nero…).
+    CSV_SYSTEM_TO_STAR = {
+        "the_sun": "the_sun", "proxima": "proxima", "centauri": "centauri", "barnard": "barnard",
+        "lalande": "lalande", "sirius": "sirius", "cygni": "cygni", "procyon": "procyon",
+        "tau_ceti": "tau_ceti",
+    }
     planets = []
     for pid, b in sorted(bodies.items(), key=lambda kv: (kv[1]["parent_star"] or "", kv[1]["order"])):
         sl = slug(pid)
+        if b["cls"] == "Asteroid":
+            continue  # les astéroïdes sont générés à la volée (astronomical.json)
         # gisements : CoreData.cs fait foi (noms d'enum) ; fallback matrice oocities sans carburants
         deps = deposits_from_materials(b["materials"].keys())
         if not deps:
-            deps = {rid: 1 for rid in deposits.get(sl, {}) if rid not in FUELS}
-        if b["cls"] == "Asteroid":
-            continue  # les astéroïdes sont générés à la volée (astronomical.json)
-        star = b["parent_star"] or "the_sun"
+            fallback = deposits.get((body_system.get(sl, ""), sl), {})
+            deps = {rid: 1 for rid in fallback if rid not in FUELS}
+        # étoile : ParentStar explicite, sinon déduit de la matrice (colonne system), sinon the_sun
+        star = b["parent_star"]
+        if star is None:
+            star = CSV_SYSTEM_TO_STAR.get(body_system.get(sl, ""), "the_sun")
         planets.append({
             "id": sl,
             "name": NAMES.get(sl, sl.replace("_", " ").title()),
@@ -332,16 +362,6 @@ def main():
             "segment": SEGMENTS.get(sl),
             "methanoidColony": sl in METHANOID_START,   # état de départ du scénario (CoreData.cs)
         })
-    # corps de la matrice absents du remake (ex. lunes oocities non modélisées) — ajoutés pour fidélité matrice
-    known = {p["id"] for p in planets}
-    for sl, deps in deposits.items():
-        if sl not in known and not sl.startswith("asteroid"):
-            planets.append({
-                "id": sl, "name": NAMES.get(sl, sl.replace("_", " ").title()),
-                "starId": "the_sun", "order": 99, "type": "planet", "moonParentId": None,
-                "deposits": sorted(rid for rid in deps if rid not in FUELS), "baseBuildParts": 0, "baseDamaged": False,
-                "derricks": 0, "segment": SEGMENTS.get(sl), "methanoidColony": sl in METHANOID_START,
-            })
     planets_doc = {
         "meta": {"version": 1, "source": "CoreData.cs + deposits_matrix.csv (cross-check RESEARCH.md §8)",
                  "v1Scope": "the_sun", "segmentBearers": SEGMENTS,
