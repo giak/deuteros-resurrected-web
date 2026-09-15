@@ -1,4 +1,5 @@
 import './style.css';
+import { mountApp } from '@/ui/app';
 
 const app = document.querySelector<HTMLDivElement>('#app')!;
-app.innerHTML = '<h1>Deuteros Resurrected</h1><p>Chargement…</p>';
+mountApp(app);

@@ -10,15 +10,230 @@
   font-family: 'Courier New', Courier, monospace;
   line-height: 1.5;
   color: #c0c0c0;
-  background-color: #0a0a0a;
+  background-color: #050508;
 }
 
 body {
   margin: 0;
   min-height: 100vh;
+  background: radial-gradient(ellipse at 50% -20%, #101020 0%, #050508 55%);
 }
 
 #app {
   width: 100%;
   min-height: 100vh;
+}
+
+.game-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ---------- HUD top ---------- */
+.hud-top {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 10px 18px;
+  border-bottom: 1px solid #223;
+  background: rgba(8, 10, 18, 0.9);
+}
+
+.hud-brand {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.hud-title {
+  font-weight: bold;
+  letter-spacing: 0.25em;
+  color: #e8d8a0;
+}
+
+.hud-sub {
+  font-size: 0.75rem;
+  color: #667;
+}
+
+.hud-day {
+  margin-left: auto;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.hud-day-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: #778;
+}
+
+.hud-day-value {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #9fe0a8;
+  min-width: 3ch;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.hud-controls {
+  display: flex;
+  gap: 4px;
+}
+
+.hud-btn {
+  background: #14161f;
+  border: 1px solid #2a2f42;
+  color: #99a;
+  font: inherit;
+  padding: 4px 12px;
+  cursor: pointer;
+}
+
+.hud-btn:hover {
+  border-color: #4a5578;
+  color: #ccd;
+}
+
+.hud-btn.active {
+  background: #23305a;
+  border-color: #5a7fd4;
+  color: #eaf;
+}
+
+/* ---------- Layout principal ---------- */
+.hud-main {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+#system-canvas {
+  flex: 1;
+  display: block;
+  background: #050508;
+  cursor: grab;
+  max-width: 100%;
+}
+
+.hud-side {
+  width: 280px;
+  border-left: 1px solid #223;
+  background: rgba(8, 10, 18, 0.9);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px;
+}
+
+.hud-panel-title {
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #778;
+  border-bottom: 1px solid #223;
+  padding-bottom: 4px;
+  margin-bottom: 8px;
+}
+
+/* ---------- Bulletins ---------- */
+.news-feed {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.8rem;
+}
+
+.news-feed li {
+  color: #aab;
+  padding-left: 10px;
+  border-left: 2px solid #2a3350;
+}
+
+.news-empty {
+  color: #556;
+  font-style: italic;
+}
+
+/* ---------- Liste des corps ---------- */
+.body-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.8rem;
+}
+
+.body-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 3px 6px;
+}
+
+.body-row:hover {
+  background: #12141f;
+}
+
+.body-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex: none;
+}
+
+.body-name {
+  color: #ccd;
+}
+
+.body-meta {
+  margin-left: auto;
+  color: #667;
+  font-size: 0.7rem;
+}
+
+/* ---------- Barre du bas ---------- */
+.hud-bottom {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 8px 18px;
+  border-top: 1px solid #223;
+  background: rgba(8, 10, 18, 0.9);
+  font-size: 0.8rem;
+}
+
+.earth-status {
+  color: #aab;
+}
+
+.earth-status strong {
+  color: #9fd4e8;
+}
+
+.hud-hint {
+  margin-left: auto;
+  color: #556;
+  font-size: 0.7rem;
+}
+
+/* ---------- Barre de progression ---------- */
+.progress-track {
+  width: 220px;
+  max-width: 40vw;
+  height: 6px;
+  margin-top: 4px;
+  background: #14161f;
+  border: 1px solid #2a2f42;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, #3a7fd4, #59c96a);
+  transition: width 0.3s ease;
 }
