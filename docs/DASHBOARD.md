@@ -13,10 +13,10 @@
 |---|---|
 | Documentation cadrage | 🟢 Réalisée |
 | Recherche de référence (original) | 🟢 `RESEARCH.md` (commit `0ee27d7`) |
-| Repo / git | 🟢 4 commits (`060a402` → `0ee27d7`) |
+| Repo / git | 🟢 4 commits (`060a402` → `59b6157`) |
 | Build Vite + TS | 🟢 Squelette OK (bun) |
 | Spec tables v1 | 🟢 commit `08107fb` |
-| Tables v1 (data + moteur + tests) | 🟢 implémentées, 42/42 tests — commit à venir |
+| Tables v1 (data + moteur + tests) | 🟢 commit `59b6157`, 42/42 tests |
 | Simulation squelettique | ✅ couvert par tables v1 (`src/simulation/`) |
 | CI (lint, typecheck, tests) | 🟡 Scripts OK, pipeline GH à créer |
 
