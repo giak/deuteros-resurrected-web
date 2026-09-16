@@ -308,7 +308,7 @@ describe('staff — Staff.cs', () => {
     expect(canTrain(state, 'research', 101)).toBe(false);
     expect(canTrain(state, 'marines', 42)).toBe(false);
     expect(startTraining(state, 'research', 100)).toBe(true);
-    expect(state.training.reservoir).toBe(5_900);
+    expect(state.training.reservoir).toBe(5_450);
     expect(canTrain(state, 'production', 10)).toBe(false); // déjà en formation
     // avancer de 24 jours
     state.day += 24;
@@ -329,12 +329,12 @@ describe('ennemis — EnemyDroneBuilder.cs', () => {
 });
 
 describe('état initial — miroir CoreData.cs', () => {
-  it('Terre : 1 derrick, usine au sol ; Lune endommagée ; réservoir 6000', () => {
+  it('Terre : 1 derrick, usine au sol ; Lune endommagée ; réservoir 5550', () => {
     const s = createInitialState(1);
     expect(s.planets.earth.derricks).toBe(1);
     expect(s.planets.earth.factory.inOrbit).toBe(false);
     expect(s.planets.the_moon.baseDamaged).toBe(true);
-    expect(s.training.reservoir).toBe(6_000);
+    expect(s.training.reservoir).toBe(5_550);
     expect(s.planets.jupiter.activeMethanoid).toBe(true);
     expect(s.planets.titania.activeMethanoid).toBe(true);
   });

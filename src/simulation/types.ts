@@ -52,6 +52,8 @@ export interface PlanetRuntime {
   /** Items fabriqués stockés (drones, pods, chassis…). */
   items: Record<string, number>;
   factory: Factory;
+  /** Équipe de recherche de la Terre (Staff.cs) ; null = absent. */
+  researchTeam?: Staff | null;
   activeMethanoid: boolean;
   segment: number | null;
   mtxInstalled: boolean;

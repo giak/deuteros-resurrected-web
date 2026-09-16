@@ -19,9 +19,6 @@ const SPEEDS: Array<{ label: string; msPerDay: number }> = [
 const cam: Camera = { x: 0, y: 0, zoom: 1 };
 const time = { speedIndex: 0, accumulator: 0, lastFrame: 0 };
 
-/** Équipe de recherche de la Terre — placeholder jusqu'à l'écran Personnel. */
-const researchStaff: { type: 'research'; count: number; actionsTaken: number } | null = null;
-
 export function mountApp(root: HTMLElement): void {
   const state = createInitialState(Date.now() % 2 ** 31);
   state.newsFeed.push("L'opération Deuteros commence. La Terre-Ville est complète.");
@@ -88,7 +85,7 @@ function startLoop(): void {
       let steps = 0;
       while (time.accumulator >= msPerDay && steps < 50) {
         time.accumulator -= msPerDay;
-        const result = dayTick(getState(), { research: researchStaff, production: null, marines: null });
+        const result = dayTick(getState());
         pushNews(result);
         steps += 1;
       }

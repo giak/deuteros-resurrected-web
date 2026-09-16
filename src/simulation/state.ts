@@ -50,6 +50,10 @@ export function createInitialState(seed: number): GameState {
   const moon = planets.the_moon;
   if (moon) moon.baseDamaged = true; // la Lune démarre endommagée
 
+  // Équipes pré-assignées au boot (spec v0 §5.1) — 450 sur le réservoir.
+  planets.earth.factory.builder = { type: 'production', count: 200, actionsTaken: 0 };
+  planets.earth.researchTeam = { type: 'research', count: 250, actionsTaken: 0 };
+
   const research: ResearchState = { currentItemId: null, progress: {} };
   for (const it of RESEARCHABLE_ITEMS) {
     research.progress[it.id] = {
@@ -68,7 +72,7 @@ export function createInitialState(seed: number): GameState {
     planets,
     research,
     training: {
-      reservoir: 6_000,
+      reservoir: 5_550, // 6 000 − 450 assignés aux équipes de départ
       inTraining: { research: 0, production: 0, marines: 0 },
       dayStart: { research: 0, production: 0, marines: 0 },
     },
