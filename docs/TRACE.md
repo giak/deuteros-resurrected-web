@@ -4,6 +4,25 @@
 
 ---
 
+## Session 8 — 2026-09-16 (task 5 du plan v0 — action `trainStaff`)
+
+**Objectif** : implémenter la formation de personnel (spec §6.4) selon le brief `.git/sdd/task-5-brief.md`.
+
+**Réalisé :**
+- **TDD** `src/actions/staff.ts` + export au barrel `src/actions/index.ts` + tests `tests/actions.test.ts` (brief verbatim) : RED 3/3 (`trainStaff` indéfini → `runAction` crash « reading 'validate' ») → GREEN 15/15.
+- **Ordre de validate imposé par le brief** : `invalid_count` → `capacity_exceeded` → `other_type_training` → `insufficient_reservoir` (les raisons exactes que les tests assertent) — suivi verbatim.
+- **Écart consigné vs brief** : l'import `GameState` inutilisé retiré (tsc `noUnusedLocals`/lint) — précédent K4 (task 4), voir DECISIONS.md K5.
+- **Verification** : vitest **61/61** (5 files), `bun run lint` 0, `bunx tsc --noEmit` 0, **commit `08c2949`** `feat(actions): trainStaff`. Aucun `Math.random`/`Date.now` dans `src/actions/`.
+
+**Points d'attention :**
+- Branche `insufficient_reservoir` de `validate` **inatteignable** en l'état du moteur : `canTrain` borne déjà `count ≤ reservoir`, donc si elle passe, le 4e test ne peut jamais déclencher ; les tests du brief ne l'exercent pas non plus. Conservée verbatim (brief) — à réviser si la sémantique de `canTrain` change.
+
+**Prochaines étapes (TODO) :**
+1. Tasks 6+ du plan v0 (UI bulletins/écran, boucle complète).
+2. Réconcilier le suivi du plan `.git/sdd/` avec TRACE/DECISIONS (tasks 2-3 à rattraper).
+
+---
+
 ## Session 7 — 2026-09-16 (task 4 du plan v0 — action `selectResearch`)
 
 **Objectif** : implémenter la recherche de projet (spec §6.3) selon le brief `.git/sdd/task-4-brief.md`.

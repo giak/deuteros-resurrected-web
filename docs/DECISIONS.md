@@ -297,6 +297,19 @@ Détail + sources (URLs) : `docs/superpowers/recensions/2026-09-16-antagonist-re
 
 ---
 
+## K5 — `trainStaff` : ordre de validate du brief + retrait d'import inutilisé (approuvé 2026-09-16)
+
+**Contexte** : le brief task 5 (`.git/sdd/task-5-brief.md`) définit l'ordre de `validate` de `trainStaff` : `invalid_count` → `capacity_exceeded` → `other_type_training` → `insufficient_reservoir`. Les tests assertent les raisons exactes ; `canTrain` seul ne peut pas distinguer ces 3 refus.
+
+**Choix** : implémentation verbatim du brief (raisons exactes, bulletin FR `Formation ${type} : ${count} recrues (24 j).`), avec le trade-off assumé : la branche `insufficient_reservoir` est **inatteignable** en l'état du moteur (`canTrain` borne `count ≤ reservoir`, donc valider après `canTrain` la rend morte ; invoquer `canTrain` en sens inverse brouillerait la raison `other_type_training`). Conservée — le contrat du brief prime, à réviser si `canTrain` change.
+
+**Écart technique** : l'import `GameState` du brief, inutilisé, retiré (tsc strict `noUnusedLocals` + lint) — même précédent que K4.
+
+**Conséquences** :
+- `capacity_exceeded`/`other_type_training`/`invalid_count` couverts par les tests du brief ; `insufficient_reservoir` couvert par le code mais non exercé (raison réservée au futur).
+
+---
+
 ## Journal des révisions
 
 | Date | Décision |
@@ -319,3 +332,4 @@ Détail + sources (URLs) : `docs/superpowers/recensions/2026-09-16-antagonist-re
 | 2026-09-16 | Audit antagoniste 6 rôles : 6/6 verdicts suivis |
 | 2026-09-16 | ADR-018 approuvé (Facade d'actions — seule porte de mutation, renumérotation de l'« ADR-007 » du plan v0) |
 | 2026-09-16 | K4 approuvé (garde `ITEM_BY_ID` avant `canSelect` dans `selectResearch`, task 4) |
+| 2026-09-16 | K5 approuvé (ordre de validate `trainStaff` du brief + retrait import inutilisé, task 5) |
