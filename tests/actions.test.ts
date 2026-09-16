@@ -27,3 +27,52 @@ describe('facade runAction', () => {
     expect(s.newsFeed[7]).toBe('b11');
   });
 });
+
+import { queueItem, cancelQueueItem } from '@/actions';
+
+describe('queueItem (contrat spec §6.2)', () => {
+  it('file un item au sol si ressources suffisantes et consomme les intrants', () => {
+    const s = createInitialState(1);
+    s.planets.earth.stores = { iron: 3, titanium: 4, carbon: 1 };
+    expect(runAction(queueItem, s, { itemId: 'derrick' }).ok).toBe(true);
+    expect(s.planets.earth.factory.currentItemId).toBe('derrick');
+    expect(s.planets.earth.factory.productionValue).toBe(64);   // charge initiale
+    expect(s.planets.earth.factory.productionComplete).toBe(1);
+    expect(s.planets.earth.stores.iron).toBe(0);                // consommé à la mise en file
+  });
+  it('refuse si stock insuffisant', () => {
+    const s = createInitialState(1);
+    const r = runAction(queueItem, s, { itemId: 'derrick' });
+    expect(r).toEqual({ ok: false, reason: 'insufficient_resources' });
+  });
+  it("refuse un item orbit-only au sol", () => {
+    const s = createInitialState(1);
+    s.planets.earth.stores = { titanium: 999, aluminium: 999, carbon: 999, copper: 999, palladium: 999, platinum: 999 };
+    const r = runAction(queueItem, s, { itemId: 'ios_drone' });
+    expect(r).toEqual({ ok: false, reason: 'orbit_only' });
+  });
+  it("refuse si rang insuffisant (a_c_c = tech 3, apprentis r1)", () => {
+    const s = createInitialState(1);
+    s.planets.earth.stores = { titanium: 999, aluminium: 999, carbon: 999, copper: 999 };
+    const r = runAction(queueItem, s, { itemId: 'a_c_c' });
+    expect(r).toEqual({ ok: false, reason: 'rank_gate' });
+  });
+  it('re-fileder un autre item = travail perdu (retour charge initiale)', () => {
+    const s = createInitialState(1);
+    s.planets.earth.stores = { iron: 20, titanium: 20, carbon: 20, aluminium: 20, copper: 20 };
+    runAction(queueItem, s, { itemId: 'derrick' });
+    s.planets.earth.factory.productionValue = 200; // travail accumulé
+    runAction(queueItem, s, { itemId: 'supply_pod' });
+    expect(s.planets.earth.factory.currentItemId).toBe('supply_pod');
+    expect(s.planets.earth.factory.productionValue).toBe(64);
+  });
+  it('cancel vide la file sans rembourser', () => {
+    const s = createInitialState(1);
+    s.planets.earth.stores = { iron: 3, titanium: 4, carbon: 1 };
+    runAction(queueItem, s, { itemId: 'derrick' });
+    expect(runAction(cancelQueueItem, s, undefined).ok).toBe(true);
+    expect(s.planets.earth.factory.currentItemId).toBeNull();
+    expect(s.planets.earth.stores.iron).toBe(0); // pas de remboursement (fidèle)
+    expect(runAction(cancelQueueItem, s, undefined)).toEqual({ ok: false, reason: 'nothing_in_queue' });
+  });
+});
