@@ -4,6 +4,22 @@
 
 ---
 
+## Session 9 — 2026-09-16 (task 6 du plan v0 — action `installDerrick`)
+
+**Objectif** : implémenter l'installation de derricks produits (spec §5.2) selon le brief `.git/sdd/task-6-brief.md` — dernière action du lot « core actions ».
+
+**Réalisé :**
+- **TDD** `src/actions/mining.ts` + export au barrel `src/actions/index.ts` + tests `tests/actions.test.ts` (brief verbatim) : RED 2/2 (`installDerrick` indéfini → `runAction` crash « reading 'validate' ») → GREEN.
+- **Implémentation verbatim** : `validate` lit `(state.planets.earth.items['derrick'] ?? 0) >= 1` → raison `no_derrick_in_store` ; `execute` décrémente le stock, incrémente `earth.derricks`, bulletin FR « Derrick installé (total : …) ». Boot : dérricks=1, items `{}` → le test « refuse » couvre bien le comportement de boot.
+- **Écart consigné vs brief** : import `GameState` retiré (inutilisé — `tsc noUnusedLocals`/lint) — même déviation que tasks 4-5 (voir DECISIONS.md K4/K5).
+- **Verification** : vitest **63/63** (5 files), `bun run lint` 0, `bunx tsc --noEmit` 0, **commit `9b143af`** `feat(actions): installDerrick`. Aucun `Math.random`/`Date.now` dans `src/actions/`.
+
+**Prochaines étapes (TODO) :**
+1. Tasks 7+ du plan v0 (UI bulletins/écran, boucle complète).
+2. Réconcilier le suivi du plan `.git/sdd/` avec TRACE/DECISIONS (tasks 2-3 à rattraper).
+
+---
+
 ## Session 8 — 2026-09-16 (task 5 du plan v0 — action `trainStaff`)
 
 **Objectif** : implémenter la formation de personnel (spec §6.4) selon le brief `.git/sdd/task-5-brief.md`.
