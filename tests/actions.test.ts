@@ -28,7 +28,7 @@ describe('facade runAction', () => {
   });
 });
 
-import { queueItem, cancelQueueItem, selectResearch } from '@/actions';
+import { queueItem, cancelQueueItem, selectResearch, trainStaff } from '@/actions';
 
 describe('selectResearch (spec §6.3)', () => {
   it('sélectionne un item débloqué au boot (of_frame)', () => {
@@ -93,5 +93,27 @@ describe('queueItem (contrat spec §6.2)', () => {
     expect(s.planets.earth.factory.currentItemId).toBeNull();
     expect(s.planets.earth.stores.iron).toBe(0); // pas de remboursement (fidèle)
     expect(runAction(cancelQueueItem, s, undefined)).toEqual({ ok: false, reason: 'nothing_in_queue' });
+  });
+});
+
+describe('trainStaff (contrat spec §6.4)', () => {
+  it('lance une formation 24 j dans les caps (100/100)', () => {
+    const s = createInitialState(1);
+    expect(runAction(trainStaff, s, { type: 'production', count: 100 }).ok).toBe(true);
+    expect(s.training.inTraining.production).toBe(100);
+    expect(s.training.reservoir).toBe(5450);
+  });
+  it('refuse un second type simultané', () => {
+    const s = createInitialState(1);
+    runAction(trainStaff, s, { type: 'production', count: 10 });
+    expect(runAction(trainStaff, s, { type: 'research', count: 10 }))
+      .toEqual({ ok: false, reason: 'other_type_training' });
+  });
+  it('refuse au-delà du cap et au-delà du réservoir', () => {
+    const s = createInitialState(1);
+    expect(runAction(trainStaff, s, { type: 'research', count: 101 }))
+      .toEqual({ ok: false, reason: 'capacity_exceeded' });
+    expect(runAction(trainStaff, s, { type: 'research', count: 0 }))
+      .toEqual({ ok: false, reason: 'invalid_count' });
   });
 });
