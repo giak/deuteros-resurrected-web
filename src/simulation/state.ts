@@ -31,6 +31,7 @@ export function createPlanetRuntime(id: string): PlanetRuntime {
       aoc: false,
       inOrbit: false,
     },
+    researchTeam: null,
     activeMethanoid: def.methanoidColony,
     segment: def.segment,
     mtxInstalled: false,

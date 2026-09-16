@@ -53,7 +53,7 @@ export interface PlanetRuntime {
   items: Record<string, number>;
   factory: Factory;
   /** Équipe de recherche de la Terre (Staff.cs) ; null = absent. */
-  researchTeam?: Staff | null;
+  researchTeam: Staff | null;
   activeMethanoid: boolean;
   segment: number | null;
   mtxInstalled: boolean;

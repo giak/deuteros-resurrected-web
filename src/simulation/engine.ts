@@ -28,7 +28,7 @@ export function dayTick(state: GameState): DayTickResult {
   const rng = createRng(state.seed ^ (state.day * 0x9e3779b9));
 
   // 2. Recherche (1 seul projet, équipe Terre)
-  const finished = updateResearch(state, state.planets.earth.researchTeam ?? null);
+  const finished = updateResearch(state, state.planets.earth.researchTeam);
   if (finished) result.researchFinished = finished;
 
   // 3. Production + minage : chaque corps actif

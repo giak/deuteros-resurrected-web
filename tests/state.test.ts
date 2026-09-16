@@ -17,5 +17,7 @@ describe('boot v0 (spec §5.1)', () => {
     const before = r.day;
     dayTick(r);
     expect(r.day).toBe(before + 1);
+    expect(r.planets.earth.researchTeam).toEqual({ type: 'research', count: 250, actionsTaken: 0 });
+    expect(r.planets.earth.factory.builder).toEqual({ type: 'production', count: 200, actionsTaken: 0 });
   });
 });
