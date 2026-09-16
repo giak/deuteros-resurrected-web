@@ -80,6 +80,202 @@
 
 ---
 
+## ADR-007 — IoC par conteneur (tsyringe) — RÉVOQUÉ 2026-09-16
+
+**Contexte** : remplacé par ADR-013 (Pure DI / Composition Root manuelle) après audit antagoniste. L'audit a établi : esbuild (Vite/Vitest) ne supporte pas `emitDecoratorMetadata` (tsyringe #29/#240/#180, esbuild #257) → transpileur obligatoire ; maintenance 0/10 (deps.dev, issues #246/#248) ; pour ~4 adapters, un conteneur = factory manuelle + polyfill + flags tsconfig globaux, sans bénéfice.
+**Remplacement** : voir ADR-013.
+
+---
+
+## ADR-008 — Cœur de simulation en ECS pur — RÉVOQUÉ 2026-09-16
+
+**Contexte** : remplacé par ADR-014 (records + services par domaine) après audit antagoniste. L'audit a établi un consensus unanime : sous ~500 entités hétérogènes, l'ECS n'apporte aucun gain ; `Record<ComponentType, Map<EntityId, unknown>>` = indirection pure sans localité mémoire (pire des deux mondes) ; frictions avec ADR-011 (mutabilité vs Result), ADR-006/010 (sérialisation).
+**Remplacement** : voir ADR-014.
+
+---
+
+## ADR-009 — Scheduler de tick : ordre original + listes configurables (approuvé 2026-09-16)
+
+**Contexte** : avec un cœur ECS (ADR-008), l'ordre d'exécution des systèmes à chaque tick conditionne les résultats (un système voit les mutations du précédent).
+
+**Options** :
+1. Ordre original exact codé en dur (Research → Production → UpdateShips → BuildDrones → MTX → Navigation → Combat)
+2. Ordre réorganisé par dépendances
+3. **Ordre original comme référence + scheduler configurable** (listes de systèmes dans `simulation/config.ts`)
+
+**Choix** : **Option 3.**
+
+**Conséquences** :
+- Le moteur énumère des **phases ordonnées** (`tickPhases` dans `SIM_CONFIG`) : chaque phase exécute les systèmes attachés (un système par domaine, cf. ADR-008 mitigation).
+- L'ordre par défaut reproduit le remake ; le re-cadrage se fait en config, sans toucher au code.
+- La config est testable : un test matérialise l'ordre attendu (oracle = état de référence du remake pour un scénario donné) et échoue si un développeur change l'ordre accidentellement.
+- Un système peut être activé/désactivé en config (ex. `combat.disabled` pour un mode debug/scénario).
+
+---
+
+## ADR-010 — Validation runtime : zod aux frontières uniquement (approuvé 2026-09-16)
+
+**Contexte** : où placer la validation runtime (zod) sans surcoût.
+
+**Options** :
+1. **Zod aux frontières uniquement** (save JSON, events.json — données externes non fiables)
+2. Zod frontières + data/*.json statique
+3. Zod partout (chaque composant/entité)
+
+**Choix** : **Option 1.**
+
+**Conséquences** :
+- Les entrées externes (flash de sauvegarde chargée, JSON scénario/événements) passent par `safeParse` → rejet propre avant d'entrer dans la sim.
+- Le monde ECS interne **n'est pas schématisé à chaud** : TS encapsule l'accès ; une fois construit par les seuls systèmes, il est « trusted ».
+- Le boot valide quand même `data/*.json` (ADR-005 le débant déjà) via **un** schéma par fichier — pas de validation hot-path.
+- `zod` reste une dépendance petite (2 kb core) — export **uniquement** vers `src/validation/` + le module save.
+
+---
+
+## ADR-011 — Erreurs : Result + crash-loud + Error Boundary (approuvé 2026-09-16)
+
+**Contexte** : la recherche (ARCHITECTURE_RESEARCH.md §4) distingue erreurs de domaine prédictibles vs bugs internes.
+
+**Options** :
+1. **Result (neverthrow) pour erreurs domaine ; throw (crash-loud) pour bugs internes ; Error Boundary UI
+2. Idem + monitoring (beacon/log)
+3. Rollback de tick + UI survit (masque les vrais bugs)**
+
+**Choix** : **Option 1.**
+
+**Conséquences** :
+- **Erreurs domaine** (pas assez de ressources, tech manquante, staff inqualifié, interdiction début …) → retournent un `Result` typé (`Ok(état)` / `Err(DomainError)`). L'UI les affiche comme un message joueur, jamais une exception.
+- **Bugs internes / invariants violés** (driver, corruption ECS, algo hors bornes) → `throw` immédiat (crash-loud) : mieux vaut un crash explicite qu'un état corrompu silencieux.
+- **Error Boundary** : les exceptions remontées hors sim sont captées par un conteneur UI qui affiche un écran « une erreur interne est survenue — votre partie est intacte sauvegardée », avec bouton **Recharger la dernière sauvegarde**.
+- Le save étant versionné (ADR-006) et l'état externe validé au chargement (ADR-010), l'état affiché au crash reste récupérable.
+- Non retenu : monitoring prod (v1 — YAGNI ; console + Error Boundary suffisent), rollback de tick (masque les bugs, contredit le déterminisme ADR-002).
+
+---
+
+## ADR-012 — Configuration : `simulation/config.ts` chargée au boot + injection (approuvé 2026-09-16)
+
+**Contexte** : où vivent `SIM_CONFIG` et `tickPhases` (ADR-009) pour permettre le re-équilibrage sans toucher au code.
+
+**Options** :
+1. **`src/simulation/config.ts`, chargée au boot, injectée (tsyringe) comme singleton dans les systèmes ECS**
+2. `data/config.json` dès v1 (moddable)
+3. Hybride (valères par défaut TS, surcharge JSON en Phase 2)
+
+**Choix** : **Option 1.**
+
+**Conséquences** :
+- **Un seul module** `config.ts` exporte un objet `SIM_CONFIG` immutable (type rebalancé) : valeurs /801, wrap 255, AOC=128, derrick rates, staff caps, enemy freqs, PTL=100, + `tickPhases`.
+- Chargé **une fois au boot** par le Composition Root (tsyringe) ; injecté dans les systèmes qui le déclarent (ctor injection, jamais d'accès global).
+- Le scheduler (`tickPhases`) et les systèmes économiques/réflexions lisent cette injection → le rebalancing est un changement de config, pas de code.
+- Le modding via JSON statique reste ouvert (ADR-005) comme future surcharge, non décidée en v1.
+- Tests : transmettre des configs de test différentes (ex. AOC désactivé, PAS de wrap) via injection → comportement vérifiable par unit/integration.
+
+## ADR-013 — IoC : pure DI / Composition Root manuelle (approuvé 2026-09-16, remplace ADR-007)
+
+**Contexte** : l'audit antagoniste #3 a infirmé tsyringe (esbuild/Vitest incompatibles avec `emitDecoratorMetadata`, maintenance morte) et la recherche §4 recommandait pure DI pour ~20 objets.
+
+**Choix** : **Composition Root manuelle dans `main.ts`** — une factory typée (`createGame(seed)`) construit le graphe par `new`/injection, aucun conteneur.
+
+**Conséquences** :
+- Zéro dépendance DI, zéro flag tsconfig expérimental, zéro failure runtime (défauts de câblage = erreurs de compilation).
+- Ctor injection conservée ; Service Locator interdit hors du CR.
+- Le besoin réel est ~4 adapters + config + moteur : ~60 lignes de composition, typées et parseables.
+
+---
+
+## ADR-014 — Cœur de simulation : records + services par domaine (approuvé 2026-09-16, remplace ADR-008)
+
+**Contexte** : l'audit antagoniste #2 a montré qu'un ECS pur formel n'apporte aucun gain sous ~500 entités hétérogènes et crée de l'indirection (Map<EntityId, unknown>).
+
+**Choix** : **entités = records (POJO) typés, services par domaine** opérant dans l'ordre `tickPhases` (ADR-009). La logique reste découplée de la donnée mais sans registre générique.
+
+**Conséquences** :
+- Sérialisation native (DTO = records), déterminisme direct (ADR-002), `Result` cohérent (ADR-011) — les frictions ECS disparaissent.
+- Tick journalier ordonné par phases (scheduler ADR-009 intact).
+- Réversibilité : si un profiling révèle un hot-path un jour, migrer un sous-domaine en ECS ciblé sans réécrire le cœur.
+
+---
+
+## ADR-015 — Erreurs : union discriminée maison + crash-loud + Error Boundary (approuvé 2026-09-16, amende ADR-011)
+
+**Contexte** : l'audit antagoniste #4 a validé la taxonomie 3 classes mais rejeté neverthrow (lib inadaptée à un monolithe clos, auteur lui-même dit « don't take it literally »).
+
+**Choix** :
+- Erreurs domaine → **union discriminée maison** `type ActionResult = { ok: true; world: World } | { ok: false; reason: DomainReason }` (~20 lignes, zéro dépendance), **restreinte à la couche actions joueur** (jamais dans les services de tick → aucun flow conditionnel en plein tick).
+- Validation externe → **zod aux frontières** (ADR-010 intact).
+- Bugs internes → **crash-loud** : exceptions + `assert` d'invariants (≥ 2/fonction sur les mutateurs), arrêt du tick à la première erreur, capture `window.onerror`/`unhandledrejection` → **Error Boundary UI**.
+
+**Conséquences** :
+- Plus de neverthrow ni eslint-plugin ; union native TS, exhaustivité par `never`.
+- `validate-then-mutate` obligatoire pour honorer « monde inchangé sur erreur ».
+- La promesse « partie intacte » exige un **autosave périodique + double slot** (anti-corruption, cf. recommandation Horizon OS) — à porter au plan d'implémentation.
+
+---
+
+## ADR-016 — Driver de tick : accumulateur à cap + budget (approuvé 2026-09-16, amende ADR-009/012)
+
+**Contexte** : l'audit antagoniste #5 a montré qu'un `setInterval` selon l'échelle (Pause/x1/x8/x32) produit la « spiral of death » sans cap à 32× (Gaffer, Unity, Bevy #8544) et que rAF est suspendu dans un onglet caché.
+
+**Choix** : **accumulateur à cap** — le driver accumule des jours (`lag`), avance `while (lag ≥ 1 && n < MAX_TICKS_PER_FRAME) runTick()`, et **n'abandonne jamais en rattrapage** (surplus non simulé). `MAX_TICKS_PER_FRAME` adaptatif (budget sim/frame mesuré, plancher 3-4, plafond 64) ; suspension sur `document.hidden` (réarmement sans backlog) ; le rendu rAF reste découplé avec **interpolation de présentation seule** (jamais d'état simulé).
+
+**Conséquences** :
+- Les échelles sont des **plafonds de débit** (comportement Stellaris/Factorio) : x32 « ralentit gracieusement » au-delà de la capacité machine, jamais de spirale.
+- Multiplicateur = **nombre de ticks par run**, jamais un `dt` agrandi (protège /801, wrap, déterminisme sérialisé).
+- Budget sim exposé (`SIM_BUDGET_MS`), mesuré par performance counters, couvert par un test de driver simulé (stall 2 s, onglet caché, x32 → assert « jamais > N ticks consécutifs » + état golden).
+
+---
+
+## ADR-017 — Tests : double-run + scénarios, fast-check ciblé (approuvé 2026-09-16, amende §8 spec)
+
+**Contexte** : l'audit antagoniste #6 a montré que un golden full-state fige aussi des bugs, contredit ADR-012 (rebalance = tripwire à `-u` aveugle) et que la « pyramide » n'existe pas quand tout tourne headless au même coût.
+
+**Choix** :
+- **Déterminisme** → **double-run** : `worldOf(seed).afterTicks(N)` deux fois → `expect.deepEqual` (preuve directe d'ADR-002, zéro fichier).
+- **Correctness** → **scénarios E2E scriptés** (record/replay d'actions joueur, assertions sur jalons comportementaux : production cumulée, vaisseau arrivé, défaite par perte d'infra).
+- **Number crunching** → **fast-check ciblé** sur les fonctions pures numériques (/801, wrap, ratios combat) avec **propriétés différentielles** (oracle à forme fermée), pas sur le monde entier.
+- **Intégration save** → conservée (fixture versionné → migrate → re-tick → état conforme).
+- **Adapters** → smoke réel (fake-indexeddb pour IndexedDB), pas de « contrat vs fake maison ».
+
+**Conséquences** :
+- ~60 % de la pyramide précédente éliminée (?golden full-state, contrat-adapter) ; déterminisme = test le moins cher du projet au lieu du plus fragile.
+
+---
+
+## ADR-018 — Facade d'actions : seule porte de mutation (approuvé 2026-09-16)
+
+**Contexte** : le v0 « Boucle Terre » a besoin de canaliser toutes les mutations du jeu. Le moteur tables-v1 est **mutable** (décision documentée, tests verts) ; l'UI ne doit jamais écrire directement dans `GameState`.
+
+**Choix** : **couche `src/actions/`** = unique porte d'entrée des mutations. Chaque action suit un contrat minimal `validate`/`execute`, exécutée par `runAction` qui fait `validate → execute → notify()`.
+
+```ts
+type ValidationResult = { ok: true } | { ok: false; reason: string };
+interface Action<TArgs = void> {
+  validate(state: GameState, args: TArgs): ValidationResult;
+  execute(state: GameState, args: TArgs): void;
+}
+```
+
+**Conséquences** :
+- **ADR-013 (pure DI)** : les actions sont des objets/objets sans état ; la Composition Root les construit avec `(state, config)`.
+- **ADR-014 (records+services)** : la facade contient les services ; `engine.ts` (tick journalier) reste la frontière temporelle, pas la porte d'interaction.
+- **ADR-015 (union maison)** : `validate` retourne une union discriminée `{ ok } | { ok: false, reason }` (pas d'exceptions pour les refus joueur).
+- **Correspondance spec v0 §3** : le plan « Boucle Terre » désignait cette décision « ADR-007 (à écrire) » — **renumérotée ADR-018** pour éviter tout conflit avec l'ADR-007 révoqué (tsyringe).
+- Déviation assumée du plan : les actions `assignFactoryTeam`/`assignResearchTeam` sont coupées (YAGNI) — équipes pré-assignées au boot.
+
+---
+
+## Recension antagoniste — architecture Clean + Hexagonal (2026-09-16)
+
+Recensement contradictoire indépendant du choix « Clean + Hexagonal (4 couches) + tsyringe » (ADR-007/008 et spec architecture). Verdict antagoniste : **AMENDER**.
+
+- **Garder** : cœur de simulation pur sans DOM, tick pur et déterministe (ADR-002), zod aux frontières (ADR-010), Result pour le domaine (ADR-011), tests golden/contract.
+- **Retirer** : conteneur tsyringe + reflect-metadata → composition root **manuelle** (la propre recherche ARCHITECTURE_RESEARCH.md §4 recommandait déjà pure DI) ; ports/adapters formels (IPrng, IClock, IPersistence) tant qu'une seule implémentation existe (seed déjà passé en paramètre, ADR-002) ; passage 4 couches → séparation en 2 modules (cœur pur + UI).
+- **Réexaminer** : ECS pur pour ~160 corps. Le regroupement par domaine (ADR-008 mitigation) dégénère en « domain services sur store typé » — c'est-à-dire l'option 1 que la recherche recommandait.
+
+Détail + sources (URLs) : `docs/superpowers/recensions/2026-09-16-antagonist-report.md` (mémoire MnemoLite `7d61294a-843c-420d-8b15-9fe4bb1efe25`).
+
+---
+
 ## Décisions en attente
 
 - Faut-il un écran de tuto in-game dans le MVP ? (probablement out, onboarding par tooltips)
@@ -94,3 +290,18 @@
 |---|---|
 | 2026-09-15 | ADR-001 à 006 approuvés |
 | 2026-09-15 | Début de session, tout le cadre documentaire créé |
+| 2026-09-16 | ADR-007 approuvé (IoC — tsyringe) |
+| 2026-09-16 | ADR-008 approuvé (Écœur sim — ECS pur) |
+| 2026-09-16 | ADR-009 approuvé (Scheduler de tick — ordre original + configurable) |
+| 2026-09-16 | ADR-010 approuvé (Validation runtime — zod aux frontières) |
+| 2026-09-16 | ADR-011 approuvé (Erreurs — Result + crash-loud + Error Boundary) |
+| 2026-09-16 | ADR-012 approuvé (Configuration — config.ts + injection tsyringe) |
+| 2026-09-16 | **ADR-007 RÉVOQUÉ** → ADR-013 (pure DI / CR manuelle) |
+| 2026-09-16 | **ADR-008 RÉVOQUÉ** → ADR-014 (records + services) |
+| 2026-09-16 | ADR-013 approuvé (IoC — pure DI / Composition Root manuelle) |
+| 2026-09-16 | ADR-014 approuvé (Cœur — records + services par domaine) |
+| 2026-09-16 | ADR-015 approuvé (Erreurs — union maison + crash-loud, amende ADR-011) |
+| 2026-09-16 | ADR-016 approuvé (Driver — accumulateur à cap + budget, amende ADR-009/012) |
+| 2026-09-16 | ADR-017 approuvé (Tests — double-run + scénarios, amende spec §8) |
+| 2026-09-16 | Audit antagoniste 6 rôles : 6/6 verdicts suivis |
+| 2026-09-16 | ADR-018 approuvé (Facade d'actions — seule porte de mutation, renumérotation de l'« ADR-007 » du plan v0) |

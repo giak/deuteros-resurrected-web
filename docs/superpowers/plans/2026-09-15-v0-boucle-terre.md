@@ -4,7 +4,7 @@
 
 **Goal:** Sandbox économie Terre-seule jouable : miner → produire → rechercher → former, avec objectif terminal « 1 OF Frame produit ≤ J250 », mutations canalisées par une facade d'actions.
 
-**Architecture:** Moteur mutable conservé (ADR-007) ; nouvelle couche `src/actions/` = seule porte de mutation (validate/execute + bulletin) ; écran Terre en panneaux DOM vanilla par-dessus le store observable ; canvas système conservé en fond.
+**Architecture:** Moteur mutable conservé (ADR-018) ; nouvelle couche `src/actions/` = seule porte de mutation (validate/execute + bulletin) ; écran Terre en panneaux DOM vanilla par-dessus le store observable ; canvas système conservé en fond.
 
 **Tech Stack:** TypeScript strict + Vite 6, Vitest 3, DOM vanilla, Canvas 2D. Bun comme runner.
 
@@ -22,12 +22,12 @@
 
 ---
 
-### Task 1: ADR-007 + équipes au boot + `dayTick` autonome
+### Task 1: ADR-018 + équipes au boot + `dayTick` autonome
 
 Le moteur lit lui-même les équipes depuis le state (fini le placeholder UI `researchStaff`).
 
 **Files:**
-- Modify: `docs/DECISIONS.md` (ajouter ADR-007)
+- Modify: `docs/DECISIONS.md` (l'ADR-018 existe déjà, acte de validation : statut « approuvé » — pas de nouvel ADR à ajouter)
 - Modify: `src/simulation/types.ts` (PlanetRuntime.researchTeam)
 - Modify: `src/simulation/state.ts` (boot : équipes pré-assignées, réservoir 5 550)
 - Modify: `src/simulation/engine.ts` (signature `dayTick(state)`)
@@ -99,7 +99,7 @@ export function dayTick(state: GameState): DayTickResult {
 `app.ts` : remplacer l'appel `dayTick(getState(), { research: researchStaff, production: null, marines: null })` par `dayTick(getState())` et **supprimer** `researchStaff`/`emptyStaffs`.
 
 - [ ] **Step 4:** `bunx vitest run` → 42+ tests PASS (corriger tests/simulation.test.ts si fixture dayTick) ; `bun run lint` ; `bunx tsc --noEmit`
-- [ ] **Step 5: commit** `feat(simulation): ADR-007, équipes au boot, dayTick autonome`
+- [ ] **Step 5: commit** `feat(simulation): ADR-018, équipes au boot, dayTick autonome`
 
 ---
 
@@ -820,13 +820,13 @@ CSS `.victory-overlay { position:fixed; inset:0; background:rgba(0,0,0,.7); disp
 
 **Files:**
 - Modify: `docs/superpowers/specs/2026-09-15-v0-boucle-terre-design.md` (§6.5 : noter valeurs constatées + boot retenu)
-- Modify: `docs/TRACE.md` (Session 6), `docs/DASHBOARD.md`, `README.md` (statut), `docs/DECISIONS.md` (ADR-007 finalisé)
+- Modify: `docs/TRACE.md` (Session 6), `docs/DASHBOARD.md`, `README.md` (statut), `docs/DECISIONS.md` (ADR-018 finalisé)
 
 - [ ] **Step 1:** `bun run build && bun run preview` → jouer la boucle réelle à ×20 en suivant le script §6.5 ; noter les jours constatés (1er miner, 1er item, 1re recherche, victoire).
 - [ ] **Step 2:** comparer au contrat ≤ J250 ; si écart > 10 %, ajuster le boot (derricks/équipes initiaux) + mettre à jour tests contrats/loop, relancer tout.
-- [ ] **Step 3:** écrire Session 6 dans TRACE (corrections, valeurs constatées), DASHBOARD (statut v0), ADR-007 (statut Accepté).
+- [ ] **Step 3:** écrire Session 6 dans TRACE (corrections, valeurs constatées), DASHBOARD (statut v0), ADR-018 (statut Accepté).
 - [ ] **Step 4:** `bunx vitest run && bun run lint && bunx tsc --noEmit && bun run build` tous verts.
-- [ ] **Step 5: commit** `docs: clôture v0 — playtest, TRACE/DASHBOARD/ADR-007` puis tag `v0.0.1` :
+- [ ] **Step 5: commit** `docs: clôture v0 — playtest, TRACE/DASHBOARD/ADR-018` puis tag `v0.0.1` :
 
 ```bash
 git tag v0.0.1

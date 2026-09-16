@@ -22,15 +22,17 @@ v0 est un **sandbox économie Terre-seule** : miner → produire → rechercher 
 | Périmètre | Terre seule (A) — pas de Lune, pas de navette |
 | Menace | Méthanoïdes absents (A) — zéro code ennemi actif |
 | Persistence | Aucune (A) — session mémoire |
-| Approche | **1 — slice verticale** : moteur mutable conservé, mutations canalisées par facade d'actions, ADR-007 |
+| Approche | **1 — slice verticale** : moteur mutable conservé, mutations canalisées par facade d'actions, **ADR-018** |
 | Contractualisation | Contrats chiffrés par story (tests paramétrés + playtest) |
-| Rejeté | Approche 2 (purification immutable d'abord : 1-2 j de refactor, zéro valeur visible v0 — reportée derrière ADR-007) ; Approche 3 (wiring direct : couplage UI↔moteur rejeté) |
+| Rejeté | Approche 2 (purification immutable d'abord : 1-2 j de refactor, zéro valeur visible v0 — reportée derrière ADR-018) ; Approche 3 (wiring direct : couplage UI↔moteur rejeté) |
 
-## 3. Architecture — ADR-007 + facade d'actions
+## 3. Architecture — ADR-018 (facade d'actions) + monde mutable
 
 **Contradiction existante à trancher** : ARCHITECTURE §3 promet un state *immutable par tick* ; le moteur implémenté *mute* le `GameState` (choix documenté tables v1, tests verts). 
 
-**ADR-007 (à écrire)** : « Moteur de simulation mutable ; toute mutation passe par la facade d'actions ; le rendu ne fait que lire. » 
+> **Note 2026-09-16** : la décision désignée ici « ADR-007 (à écrire) » est finalisée sous **ADR-018** (facade d'actions, DECISIONS.md). L'ADR-007 historique, lui, concernait tsyringe et a été révoqué. Le paragraphe ci-dessous reste valable, rattaché à ADR-018.
+
+**ADR-018 (écrit)** : « Moteur de simulation mutable ; toute mutation passe par la facade d'actions ; le rendu ne fait que lire. » 
 
 - **Trigger de revisit explicite** : le jour où on implémente la sauvegarde (EPIC v1), on réévalue la purification (`tick(state) → newState`). Derrière la facade, la bascule est confinée au moteur — l'UI n'a pas à changer.
 - **Nouveau `src/actions/`** — la seule porte d'entrée des mutations. Chaque action suit le contrat :
@@ -137,10 +139,10 @@ Dépendance critique : la vitesse réelle dépend du rythme d'accumulation des 2
 
 | EPIC | Stories (aperçu) | Livrable |
 |---|---|---|
-| **A — Fondations techniques** | A1 ADR-007 + squelette facade (validate/execute/notify) · A2 actions production · A3 action recherche · A4 action formation · A5 assignations + installDerrick · A6 audit déterminisme | mutations canalisées, tests verts |
+| **A — Fondations techniques** | A1 ADR-018 + squelette facade (validate/execute/notify) · A2 actions production · A3 action recherche · A4 action formation · A5 assignations + installDerrick · A6 audit déterminisme | mutations canalisées, tests verts |
 | **B — Écran Terre** | B1 layout/assemblage · B2 panneau production · B3 panneau recherche · B4 panneau personnel · B5 panneau minage/stocks · B6 bulletins + déclencheur victoire | boucle jouable au clavier/souris |
 | **C — Contrats & équilibrage** | C1-C4 tests paramétrés (minage/production/recherche/formation) · C5 test boucle intégrée 250 j · C6 playtest réel + ajustement boot si besoin | contrats verrouillés en CI |
-| **D — Clôture v0** | D1 écran victoire + récap · D2 smoke UI étendu · D3 docs (TRACE, DASHBOARD, README, ADR-007 final) | v0 taguée |
+| **D — Clôture v0** | D1 écran victoire + récap · D2 smoke UI étendu · D3 docs (TRACE, DASHBOARD, README, ADR-018 final) | v0 taguée |
 
 Estimation : ~12-18 jours-agent. Les EPICs v1+ (transport/Lune, menace, save, usine orbitale, astéroïdes) seront listés dans le plan comme « bloqués par v0 » sans détail.
 

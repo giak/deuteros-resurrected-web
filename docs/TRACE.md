@@ -4,6 +4,33 @@
 
 ---
 
+## Session 6 — 2026-09-16 (audit antagoniste du design architecture)
+
+**Objectif** : challenger les choix du design architecture (spec `2026-09-16-architecture-design.md`, ADR-007 à 012) via **6 rôles antagoniste dédiés** dispatchés en parallèle, chacun avec recherches web contradictoires (cache miss MnemoLite préalable).
+
+**Rôles & verdicts :**
+1. **Architecture Clean+Hexagonal** (recension `docs/superpowers/recensions/2026-09-16-antagonist-report.md`, mnémo `7d61294a`) → **AMENDER** : garder cœur pur/tick pur/zod/Result/golden ; retirer tsyringe, ports formels monoclients, 4 couches → 2 modules.
+2. **ECS pur** (recension `docs/superpowers/specs/2026-09-16-antagoniste-ecs-adr-008.md`, mnémo `7fe5f2e8`) → **REMPLACER** l'ECS formel par **records + services par domaine** (consensus unanime : < ~500 entités hétérogènes = aucun gain ECS ; `Map<EntityId, unknown>` = indirection sans localité mémoire) ; les frictions ADR-011/006/010 disparaissent.
+3. **tsyringe** (mnémo `64c48c71`) → **REMPLACER** par **pure DI / Composition Root manuelle** : esbuild (Vite/Vitest) ne supporte pas `emitDecoratorMetadata` (#29/#240/#180, esbuild #257) → transpileur supplémentaire ; maintenance 0/10 (deps.dev, issues Archive #246/#248) ; pour ~4 adapters le conteneur est strictement équivalent à une factory manuelle + polyfill.
+4. **Erreurs 3 mécanismes** (mnémo `d2628b8d`) → **AMENDER** : garder zod🟢 + crash-loud renforcé🟢 (asserts invariants ≥ 2/fct, handler `window.onerror`, arrêt du tick ; autosave frais + double slot pour tenir la promesse « partie intacte ») ; **retirer neverthrow🔴** → union discriminée maison ~20 lignes, restreinte à la couche actions (jamais dans les systèmes), `validate-then-mutate` (Wlaschin « Against ROP », doc neverthrow elle-même).
+5. **Boucle/échelles temps** (mnémo `53386375`+`052eb551`) → **AMENDER** : remplacer l'interval par un **accumulateur à cap** (`MAX_TICKS_PER_FRAME` adaptatif, surplus de lag jamais rattrapé), budget sim/frame, suspension sur onglet caché, échelles = plafonds de débit (Stellaris/Factorio), interpolation de PRÉSENTATION seule ; multiplier = nombre de ticks jamais un dt (Gaffer, Nystrom, Bevy #8544).
+6. **Tests §8** (mnémo `6e507180`) → **AMENDER** : supprimer le golden full-state (fige les bugs + contredit ADR-012 rebalance) → **double-run `deepEqual`** pour le déterminisme + **scénarios E2E scriptés** (record/replay d'actions) ; fast-check réduit aux maths pures (propriétés différentielles /801/wrap) ; retirer le niveau « contrat adapter » → smoke réel (fake-indexeddb).
+
+**Convergence** : 6/6 remettent en cause le conteneur DI et/ou l'ECS ; le besoin réel d'injection = ~4 adapters (persistance, prng, clock, vue) + config.
+
+**Arbitrage utilisateur : suivre les 6 verdicts.** ADR-007/008 révoqués ; ADR-013 (pure DI), 014 (records+services), 015 (union maison+crash-loud), 016 (accumulateur+budget), 017 (tests double-run+scénarios) approuvés. Spec architecture réécrit (2 modules). Write-back mnémo synthèse : `118f4edb`.
+
+**Prochaines étapes (TODO) :**
+1. Arbitrer chaque verdict (GARDER/AMENDER/REMPLACER) en brainstorming avec l'utilisateur.
+2. Appliquer : réécrire l'ADR-007 (→ pure DI), ADR-008 (→ records/services), ADR-011 (→ union maison sans neverthrow), ADR-009/012 (→ accumulateur + budget), spec architecture (→ 2 modules), §8 tests (→ double-run + scénarios).
+3. Documenter l'audit dans `docs/superpowers/audits/` (rapport de synthèse).
+
+**(Arbitrage fait en session : les 6 verdicts sont suivis, voir les ADR-013 à 017 et le spec réécrit.)**
+
+> **⚠️ Conflit de numérotation ADR détecté en relecture — RÉSOLU** : le spec v0 « Boucle Terre » et son plan réservaient **ADR-007** à « moteur mutable + facade d'actions », mais cette session avait attribué ADR-007/008 à tsyringe/ECS (révoqués). **Arbitrage utilisateur : ADR-018 pour la facade.** Consigné dans DECISIONS.md (ADR-018) ; le plan v0 reste exécutable tel quel (sa décision porte désormais le n° 018).
+
+---
+
 ## Session 1 — 2026-09-15 (cadrage)
 
 **Durée** : ~30 min
@@ -140,3 +167,5 @@
 1. Commiter les tables v1 (data + simulation + tests) après revue.
 2. Premier écran : canvas + barre de temps branchée sur `dayTick()` (fin de la Phase 0).
 3. Arbitrages §15 restants (transport pods vs tonnes, Hydroïdes, défaite par perte d'infra) — à couvrir dans GAMEPLAY v0.2.
+
+---
