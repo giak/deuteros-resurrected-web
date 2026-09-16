@@ -28,7 +28,7 @@ describe('facade runAction', () => {
   });
 });
 
-import { queueItem, cancelQueueItem, selectResearch, trainStaff } from '@/actions';
+import { queueItem, cancelQueueItem, selectResearch, trainStaff, installDerrick } from '@/actions';
 
 describe('selectResearch (spec §6.3)', () => {
   it('sélectionne un item débloqué au boot (of_frame)', () => {
@@ -115,5 +115,20 @@ describe('trainStaff (contrat spec §6.4)', () => {
       .toEqual({ ok: false, reason: 'capacity_exceeded' });
     expect(runAction(trainStaff, s, { type: 'research', count: 0 }))
       .toEqual({ ok: false, reason: 'invalid_count' });
+  });
+});
+
+describe('installDerrick (spec §5.2)', () => {
+  it('consomme 1 derrick produit et incrémente derricks', () => {
+    const s = createInitialState(1);
+    s.planets.earth.items['derrick'] = 2;
+    expect(s.planets.earth.derricks).toBe(1);
+    expect(runAction(installDerrick, s, undefined).ok).toBe(true);
+    expect(s.planets.earth.items['derrick']).toBe(1);
+    expect(s.planets.earth.derricks).toBe(2);
+  });
+  it('refuse sans derrick en stock', () => {
+    const s = createInitialState(1);
+    expect(runAction(installDerrick, s, undefined)).toEqual({ ok: false, reason: 'no_derrick_in_store' });
   });
 });
