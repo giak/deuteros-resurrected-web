@@ -4,6 +4,25 @@
 
 ---
 
+## Session 11 — 2026-09-16 (task 8 du plan v0 — boucle intégrée 250 j)
+
+**Objectif** : dernière milestone moteur — test d'intégration « boucle Terre » (C5) : scénario scripté research of_frame → derricks en série → install → production d'OF Frame ≤ J250, déterministe, avec invariants (stocks bornés, équipes présentes).
+
+**Réalisé :**
+- **Fichier créé** `tests/integration.test.ts` (brief verbatim corrigé, 2 tests, 49 lignes).
+- **Test ROUGE a priori** — `victory === false` à J300. Investigation (instrumentation) : recherche of_frame terminée **J58**, ressources de l'OF Frame disponibles dès ~J60 → ni moteur ni balance en cause. **Cause racine : ordonnancement du scénario du brief** — la ligne `queueItem(derrick)` précède la bascule OF Frame et remplit l'usine à chaque libération ; la condition `!factory.currentItemId` de la bascule reste **jamais satisfaite** (une relance boots/derricks n'aurait rien changé — Step 2 du brief non applicable). **Correction test-only minimale** : inversion des deux blocs (bascule OF Frame avant la file derrick par défaut), assertions inchangées, moteur intact. Consigné **K6** (DECISIONS.md).
+- **C5 VERT** : seed 42 → **victoire J112** ; double-run strict → déterminisme ; autres seeds (1, 7, 99, 12345) victoires **J91–J112**, déterministes. Invariants sur 250 ticks : aucun throw, stocks ≤ 50 000, `builder` non-null.
+- **Verification** : vitest **69/69** (7 files), `bun run lint` 0, `bunx tsc --noEmit` 0. Aucun changement de code source (production) — contrainte respectée.
+- **Commit `5c89809`** `test(integration): boucle 250 j — crash + contraintes (C5)` — rapport complet `.git/sdd/task-8-report.md`.
+
+**Verdict** : le contrat C5 (boucle intégrée jouable, déterministe, ≤ J250) est satisfait par le moteur+facade des sessions 5-9 ; le test verrouille la stratégie de référence et son garde-fou de victoire.
+
+**Prochaines étapes (TODO) :**
+1. Batch frontend (UI bulletins/écran, barre de temps branchée sur `dayTick`).
+2. Réconcilier le suivi du plan `.git/sdd/` (progress ledger) avec TRACE/DECISIONS.
+
+---
+
 ## Session 10 — 2026-09-16 (task 7 du plan v0 — contrats C1-C4)
 
 **Objectif** : miletone contract-verification — 4 tests contrats chiffrés (C1-C4) vérifiant les régimes production/recherche/minage de bout en bout.

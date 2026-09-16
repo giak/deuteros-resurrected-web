@@ -310,6 +310,26 @@ Détail + sources (URLs) : `docs/superpowers/recensions/2026-09-16-antagonist-re
 
 ---
 
+## K6 — Test boucle intégrée : correction d'ordonnancement du brief (approuvé 2026-09-16)
+
+**Contexte** : le brief task 8 (`.git/sdd/task-8-brief.md`) fournit le code du scénario boucle Terre (C5). Exécuté verbatim, le test ROUGE immédiatement : `runGame(42, 300).victory === false` — l'OF Frame n'est **jamais produit**, même à J300. Diagnostics (instrumentation) : recherche de_frame terminée à **J58** (ressources `55 Fe + 80 Ti + 50 Al + 25 C + 40 Cu` disponibles dès ~J60, stocks 65/66/76/73/80 à J67), donc ni le moteur ni la balance ne sont en cause.
+
+**Cause racine (analyse)** : deux lignes dans cet ordre à chaque jour —
+1. `if (!earth.factory.currentItemId) runAction(queueItem, s, { itemId: 'derrick' });` → remplit l'usine dès qu'elle est libre ;
+2. bascule OF Frame conditionnée par `!earth.factory.currentItemId` → **jamais satisfaite** : le derrick est re-filé en priorité à chaque libération d'usine, la bascule OF Frame ne peut jamais se déclencher.
+
+Ajuster l'état de boot (Step 2 du brief, ex. 2 derricks) n'aurait **rien changé** : le blocage est structurel dans l'ordonnancement du scénario, pas un problème de cadence de minage.
+
+**Choix** : correction **test-only, minimale** — inversion des deux blocs (bascule OF Frame évaluée **avant** la file de derrick par défaut). Aucune assertion modifiée, aucune ligne du moteur touchée (contrainte « zéro changement prod » respectée). Le contrat C5 devient : victoire **J91–J112** selon seed (42 → J112), **déterministe** (double-run strict), invariants (stocks ≤ 50 000, builder non-null sur 250 ticks) vérifiés.
+
+**Écart technique** : fichier nommé `tests/integration.test.ts` (consigne d'exécution de la task) alors que le brief/plan écrivaient `tests/loop.test.ts` — une seule différence de nommage, contenu « verbatim corrigé ».
+
+**Conséquences** :
+- C5 validé : boucle Terre intégrée (research → derricks → install → OF Frame) jouable et déterministe ; le playtest C6 « ajustement boot » du brief n'est **pas nécessaire** pour ce symptôme (rien à rebilanter).
+- Le test verrouille la stratégie de référence qui gagne ≤ J250 — si les formules de production/minage changent, il régresse la balance (rôle de garde C5).
+
+---
+
 ## Journal des révisions
 
 | Date | Décision |
@@ -333,3 +353,4 @@ Détail + sources (URLs) : `docs/superpowers/recensions/2026-09-16-antagonist-re
 | 2026-09-16 | ADR-018 approuvé (Facade d'actions — seule porte de mutation, renumérotation de l'« ADR-007 » du plan v0) |
 | 2026-09-16 | K4 approuvé (garde `ITEM_BY_ID` avant `canSelect` dans `selectResearch`, task 4) |
 | 2026-09-16 | K5 approuvé (ordre de validate `trainStaff` du brief + retrait import inutilisé, task 5) |
+| 2026-09-16 | K6 approuvé (test boucle intégrée : inversion de l'ordonnancement derrick/OF-frame du brief, task 8) |
