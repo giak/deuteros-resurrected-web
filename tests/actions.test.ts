@@ -28,7 +28,26 @@ describe('facade runAction', () => {
   });
 });
 
-import { queueItem, cancelQueueItem } from '@/actions';
+import { queueItem, cancelQueueItem, selectResearch } from '@/actions';
+
+describe('selectResearch (spec §6.3)', () => {
+  it('sélectionne un item débloqué au boot (of_frame)', () => {
+    const s = createInitialState(1);
+    expect(runAction(selectResearch, s, { itemId: 'of_frame' }).ok).toBe(true);
+    expect(s.research.currentItemId).toBe('of_frame');
+  });
+  it('refuse un item verrouillé (m_t_x) ou inexistant', () => {
+    const s = createInitialState(1);
+    expect(runAction(selectResearch, s, { itemId: 'm_t_x' })).toEqual({ ok: false, reason: 'locked' });
+    expect(runAction(selectResearch, s, { itemId: 'chaise' })).toEqual({ ok: false, reason: 'not_researchable' });
+  });
+  it('re-sélectionner le projet courant est un no-op ok', () => {
+    const s = createInitialState(1);
+    runAction(selectResearch, s, { itemId: 'of_frame' });
+    expect(runAction(selectResearch, s, { itemId: 'of_frame' }).ok).toBe(true);
+    expect(s.research.currentItemId).toBe('of_frame');
+  });
+});
 
 describe('queueItem (contrat spec §6.2)', () => {
   it('file un item au sol si ressources suffisantes et consomme les intrants', () => {
