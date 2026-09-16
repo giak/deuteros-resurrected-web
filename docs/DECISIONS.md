@@ -284,6 +284,19 @@ Détail + sources (URLs) : `docs/superpowers/recensions/2026-09-16-antagonist-re
 
 ---
 
+## K4 — Garde `ITEM_BY_ID` avant `canSelect` dans `selectResearch.validate` (approuvé 2026-09-16)
+
+**Contexte** : le brief task 4 (`.git/sdd/task-4-brief.md`) appelait `canSelect(state.research, itemId)` en tête de `validate`. Pour un itemId inconnu (`'chaise'`), `canSelect` → `getItem` **lève** (« Item inconnu ») : le test attendu `{ ok: false, reason: 'not_researchable' }` aurait crashé le plan.
+
+**Choix** : garde défensive avant l'appel — `if (!ITEM_BY_ID[itemId]) return { ok: false, reason: 'not_researchable' };` (`ITEM_BY_ID` exporté par `@/simulation/data`). Le reste de l'implémentation du brief est verbatim.
+
+**Conséquences** :
+- `not_researchable` couvre maintenant les deux cas « n'est pas un item » et « item sans progression ».
+- Aucun chemin ne fait lever `getItem` depuis les actions : les exceptions restent internes au moteur (ADR-015 : pas d'exceptions pour les refus joueur).
+- Écart technique : l'import `GameState` du brief, inutilisé, a été retiré pour satisfaire tsc strict/lint (contraintes liantes du plan).
+
+---
+
 ## Journal des révisions
 
 | Date | Décision |
@@ -305,3 +318,4 @@ Détail + sources (URLs) : `docs/superpowers/recensions/2026-09-16-antagonist-re
 | 2026-09-16 | ADR-017 approuvé (Tests — double-run + scénarios, amende spec §8) |
 | 2026-09-16 | Audit antagoniste 6 rôles : 6/6 verdicts suivis |
 | 2026-09-16 | ADR-018 approuvé (Facade d'actions — seule porte de mutation, renumérotation de l'« ADR-007 » du plan v0) |
+| 2026-09-16 | K4 approuvé (garde `ITEM_BY_ID` avant `canSelect` dans `selectResearch`, task 4) |

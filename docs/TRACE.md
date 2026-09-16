@@ -4,6 +4,22 @@
 
 ---
 
+## Session 7 — 2026-09-16 (task 4 du plan v0 — action `selectResearch`)
+
+**Objectif** : implémenter la recherche de projet (spec §6.3) selon le brief `.git/sdd/task-4-brief.md`.
+
+**Réalisé :**
+- **TDD** `src/actions/research.ts` + export au barrel `src/actions/index.ts` + tests `tests/actions.test.ts` (brief verbatim) : RED 3/3 (import undefined) → GREEN.
+- **Correction K4 (approuvée)** : garde `!ITEM_BY_ID[itemId] → not_researchable` **avant** l'appel `canSelect` — sans elle, un itemId inconnu (`'chaise'`) faisait lever `getItem` (« Item inconnu ») et le test attendu `{ ok: false, reason: 'not_researchable' }` aurait crashé. Consignée dans DECISIONS.md.
+- **Écart consigné vs brief** : l'import `GameState` du brief était inutilisé → `tsc`/`lint` (contraintes liantes) hors-bleu ; retiré, le reste du code est verbatim (raisons `not_researchable`/`locked`/`already_researched`, bulletin FR, re-sélection = changement de projet sans perte de progression).
+- **Verification** : vitest **58/58** (5 files), `bun run lint` 0, `bunx tsc --noEmit` 0, **commit `aa9c946`** `feat(actions): selectResearch`. Aucun `Math.random`/`Date.now` dans `src/actions/`.
+
+**Prochaines étapes (TODO) :**
+1. Tasks 5+ du plan v0 (UI bulletins/écran, boucle complète).
+2. Réconcilier `docs/TRACE.md`/`DECISIONS.md` avec le suivi du plan `.git/sdd/` (consignation des tasks 2-3 à rattraper).
+
+---
+
 ## Session 6 — 2026-09-16 (audit antagoniste du design architecture)
 
 **Objectif** : challenger les choix du design architecture (spec `2026-09-16-architecture-design.md`, ADR-007 à 012) via **6 rôles antagoniste dédiés** dispatchés en parallèle, chacun avec recherches web contradictoires (cache miss MnemoLite préalable).
