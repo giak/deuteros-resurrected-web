@@ -4,6 +4,22 @@
 
 ---
 
+## Session 10 — 2026-09-16 (task 7 du plan v0 — contrats C1-C4)
+
+**Objectif** : miletone contract-verification — 4 tests contrats chiffrés (C1-C4) vérifiant les régimes production/recherche/minage de bout en bout.
+
+**Réalisé :**
+- **Fichier unique** `tests/contracts.test.ts` créé (brief verbatim, 4 tests, 57 lignes).
+- **C1 production** — 3 régimess 31/63/127 j+jour via `dailyProductionValue` + supply_pod bouclé 23 j via `dayTick`+`queueItem` : **VERT** (le moteur est fidèle /801+wrap).
+- **C2 recherche** — vérification inline `((250 << 1) * 64) / 801 | 0 === 39` + boucle `updateResearch` 58 j → of_frame researched : **VERT**.
+- **C3 minage** — 1 derrick boot, seed 42, jours pairs, `createRng(42)` déterministe : premier iron entre J2 et J18, cap 50 000 vérifié : **VERT**.
+- **Verification** : vitest **67/67** (6 files), `bun run lint` 0, `bunx tsc --noEmit` 0.
+- **Commit** `a62f21b` `test(contracts): C1-C4 tests chiffrés des contrats utilisateur`.
+
+**Verdict** : les 4 contrats étaient déjà satisfaits par le moteur+facade des sessions 5-9 ; les tests verrouillent les valeurs numériques (pas de régression future).
+
+---
+
 ## Session 9 — 2026-09-16 (task 6 du plan v0 — action `installDerrick`)
 
 **Objectif** : implémenter l'installation de derricks produits (spec §5.2) selon le brief `.git/sdd/task-6-brief.md` — dernière action du lot « core actions ».
