@@ -4,6 +4,28 @@
 
 ---
 
+## Session 12 — 2026-09-16 (task 9 du plan v0 — écran Terre : coquille à onglets + panneau Production)
+
+**Objectif** : première tâche UI — remplacer le panneau latéral statique par l'écran Terre `#earth-screen` (onglets, panneau Production queue/cancel) et poser le helper items-au-sol.
+
+**Réalisé :**
+- **`GROUND_ITEMS`** dans `src/simulation/data.ts` — filtre **sans gate de catégorie** `(i) => i.inputs && !i.orbitOnly` (correction **K3** approuvée : le filtre du brief `category === 'item'` excluait `meh_fuel` → 8 items au lieu de 9). Liste exacte des 9 vérifiée sur `data/items.json` ; exporté au barrel `@/simulation`.
+- **`src/ui/earth-screen.ts`** — coquille à onglets (Bulletins/Production/Recherche/Personnel/Minage), panneau Production (table 9 items avec gate stocks, boutons Produire/Annuler), onglet Bulletins, placeholders task 10. Helper pur **`productionRows(state)` exporté** (testable hors DOM) ; `renderProduction` exporté.
+- **`src/ui/app.ts`** — aside statique remplacé par `<aside class="hud-side" id="earth-screen">`, `mountEarthScreen` branché, `setupSidebar`/`bodyDotColor`/section Bulletins supprimés, double-rendu `#news-feed` de `updateHud` retiré (l'onglet news est seul propriétaire du fil). Canvas/contrôles/boucle intacts.
+- **`src/style.css`** — onglets `.tabs/.tab(.active)`, `.panel-table`, `.queue-line`, `.hud-btn:disabled` ; bloc « Liste des corps » retiré (mort CSS).
+- **Smoke adaptation (recette Task 12 inexistante)** — `tests/ui.test.ts` : helpers purs (GROUND_ITEMS 9 + ids exacts, productionRows = set affiché complet, gate `disabled` par stocks, K3 meh_fuel conservé). Test data `toHaveLength(9)` dans `tests/data.test.ts`.
+- **Décision consignée K7** (DECISIONS.md) — filtre K3, smoke hors DOM, retraits app.ts, a11y légère (`aria-label`/`aria-pressed`).
+- **Verification** : vitest **73/73** (8 files dont ui.test.ts 3), `bun run lint` 0, `bunx tsc --noEmit` 0, `bun run build` VERT (bundle 73.0 kB js). Aucun `Math.random`/`Date.now` ajouté hors `app.ts` (boot existant intact).
+- **Commits** : `feat(ui): écran Terre à onglets + panneau production (queue/cancel)` puis docs — rapport `.git/sdd/task-9-report.md`.
+
+**Verdict** : B1 (coquille onglets) et B2 (panneau production queue/cancel) livrés ; les panneaux Recherche/Personnel/Minage restent des placeholders (tasks 10). Le filtre K3 corrige bien l'écart du brief (9 items, meh_fuel inclus).
+
+**Prochaines étapes (TODO) :**
+1. Tasks 10 du plan v0 : panneaux Recherche / Personnel / Minage de l'écran Terre.
+2. Réconcilier le suivi du plan `.git/sdd/` (progress ledger) avec TRACE/DECISIONS.
+
+---
+
 ## Session 11 — 2026-09-16 (task 8 du plan v0 — boucle intégrée 250 j)
 
 **Objectif** : dernière milestone moteur — test d'intégration « boucle Terre » (C5) : scénario scripté research of_frame → derricks en série → install → production d'OF Frame ≤ J250, déterministe, avec invariants (stocks bornés, équipes présentes).

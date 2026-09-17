@@ -330,6 +330,23 @@ Ajuster l'état de boot (Step 2 du brief, ex. 2 derricks) n'aurait **rien chang�
 
 ---
 
+## K7 — Écran Terre (task 9) : GROUND_ITEMS sans gate de catégorie + smoke UI hors DOM (approuvé 2026-09-16)
+
+**Contexte (correction pré-flight K3)** : le filtre du brief `(i) => i.inputs && !i.orbitOnly && i.category === 'item'` excluait `meh_fuel` (category `resource`) → **8 items**, en contradiction avec le commentaire et le test du brief qui attendent **9** (les 8 tech-1 + a_c_c tech-3). Vérifié sur `data/items.json`.
+
+**Choix** : filtre **sans gate de catégorie** — `(i) => i.inputs && !i.orbitOnly`. Résultat exact `[derrick, s_chassis, s_drive, meh_fuel, of_frame, supply_pod, tool_pod, cryo_pod, a_c_c]` (9). Ce filtre est **équivalent** à la variante « Interfaces » du brief (`category !== 'hidden' && !orbitOnly && inputs && id !== 'hed_fuel'`) : les items `hidden` n'ont jamais d'inputs et `hed_fuel` est `orbitOnly` → gardes redondantes retirées.
+
+**Smoke test Step 4 (recette Task 12 inexistante)** : parade approuvée en pré-flight — validation par `bun run build` + `bunx tsc --noEmit` + nouveau `tests/ui.test.ts` exerçant les **helpers purs hors DOM** de `src/ui/earth-screen.ts`, au lieu du clic DOM de la recette Task 12. Concrètement `renderProduction` délègue à un helper pur exporté `productionRows(state)` (9 lignes = l'ensemble affiché du tableau) ; la logique de disponibilité (`disabled` selon les stocks) et le set des 9 items sont couverts par les tests.
+
+**Conséquences** :
+- `GROUND_ITEMS` exporté par `@/simulation/data` **et** par le barrel `@/simulation` ; test data `toHaveLength(9)` + smoke UI couvrent la liste exacte.
+- `app.ts` : `setupSidebar`/`bodyDotColor` et la section statique Bulletins supprimés (l'onglet news rend le fil) ; le double-rendu `#news-feed` de `updateHud` retiré (le node n'existe plus, éviter un rendu concurrent). Canvas/contrôles/boucle hors périmètre conservés intacts.
+- Accessibilité légère (contrainte globale) : `nav[aria-label]`, onglets `aria-pressed`, boutons Produire/Annuler avec `aria-label`. Pas de `role=tablist` (imposerait la navigation clavier tablist, YAGNI en task 9).
+- CSS : bloc du brief étendu de façon minime (`.panel-table th`, `.queue-line strong`, `.hud-btn:disabled`, `flex-wrap`) ; bloc « Liste des corps » retiré (mort après suppression de `setupSidebar`).
+- `renderProduction` reste exporté (exigence de testabilité du brief) ; `render`/`mountEarthScreen` restent branchés sur `document`.
+
+---
+
 ## Journal des révisions
 
 | Date | Décision |
@@ -354,3 +371,4 @@ Ajuster l'état de boot (Step 2 du brief, ex. 2 derricks) n'aurait **rien chang�
 | 2026-09-16 | K4 approuvé (garde `ITEM_BY_ID` avant `canSelect` dans `selectResearch`, task 4) |
 | 2026-09-16 | K5 approuvé (ordre de validate `trainStaff` du brief + retrait import inutilisé, task 5) |
 | 2026-09-16 | K6 approuvé (test boucle intégrée : inversion de l'ordonnancement derrick/OF-frame du brief, task 8) |
+| 2026-09-16 | K7 approuvé (GROUND_ITEMS sans gate de catégorie + smoke UI hors DOM au lieu de la recette Task 12, task 9) |
