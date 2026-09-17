@@ -15,6 +15,8 @@ export type {
   Fleet,
   Battle,
   DayTickResult,
+  ResearchDayResult,
+  ProductionDayResult,
 } from './types';
 
 export { createRng, randInt } from './rng';

@@ -26,7 +26,7 @@ import {
   updateTraining,
   dailyProductionValue,
 } from '@/simulation';
-import type { Factory, PlanetRuntime, Staff } from '@/simulation';
+import type { Factory, PlanetRuntime, Staff, ProductionDayResult } from '@/simulation';
 
 const mkStaff = (type: Staff['type'], count: number, actionsTaken = 0): Staff => ({ type, count, actionsTaken });
 
@@ -81,7 +81,11 @@ describe('production — Factory.cs /801', () => {
     });
     // v = 159 > 5 → wrap : (250+159) & 0xFF = 153, complete++ → 4 → terminé
     const done = updateProduction(p);
-    expect(done).toBe('tool_pod');
+    expect(done.finished).toBe('tool_pod');
+    expect(done.itemId).toBe('tool_pod');
+    expect(done.value).toBe(0);
+    expect(done.wraps).toBe(4);
+    expect(done.blocked).toBe(false);
     expect(p.items['tool_pod']).toBe(1);
     expect(p.factory.productionValue).toBe(0);
     expect(p.factory.productionComplete).toBe(0);
@@ -101,10 +105,10 @@ describe('production — Factory.cs /801', () => {
       },
     });
     // Séquençage : 192 · wrap(64, c2) · 192 · wrap(64, c3) · 192 · wrap(64, c4) → 6 jours
-    let done: string | null = null;
+    let done: ProductionDayResult | null = null;
     let days = 0;
-    for (let i = 0; i < 10 && !done; i++) { done = updateProduction(p); days++; }
-    expect(done).toBe('supply_pod');
+    for (let i = 0; i < 10 && !(done?.finished); i++) { done = updateProduction(p); days++; }
+    expect(done?.finished).toBe('supply_pod');
     expect(days).toBe(6);
     expect(p.factory.aoc).toBe(true);
   });
@@ -122,7 +126,7 @@ describe('production — Factory.cs /801', () => {
       },
     });
     const done = updateProduction(p);
-    expect(done).toBe('a_o_c');
+    expect(done.finished).toBe('a_o_c');
     expect(p.factory.aoc).toBe(true);
     expect(p.factory.builder).toBeNull();
     expect(p.factory.currentItemId).toBeNull();
@@ -159,7 +163,10 @@ describe('recherche — Research.cs /801', () => {
     state.research.progress['m_t_x'] = { researched: false, researchValue: 0, percentage: 1, researchOrder: 0, locked: false };
     state.research.currentItemId = 'm_t_x';
     const novice = mkStaff('research', 250, 0); // Technician
-    expect(updateResearch(state, novice)).toBeNull();
+    const out = updateResearch(state, novice);
+    expect(out.finished).toBeNull();
+    expect(out.blocked).toBe(true);
+    expect(out.progress?.itemId).toBe('m_t_x');
     const prof = mkStaff('research', 250, 9); // Professor
     // v = (250 << 3)*64/801 = 159/jour → 0..255 wrap...
     updateResearch(state, prof);
@@ -185,7 +192,9 @@ describe('recherche — Research.cs /801', () => {
     const state = createInitialState(42);
     state.research.progress['derrick'] = { researched: false, researchValue: 0, percentage: 1, researchOrder: 0, locked: false };
     state.research.currentItemId = 'derrick';
-    expect(updateResearch(state, null)).toBeNull();
+    const out = updateResearch(state, null);
+    expect(out.finished).toBeNull();
+    expect(out.blocked).toBe(true);
     expect(state.research.progress['derrick'].researchValue).toBe(0);
   });
 });
@@ -344,5 +353,36 @@ describe('état initial — miroir CoreData.cs', () => {
     expect(s.research.progress['derrick'].locked).toBe(false);
     expect(s.research.progress['of_frame'].locked).toBe(false);
     expect(s.research.progress['m_t_x'].locked).toBe(true);
+  });
+});
+
+describe('retours enrichis (trace — task 2)', () => {
+  it("updateProduction : arrêt (pas d'équipe) → itemId null, blocked true", () => {
+    const p = mkPlanet({
+      factory: {
+        currentItemId: 'derrick',
+        productionValue: 64,
+        productionComplete: 1,
+        prodCycle: 0,
+        builder: null,
+        aoc: false,
+        inOrbit: false,
+      },
+    });
+    const out = updateProduction(p);
+    expect(out.finished).toBeNull();
+    expect(out.itemId).toBe('derrick');
+    expect(out.blocked).toBe(true);
+  });
+  it('updateResearch : progression en cours → progress {itemId, percentage}, blocked false', () => {
+    const state = createInitialState(42);
+    state.research.progress['of_frame'] = { researched: false, researchValue: 64, percentage: 1, researchOrder: 0, locked: false };
+    state.research.currentItemId = 'of_frame';
+    const team = mkStaff('research', 250, 0); // Technician, v = 39
+    const out = updateResearch(state, team);
+    expect(out.finished).toBeNull();
+    expect(out.blocked).toBe(false);
+    expect(out.progress).toEqual({ itemId: 'of_frame', percentage: 1 });
+    expect(out.progress?.percentage).toBe(1);
   });
 });

@@ -6,7 +6,7 @@
 import { SIM_CONFIG } from './config';
 import { getItem } from './data';
 import { getLevel } from './staff';
-import type { GameState, ResearchState, Staff } from './types';
+import type { GameState, ResearchDayResult, ResearchState, Staff } from './types';
 
 /** Peut-on sélectionner cet item comme projet courant ? */
 export function canSelect(research: ResearchState, itemId: string): boolean {
@@ -18,23 +18,26 @@ export function canSelect(research: ResearchState, itemId: string): boolean {
 
 /**
  * Un jour de recherche. `staff` = équipe de recherche de la Terre (peut être null).
- * Retourne l'itemId terminé, ou null.
+ * Retour enrichi : item terminé, progression courante, blocage sans équipe/rang.
  */
-export function updateResearch(state: GameState, staff: Staff | null): string | null {
+export function updateResearch(state: GameState, staff: Staff | null): ResearchDayResult {
   const research = state.research;
   const id = research.currentItemId;
-  if (!id) return null;
+  if (!id) return { finished: null, progress: null, blocked: false };
 
   const item = getItem(id);
-  if (item.researchIndex === undefined) return null;
+  if (item.researchIndex === undefined) return { finished: null, progress: null, blocked: false };
   const p = research.progress[id];
-  if (!p || p.researched) return null;
+  if (!p || p.researched) return { finished: null, progress: null, blocked: false };
 
-  // Pas d'équipe au démarrage du jeu : rien (Research.cs)
-  if (!staff || staff.count === 0) return null;
-
+  // Projet actif mais non progressé : pas d'équipe / rang insuffisant
+  if (!staff || staff.count === 0) {
+    return { finished: null, progress: { itemId: id, percentage: p.percentage }, blocked: true };
+  }
   const level = getLevel(staff);
-  if (level < (item.techLevel ?? 0)) return null; // gate « Team Leader Is Not Qualified »
+  if (level < (item.techLevel ?? 0)) {
+    return { finished: null, progress: { itemId: id, percentage: p.percentage }, blocked: true };
+  }
 
   const v = Math.floor(((staff.count << level) * (item.researchMultiplier ?? 64)) / SIM_CONFIG.RESEARCH_DIVISOR);
 
@@ -52,9 +55,9 @@ export function updateResearch(state: GameState, staff: Staff | null): string | 
     p.researchOrder =
       Object.values(research.progress).filter((x) => x.researched).length;
     staff.actionsTaken += 1;
-    return id;
+    return { finished: id, progress: null, blocked: false };
   }
-  return null;
+  return { finished: null, progress: { itemId: id, percentage: p.percentage }, blocked: false };
 }
 
 /** Initialise les progressions de recherche pour tous les items recherchables. */

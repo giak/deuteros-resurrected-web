@@ -8,7 +8,7 @@
 import { SIM_CONFIG, type ResourceId } from './config';
 import { getItem } from './data';
 import { getLevel } from './staff';
-import type { Factory, PlanetRuntime } from './types';
+import type { Factory, PlanetRuntime, ProductionDayResult } from './types';
 
 /** Valeur d'un jour de production (Factory.cs). Retourne 0 si l'usine est à l'arrêt. */
 export function dailyProductionValue(factory: Factory, multiplier: number): number {
@@ -48,12 +48,14 @@ export function consumeResources(planet: PlanetRuntime, itemId: string): void {
 
 /**
  * Un jour de production sur un corps.
- * Retourne l'itemId terminé, ou null.
+ * Retour enrichi : item terminé, item en cours, valeur, wraps, blocage.
  */
-export function updateProduction(planet: PlanetRuntime): string | null {
+export function updateProduction(planet: PlanetRuntime): ProductionDayResult {
   const f = planet.factory;
-  if (!f.currentItemId) return null;
-  if (!f.aoc && (!f.builder || f.builder.count === 0)) return null;
+  if (!f.currentItemId) return { finished: null, itemId: null, value: 0, wraps: 0, blocked: false };
+  if (!f.aoc && (!f.builder || f.builder.count === 0)) {
+    return { finished: null, itemId: f.currentItemId, value: f.productionValue, wraps: f.productionComplete, blocked: true };
+  }
 
   const item = getItem(f.currentItemId);
   const v = dailyProductionValue(f, item.researchMultiplier ?? 64);
@@ -70,10 +72,10 @@ export function updateProduction(planet: PlanetRuntime): string | null {
 
   // Item terminé (Production_Complete == 4 → ProductionItem.Complete)
   if (f.productionComplete >= SIM_CONFIG.PRODUCTION_MAX_WRAPS) {
+    const finished = item.id;
     planet.items[item.id] = (planet.items[item.id] ?? 0) + 1;
     if (!f.aoc && f.builder) f.builder.actionsTaken += 1;
     f.prodCycle = 0;
-    const finished = item.id;
     if (item.id === 'a_o_c') {
       // AOC produite : équipe libérée, usine automatisée, 1 seul exemplaire
       f.aoc = true;
@@ -84,9 +86,9 @@ export function updateProduction(planet: PlanetRuntime): string | null {
     }
     f.productionValue = 0;
     f.productionComplete = 0;
-    return finished;
+    return { finished, itemId: finished, value: 0, wraps: SIM_CONFIG.PRODUCTION_MAX_WRAPS, blocked: false };
   }
-  return null;
+  return { finished: null, itemId: item.id, value: f.productionValue, wraps: f.productionComplete, blocked: false };
 }
 
 /**

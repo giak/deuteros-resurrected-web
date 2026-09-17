@@ -138,3 +138,27 @@ export interface DayTickResult {
   enemyDronesBuilt: number;
   battlesResolved: Battle[];
 }
+
+/** Retour enrichi d'un jour de recherche (trace task 2). */
+export interface ResearchDayResult {
+  /** itemId terminé ce jour (100 %), sinon null. */
+  finished: string | null;
+  /** Progression courante du projet actif (itemId + pourcentage), null si aucun projet. */
+  progress: { itemId: string; percentage: number } | null;
+  /** true si un projet est sélectionné mais ne progresse pas (pas d'équipe / rang insuffisant). */
+  blocked: boolean;
+}
+
+/** Retour enrichi d'un jour de production (trace task 2). */
+export interface ProductionDayResult {
+  /** itemId terminé ce jour (4 wraps), sinon null. */
+  finished: string | null;
+  /** item en cours (null si usine à l'arrêt). */
+  itemId: string | null;
+  /** Valeur 8 bits en fin de jour (0 après complétion). */
+  value: number;
+  /** Wraps effectués (PRODUCTION_MAX_WRAPS à la complétion). */
+  wraps: number;
+  /** true si un item est en file mais sans équipe (usine à l'arrêt). */
+  blocked: boolean;
+}
