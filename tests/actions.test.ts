@@ -118,6 +118,38 @@ describe('trainStaff (contrat spec §6.4)', () => {
   });
 });
 
+describe('runAction + trace (task 4)', () => {
+  const capture = () => {
+    const lines: string[] = [];
+    const trace = {
+      log: (day: number, label: string, args: unknown, outcome: string) => {
+        lines.push(JSON.stringify({ day, label, args, outcome }));
+      },
+    };
+    return { lines, trace };
+  };
+
+  it('émet une ligne sur succès avec args et "ok"', () => {
+    const s = createInitialState(1);
+    const { lines, trace } = capture();
+    runAction(noop, s, { n: 1 }, trace);
+    expect(lines).toHaveLength(1);
+    expect(JSON.parse(lines[0])).toEqual({ day: 1, label: 'noop', args: { n: 1 }, outcome: 'ok' });
+  });
+
+  it('émet une ligne sur échec avec la raison brute', () => {
+    const s = createInitialState(1);
+    const { lines, trace } = capture();
+    runAction(noop, s, { n: 0 }, trace);
+    expect(JSON.parse(lines[0]).outcome).toBe('échec (must_be_positive)');
+  });
+
+  it('sans hook, aucun appel (régression signature optionnelle)', () => {
+    const s = createInitialState(1);
+    expect(() => runAction(noop, s, { n: 1 })).not.toThrow();
+  });
+});
+
 describe('installDerrick (spec §5.2)', () => {
   it('consomme 1 derrick produit et incrémente derricks', () => {
     const s = createInitialState(1);
