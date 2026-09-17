@@ -6,6 +6,7 @@
 import { GROUND_ITEMS, RESEARCHABLE_ITEMS, SIM_CONFIG, rankName, type GameState } from '@/simulation';
 import { getState, subscribe } from '@/state/store';
 import { cancelQueueItem, installDerrick, queueItem, runAction, selectResearch, trainStaff } from '@/actions';
+import { actionTrace } from '@/trace';
 
 type Tab = 'news' | 'production' | 'research' | 'staff' | 'mining';
 
@@ -190,11 +191,11 @@ export function renderProduction(host: HTMLElement): void {
         : 'Usine inoccupée.'}
     </div>`;
   for (const btn of host.querySelectorAll<HTMLButtonElement>('[data-queue]')) {
-    btn.addEventListener('click', () => runAction(queueItem, getState(), { itemId: btn.dataset.queue! }));
+    btn.addEventListener('click', () => runAction(queueItem, getState(), { itemId: btn.dataset.queue! }, actionTrace));
   }
   host
     .querySelector('#cancel-queue')
-    ?.addEventListener('click', () => runAction(cancelQueueItem, getState(), undefined));
+    ?.addEventListener('click', () => runAction(cancelQueueItem, getState(), undefined, actionTrace));
 }
 
 function renderNews(host: HTMLElement): void {
@@ -217,7 +218,7 @@ function renderResearch(host: HTMLElement): void {
   host.innerHTML = `<p class="panel-hint">Équipe : ${team.count} ${rankName(team)} — 1 seul projet actif.</p>
     <table class="panel-table"><tbody>${rows}</tbody></table>`;
   for (const btn of host.querySelectorAll<HTMLButtonElement>('[data-research]'))
-    btn.addEventListener('click', () => runAction(selectResearch, getState(), { itemId: btn.dataset.research! }));
+    btn.addEventListener('click', () => runAction(selectResearch, getState(), { itemId: btn.dataset.research! }, actionTrace));
 }
 
 function renderStaff(host: HTMLElement): void {
@@ -231,8 +232,8 @@ function renderStaff(host: HTMLElement): void {
       <button class="hud-btn" id="train-prod">Former 100 producteurs</button>
       <button class="hud-btn" id="train-res">Former 100 chercheurs</button>
     </div>`;
-  host.querySelector('#train-prod')?.addEventListener('click', () => runAction(trainStaff, getState(), { type: 'production', count: 100 }));
-  host.querySelector('#train-res')?.addEventListener('click', () => runAction(trainStaff, getState(), { type: 'research', count: 100 }));
+  host.querySelector('#train-prod')?.addEventListener('click', () => runAction(trainStaff, getState(), { type: 'production', count: 100 }, actionTrace));
+  host.querySelector('#train-res')?.addEventListener('click', () => runAction(trainStaff, getState(), { type: 'research', count: 100 }, actionTrace));
 }
 
 function renderMining(host: HTMLElement): void {
@@ -246,5 +247,5 @@ function renderMining(host: HTMLElement): void {
   host.innerHTML = `<p>Derricks actifs : <strong>${earth.derricks}</strong> (jours pairs) — derricks en stock : ${earth.items['derrick'] ?? 0}</p>
     <table class="panel-table"><thead><tr><th>Matière</th><th>Gisement</th><th>Stock</th></tr></thead><tbody>${rows}</tbody></table>
     <button class="hud-btn" id="install-derrick" ${(earth.items['derrick'] ?? 0) < 1 ? 'disabled' : ''}>Installer un derrick</button>`;
-  host.querySelector('#install-derrick')?.addEventListener('click', () => runAction(installDerrick, getState(), undefined));
+  host.querySelector('#install-derrick')?.addEventListener('click', () => runAction(installDerrick, getState(), undefined, actionTrace));
 }

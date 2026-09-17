@@ -10,6 +10,7 @@ import { createInitialState, dayTick, rankName } from '@/simulation';
 import { pushBulletin } from '@/actions';
 import { drawSystem, type Camera } from '@/render/canvas-renderer';
 import { mountEarthScreen } from '@/ui/earth-screen';
+import { initTrace, traceDay } from '@/trace';
 
 const SPEEDS: Array<{ label: string; msPerDay: number }> = [
   { label: '⏸', msPerDay: 0 },
@@ -26,6 +27,7 @@ export function mountApp(root: HTMLElement): void {
   const state = createInitialState(Date.now() % 2 ** 31);
   state.newsFeed.push("L'opération Deuteros commence. La Terre-Ville est complète.");
   initGame(state);
+  initTrace(state.seed);
 
   root.innerHTML = `
     <div class="game-shell">
@@ -80,6 +82,7 @@ function startLoop(): void {
       while (time.accumulator >= msPerDay && steps < 50) {
         time.accumulator -= msPerDay;
         const result = dayTick(getState());
+        traceDay(result.day - 1, result.journal);
         pushNews(result);
         steps += 1;
       }
