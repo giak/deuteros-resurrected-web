@@ -137,6 +137,8 @@ export interface DayTickResult {
   researchFinished: string | null;
   enemyDronesBuilt: number;
   battlesResolved: Battle[];
+  /** Lignes de trace du jour (texte brut, préfixées `[J<jour simulé>]` — spec K10). */
+  journal: string[];
 }
 
 /** Retour enrichi d'un jour de recherche (trace task 2). */
