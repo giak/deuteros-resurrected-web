@@ -104,11 +104,14 @@ describe('actionTrace', () => {
 
 describe('buffer FIFO', () => {
   it('plafonne à TRACE_BUFFER_CAP (les plus anciennes sautées)', () => {
-    for (let i = 0; i < TRACE_BUFFER_CAP + 5; i++) actionTrace.log(1, 'noop', { n: i }, 'ok');
+    vi.spyOn(console, 'log').mockImplementation(() => {}); // silence 3005 lignes
+    // args itemId (sérialisables par describeActionArgs) — { n: i } rendrait les
+    // lignes identiques et 'n: 3004' serait la queue (correction implémenteur Task 1).
+    for (let i = 0; i < TRACE_BUFFER_CAP + 5; i++) actionTrace.log(1, 'noop', { itemId: `n: ${i}` }, 'ok');
     const t = getTrace();
     expect(t).toHaveLength(TRACE_BUFFER_CAP);
     expect(t[0]).toContain('n: 5');
-    expect(t[t.length - 1]).toContain('n: 4');
+    expect(t[t.length - 1]).toContain('n: 3004');
   });
 });
 
