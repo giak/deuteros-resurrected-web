@@ -4,6 +4,30 @@
 
 ---
 
+## Session 16 — 2026-09-17 (plan trace de session K10 — exécution des 6 tâches)
+
+**Objectif** : exécuter le plan « trace de session » (K10, `docs/superpowers/specs/2026-09-17-trace-session-design.md`) — rendre la boîte noire visible : trace console + buffer (FIFO 3000) des actions joueur (succès + raison d'échec) et du journal journalier du moteur, sans dépendance `simulation → trace`.
+
+**Réalisé (6 tâches, TDD) :**
+- **T1 — module `src/trace/`** (`trace.ts` + `index.ts`) : `TRACE_BUFFER_CAP=3000`, `initTrace(seed)`, `traceDay(day, journal)`, `describeActionArgs(args)`, `actionTrace`, `getTrace()`/`clearTrace()`, `window.__TRACE__`. Seul module qui touche `console`, aucun import depuis `src/simulation/`.
+- **T2 — retours purs enrichis** : `updateResearch` → `ResearchDayResult { finished, progress, blocked }` ; `updateProduction` → `ProductionDayResult { finished, itemId, value, wraps }` ; `engine.dayTick` adapté.
+- **T3 — journal moteur** : `DayTickResult.journal: string[]`, lignes préfixées `[J<jour simulé>]`, ordre des phases GameCore (recherche → production → minage → formation → ennemis → combat).
+- **T4 — hook actions** : `runAction(action, state, args, trace?)` — 4e paramètre optionnel : trace succès (`→ ok`) et échecs (`→ échec (raison)` avec `ValidationResult.reason`) ; états bloqués distingués `blocked`/`progress`.
+- **T5 — raccordement UI** : `initTrace()` dans `mountApp`, `traceDay(result)` dans la boucle `app.ts` à côté de `pushNews`, hook fourni par les call sites `earth-screen.ts`.
+- **T6 — clôture** : présent session (TRACE 16), note d'exécution K10 (DECISIONS.md), dashboard.
+
+**Signatures changées** : `ResearchDayResult`/`ProductionDayResult` (retours purs de `updateResearch`/`updateProduction`), `DayTickResult.journal: string[]` (ordre des phases), `runAction(…, trace?)` (hook injecté).
+
+**Verification finale** : vitest **107/107 (10 fichiers)** — skeleton 1, data 16, state 4, simulation 28, contracts 4, actions 20, trace 15, repro-playtest 6, integration 2, ui 11 ; `bun run lint` 0, `bunx tsc --noEmit` 0, `bun run build` VERT (js 81.39 kB).
+
+**Commits du chantier (ordre)** : `7824e97` T1 module trace · `728f7aa` docs(plans) fix test FIFO · `383452b`+`b3a2d06` T2 retours purs + adaptation engine · `62f94c4` T3 journal moteur · `5c4a79a` T4 hook runAction · `9a40058` T5 raccordement UI · puis commit de clôture (docs).
+
+**Prochaines étapes (TODO) :**
+1. Retour sur task 12 : playtest avec trace — comprendre pourquoi la partie réelle stagne, décider de l'ajustement boot/gameplay.
+2. Clôture v0 : relecture docs finales, ADR-018 (facade), tag `v0.0.1`.
+
+---
+
 ## Session 15 — 2026-09-17 (diagnostic playtest + brainstrom trace/log)
 
 **Objectif** : comprendre pourquoi le playtest v0 réel (task 12) a échoué (800+ jours à ×20 sans « objectifs atteints »), puis concevoir un outil pour relire une partie.

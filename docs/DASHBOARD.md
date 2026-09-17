@@ -1,6 +1,6 @@
 # DASHBOARD — État d'avancement
 
-> Dernière mise à jour : 2026-09-15
+> Dernière mise à jour : 2026-09-17
 > Source de vérité pour « où en est le projet ? ». Mettre à jour après chaque session.
 
 ---
@@ -52,6 +52,7 @@
 | ADR | `docs/DECISIONS.md` | 🟢 |
 | Dashboard | `docs/DASHBOARD.md` | 🟢 |
 | Trace (journal) | `docs/TRACE.md` | 🟢 |
+| Trace de session (spec K10) | `docs/superpowers/specs/2026-09-17-trace-session-design.md` | 🟢 exécutée (`src/trace/`) |
 | Recherche original Deuteros | `docs/RESEARCH.md` | 🟢 v0.1 |
 
 ---
@@ -60,11 +61,11 @@
 
 | Métrique | Valeur |
 |---|---|
-| Sessions de travail | 5 |
+| Sessions de travail | 16 |
 | Tickets ouverts | 0 |
-| Commits | 4 |
-| Tests | 42 |
-| Build jouable | non |
+| Commits | 42 |
+| Tests | 107 |
+| Build jouable | oui (v0, playtest réel effectué) |
 
 *(colonnes à alimenter au fil du projet)*
 
