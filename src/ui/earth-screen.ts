@@ -1,12 +1,11 @@
 /**
- * Écran Terre (task 9, B1+B2) — coquille à onglets + panneau Production.
- * L'onglet Bulletins rend le fil des 8 derniers bulletins ; Production liste
- * les items queueables au sol (GROUND_ITEMS) avec Produire / Annuler.
- * Les helpers purs (productionRows) sont exportés pour les tests hors DOM.
+ * Écran Terre (tasks 9-10, B1-B5) — coquille à onglets + panneaux Production,
+ * Recherche, Personnel et Minage. L'onglet Bulletins rend le fil des 8 derniers
+ * bulletins. Les helpers purs (*Rows) sont exportés pour les tests hors DOM.
  */
-import { GROUND_ITEMS, type GameState } from '@/simulation';
+import { GROUND_ITEMS, RESEARCHABLE_ITEMS, SIM_CONFIG, rankName, type GameState } from '@/simulation';
 import { getState, subscribe } from '@/state/store';
-import { cancelQueueItem, queueItem, runAction } from '@/actions';
+import { cancelQueueItem, installDerrick, queueItem, runAction, selectResearch, trainStaff } from '@/actions';
 
 type Tab = 'news' | 'production' | 'research' | 'staff' | 'mining';
 
@@ -19,6 +18,11 @@ const TABS: Array<{ id: Tab; label: string }> = [
 ];
 
 let active: Tab = 'production';
+
+/** Échappe une chaîne avant interpolation dans un nœud texte HTML. */
+function esc(s: string): string {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
 
 /** Ligne du panneau production, déduite de l'état sans DOM. */
 export interface ProductionRow {
@@ -44,6 +48,83 @@ export function productionRows(state: GameState): ProductionRow[] {
       disabled,
     };
   });
+}
+
+/** Ligne du panneau recherche, déduite de l'état sans DOM (miroir de renderResearch). */
+export interface ResearchRow {
+  id: string;
+  shortName: string;
+  techLevel: number;
+  current: boolean;
+  researched: boolean;
+  locked: boolean;
+  percentage: number;
+  selectable: boolean;
+}
+
+/** Items recherchables + progression de chacun (helper pur). */
+export function researchRows(state: GameState): ResearchRow[] {
+  return RESEARCHABLE_ITEMS.map((it) => {
+    const p = state.research.progress[it.id];
+    return {
+      id: it.id,
+      shortName: it.shortName,
+      techLevel: it.techLevel!,
+      current: state.research.currentItemId === it.id,
+      researched: p.researched,
+      locked: p.locked,
+      percentage: p.percentage,
+      selectable: !p.researched && !p.locked,
+    };
+  });
+}
+
+/** Données du panneau personnel, déduites de l'état sans DOM (miroir de renderStaff). */
+export interface StaffPanel {
+  reservoir: number;
+  builderCount: number;
+  builderRank: string;
+  builderActions: number;
+  researchCount: number;
+  researchRank: string;
+  researchActions: number;
+  inTrainingProduction: number;
+  inTrainingResearch: number;
+  trainingDays: number;
+}
+
+export function staffRows(state: GameState): StaffPanel {
+  const b = state.planets.earth.factory.builder;
+  const r = state.planets.earth.researchTeam;
+  return {
+    reservoir: state.training.reservoir,
+    builderCount: b?.count ?? 0,
+    builderRank: b ? rankName(b) : '—',
+    builderActions: b?.actionsTaken ?? 0,
+    researchCount: r?.count ?? 0,
+    researchRank: r ? rankName(r) : '—',
+    researchActions: r?.actionsTaken ?? 0,
+    inTrainingProduction: state.training.inTraining.production,
+    inTrainingResearch: state.training.inTraining.research,
+    trainingDays: SIM_CONFIG.STAFF_TRAINING_DAYS,
+  };
+}
+
+/** Ligne du panneau minage, déduite de l'état sans DOM (miroir de renderMining). */
+export interface MiningRow {
+  resource: string;
+  groundLabel: string;
+  stock: number;
+}
+
+export function miningRows(state: GameState): MiningRow[] {
+  const earth = state.planets.earth;
+  return earth.deposits.map((d) => ({
+    resource: d.resource,
+    groundLabel:
+      d.groundAmount > 0 ? `${d.groundAmount} au sol` : d.surveyTicks > 0 ? `sondage : ${d.surveyTicks} j` : 'à sonder',
+    stock: earth.stores[d.resource] ?? 0,
+  }));
 }
 
 export function mountEarthScreen(container: HTMLElement): void {
@@ -74,9 +155,15 @@ function render(): void {
     case 'news':
       renderNews(host);
       break;
-    // tasks 10 : research / staff / mining
-    default:
-      host.innerHTML = `<p class="news-empty">Panneau à venir (task 10).</p>`;
+    case 'research':
+      renderResearch(host);
+      break;
+    case 'staff':
+      renderStaff(host);
+      break;
+    case 'mining':
+      renderMining(host);
+      break;
   }
 }
 
@@ -112,5 +199,52 @@ export function renderProduction(host: HTMLElement): void {
 
 function renderNews(host: HTMLElement): void {
   const s = getState();
-  host.innerHTML = `<ul class="news-feed">${s.newsFeed.slice().reverse().map((n) => `<li>${n}</li>`).join('')}</ul>`;
+  host.innerHTML = `<ul class="news-feed">${s.newsFeed.slice().reverse().map((n) => `<li>${esc(n)}</li>`).join('')}</ul>`;
+}
+
+function renderResearch(host: HTMLElement): void {
+  const s = getState();
+  const team = s.planets.earth.researchTeam!;
+  const rows = researchRows(s)
+    .map((r) => {
+      const badge = r.researched ? '✔' : r.locked ? '🔒' : `${r.percentage} %`;
+      return `<tr class="${r.current ? 'current' : ''}">
+        <td>${esc(r.shortName)}</td><td>tech ${r.techLevel}</td><td>${badge}</td>
+        <td>${r.selectable ? `<button class="hud-btn" data-research="${r.id}">Sélectionner</button>` : ''}</td>
+      </tr>`;
+    })
+    .join('');
+  host.innerHTML = `<p class="panel-hint">Équipe : ${team.count} ${rankName(team)} — 1 seul projet actif.</p>
+    <table class="panel-table"><tbody>${rows}</tbody></table>`;
+  for (const btn of host.querySelectorAll<HTMLButtonElement>('[data-research]'))
+    btn.addEventListener('click', () => runAction(selectResearch, getState(), { itemId: btn.dataset.research! }));
+}
+
+function renderStaff(host: HTMLElement): void {
+  const t = staffRows(getState());
+  host.innerHTML = `
+    <p>Réservoir : <strong>${t.reservoir}</strong> citoyens</p>
+    <p>Production : <strong>${t.builderCount}</strong> — ${t.builderRank} (${t.builderActions} actions vers prochain rang)</p>
+    <p>Recherche : <strong>${t.researchCount}</strong> — ${t.researchRank} (${t.researchActions} actions)</p>
+    <p>En formation : ${t.inTrainingProduction} prod. / ${t.inTrainingResearch} rech. (${t.trainingDays} j)</p>
+    <div class="queue-line">
+      <button class="hud-btn" id="train-prod">Former 100 producteurs</button>
+      <button class="hud-btn" id="train-res">Former 100 chercheurs</button>
+    </div>`;
+  host.querySelector('#train-prod')?.addEventListener('click', () => runAction(trainStaff, getState(), { type: 'production', count: 100 }));
+  host.querySelector('#train-res')?.addEventListener('click', () => runAction(trainStaff, getState(), { type: 'research', count: 100 }));
+}
+
+function renderMining(host: HTMLElement): void {
+  const s = getState();
+  const earth = s.planets.earth;
+  const rows = miningRows(s)
+    .map((r) => `<tr><td>${esc(r.resource)}</td>
+      <td>${esc(r.groundLabel)}</td>
+      <td>${r.stock}</td></tr>`)
+    .join('');
+  host.innerHTML = `<p>Derricks actifs : <strong>${earth.derricks}</strong> (jours pairs) — derricks en stock : ${earth.items['derrick'] ?? 0}</p>
+    <table class="panel-table"><thead><tr><th>Matière</th><th>Gisement</th><th>Stock</th></tr></thead><tbody>${rows}</tbody></table>
+    <button class="hud-btn" id="install-derrick" ${(earth.items['derrick'] ?? 0) < 1 ? 'disabled' : ''}>Installer un derrick</button>`;
+  host.querySelector('#install-derrick')?.addEventListener('click', () => runAction(installDerrick, getState(), undefined));
 }
