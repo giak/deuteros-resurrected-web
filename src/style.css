@@ -278,3 +278,32 @@ body {
   background: linear-gradient(90deg, #3a7fd4, #59c96a);
   transition: width 0.3s ease;
 }
+
+/* ---------- Écran de victoire v0 (task 11) ---------- */
+.victory-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.victory-box {
+  background: #0c0f1a;
+  border: 1px solid #5a7fd4;
+  padding: 24px;
+  max-width: 480px;
+}
+
+.victory-box h2 {
+  color: #e8d8a0;
+  font-size: 1.1rem;
+  letter-spacing: 0.08em;
+  margin-bottom: 10px;
+}
+
+.victory-box p {
+  color: #aab;
+  margin-bottom: 8px;
+}

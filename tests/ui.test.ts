@@ -9,6 +9,7 @@ import { describe, expect, it } from 'vitest';
 import { createInitialState, RESEARCHABLE_ITEMS } from '@/simulation';
 import { GROUND_ITEMS } from '@/simulation/data';
 import { productionRows, researchRows, staffRows, miningRows } from '@/ui/earth-screen';
+import { victoryRankLabel } from '@/ui/app';
 
 const GROUND_ITEM_IDS = [
   'derrick', 's_chassis', 's_drive', 'meh_fuel', 'of_frame',
@@ -97,6 +98,17 @@ describe('écran Terre — panneau Personnel (hors DOM, task 10)', () => {
     expect(p.builderCount).toBe(0);
     expect(p.builderRank).toBe('—');
     expect(p.researchCount).toBe(0);
+  });
+});
+
+describe('écran de victoire v0 — rang producteur (hors DOM, task 11)', () => {
+  it('victoryRankLabel : ≥12 → Expert, 6-11 → Ingénieur, sinon Apprenti', () => {
+    expect(victoryRankLabel(0)).toBe('Apprenti');
+    expect(victoryRankLabel(5)).toBe('Apprenti');
+    expect(victoryRankLabel(6)).toBe('Ingénieur');
+    expect(victoryRankLabel(11)).toBe('Ingénieur');
+    expect(victoryRankLabel(12)).toBe('Expert');
+    expect(victoryRankLabel(30)).toBe('Expert');
   });
 });
 

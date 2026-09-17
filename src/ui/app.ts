@@ -6,7 +6,8 @@
  * à la cadence de la vitesse choisie, puis demande le rendu.
  */
 import { initGame, subscribe, getState, notify } from '@/state/store';
-import { createInitialState, dayTick } from '@/simulation';
+import { createInitialState, dayTick, rankName } from '@/simulation';
+import { pushBulletin } from '@/actions';
 import { drawSystem, type Camera } from '@/render/canvas-renderer';
 import { mountEarthScreen } from '@/ui/earth-screen';
 
@@ -83,12 +84,42 @@ function startLoop(): void {
         steps += 1;
       }
       if (steps > 0) notify();
+      checkVictory();
     }
 
     drawSystem(ctx, cam, now);
     requestAnimationFrame(frame);
   };
   requestAnimationFrame(frame);
+}
+
+// ---------------------------------------------------------------------------
+// Victoire v0 — détection post-tick, une seule fois (flag) : bulletin FR,
+// pause immédiate, puis overlay récap (task 11, D1).
+// ---------------------------------------------------------------------------
+
+/** Rang affiché de l'équipe production (seuils brief : ≥12 Expert, ≥6 Ingénieur). */
+export function victoryRankLabel(actionsTaken: number): string {
+  return rankName({ type: 'production', count: 0, actionsTaken });
+}
+
+function checkVictory(): void {
+  const st = getState();
+  if (st.flags['v0_victory'] || (st.planets.earth.items['of_frame'] ?? 0) < 1) return;
+  st.flags['v0_victory'] = true;
+  pushBulletin(st, 'VICTOIRE v0 : OF Frame produit !');
+  setSpeed(0);
+  const builderActions = st.planets.earth.factory.builder?.actionsTaken ?? 0;
+  const totalUnits = Object.values(st.planets.earth.items).reduce((a, b) => a + b, 0);
+  document.querySelector('#app')!.insertAdjacentHTML(
+    'beforeend',
+    `<div class="victory-overlay"><div class="victory-box">
+       <h2>Objectif atteint — OF Frame produit</h2>
+       <p>Jour ${st.day} · production cumulée : ${totalUnits} unités</p>
+       <p>Équipe production : ${builderActions} items · rang ${victoryRankLabel(builderActions)}</p>
+       <button class="hud-btn" onclick="this.closest('.victory-overlay').remove()">Continuer à observer</button>
+     </div></div>`,
+  );
 }
 
 /** Alimente les bulletins (8 derniers conservés — interface originale). */
