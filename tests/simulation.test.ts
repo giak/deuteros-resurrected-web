@@ -357,7 +357,7 @@ describe('état initial — miroir CoreData.cs', () => {
 });
 
 describe('retours enrichis (trace — task 2)', () => {
-  it("updateProduction : arrêt (pas d'équipe) → itemId null, blocked true", () => {
+  it("updateProduction : arrêt (pas d'équipe) → itemId derrick, blocked true", () => {
     const p = mkPlanet({
       factory: {
         currentItemId: 'derrick',

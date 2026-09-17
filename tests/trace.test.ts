@@ -1,6 +1,6 @@
 import { describe, expect, it, vi, afterEach } from 'vitest';
 import { describeActionArgs, actionTrace, traceDay, getTrace, clearTrace, TRACE_BUFFER_CAP } from '@/trace';
-import { createInitialState, dayTick, updateMining } from '@/simulation';
+import { createInitialState, dayTick } from '@/simulation';
 import { runAction, selectResearch, queueItem } from '@/actions';
 
 afterEach(() => {
