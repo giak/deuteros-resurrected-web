@@ -24,12 +24,13 @@ export function initTrace(seed: number): void {
 }
 
 /**
- * Un journal de journée (résumé moteur) → console.group repliée + buffer.
+ * Un journal de journée (résumé moteur) → `console.groupCollapsed` (group replié
+ * en DevTools) + buffer.
  * Les lignes de `journal` sont déjà préfixées `[J<day>]` (produites par le moteur).
  */
 export function traceDay(day: number, journal: string[]): void {
   if (journal.length === 0) return;
-  console.group(`[J${day}] · ${journal.length} lignes`);
+  console.groupCollapsed(`[J${day}] · ${journal.length} lignes`);
   for (const line of journal) {
     console.log(line);
     write(line);

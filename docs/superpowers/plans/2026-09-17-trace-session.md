@@ -117,7 +117,7 @@ describe('buffer FIFO', () => {
 
 describe('traceDay', () => {
   it('ouvre un group replié, écrit chaque ligne, ferme, bufferise', () => {
-    const group = vi.spyOn(console, 'group').mockImplementation(() => {});
+    const group = vi.spyOn(console, 'groupCollapsed').mockImplementation(() => {});
     const log = vi.spyOn(console, 'log').mockImplementation(() => {});
     const groupEnd = vi.spyOn(console, 'groupEnd').mockImplementation(() => {});
     traceDay(12, ['[J12] recherche derrick — 12%.', '[J12] minage earth iron +2.']);
@@ -127,7 +127,7 @@ describe('traceDay', () => {
     expect(getTrace()).toHaveLength(2);
   });
   it('jour résiduel : aucun journal, pas de group', () => {
-    const group = vi.spyOn(console, 'group').mockImplementation(() => {});
+    const group = vi.spyOn(console, 'groupCollapsed').mockImplementation(() => {});
     traceDay(3, []);
     expect(group).not.toHaveBeenCalled();
   });
@@ -170,12 +170,13 @@ export function initTrace(seed: number): void {
 }
 
 /**
- * Un journal de journée (résumé moteur) → console.group repliée + buffer.
+ * Un journal de journée (résumé moteur) → `console.groupCollapsed` (group replié
+ * en DevTools) + buffer.
  * Les lignes de `journal` sont déjà préfixées `[J<day>]` (produites par le moteur).
  */
 export function traceDay(day: number, journal: string[]): void {
   if (journal.length === 0) return;
-  console.group(`[J${day}] · ${journal.length} lignes`);
+  console.groupCollapsed(`[J${day}] · ${journal.length} lignes`);
   for (const line of journal) {
     console.log(line);
     write(line);

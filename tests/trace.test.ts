@@ -56,7 +56,7 @@ describe('buffer FIFO', () => {
 
 describe('traceDay', () => {
   it('ouvre un group replié, écrit chaque ligne, ferme, bufferise', () => {
-    const group = vi.spyOn(console, 'group').mockImplementation(() => {});
+    const group = vi.spyOn(console, 'groupCollapsed').mockImplementation(() => {});
     const log = vi.spyOn(console, 'log').mockImplementation(() => {});
     const groupEnd = vi.spyOn(console, 'groupEnd').mockImplementation(() => {});
     traceDay(12, ['[J12] recherche derrick — 12%.', '[J12] minage earth iron +2.']);
@@ -66,7 +66,7 @@ describe('traceDay', () => {
     expect(getTrace()).toHaveLength(2);
   });
   it('jour résiduel : aucun journal, pas de group', () => {
-    const group = vi.spyOn(console, 'group').mockImplementation(() => {});
+    const group = vi.spyOn(console, 'groupCollapsed').mockImplementation(() => {});
     traceDay(3, []);
     expect(group).not.toHaveBeenCalled();
   });
