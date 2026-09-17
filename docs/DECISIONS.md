@@ -347,6 +347,23 @@ Ajuster l'état de boot (Step 2 du brief, ex. 2 derricks) n'aurait **rien chang�
 
 ---
 
+## K8 — Panneaux Recherche/Personnel/Minage (task 10) : esc() sur les nœuds texte + helpers purs miroirs (approuvé 2026-09-16)
+
+**Contexte** : la task 10 porte les 3 renderers restants de l'écran Terre. La revue de la task 9 avait recommandé d'introduire un helper `esc()` avant toute nouvelle interpolation `innerHTML` (`newsFeed` + rows).
+
+**Choix** :
+- Helper `esc()` dans `src/ui/earth-screen.ts`, appliqué à **toutes** les interpolations de nœud texte : `renderNews` (contenu des bulletins, opaque), `renderResearch` (`shortName`), `renderMining` (`resource`, `groundLabel`). **Non appliqué aux attributs** (`data-research`, `data-queue`) : ids contrôlés par `items.json`, une échappade altérerait la sémantique (pas de changement de comportement attendu).
+- **Écart vs brief** : l'import `getLevel` (brief task 10) était inutilisé — les renderers n'appellent que `rankName` → retiré pour tsc `noUnusedLocals`/lint (précédent K4/K5).
+- **`it.techLevel!`** dans `researchRows` : `RESEARCHABLE_ITEMS` est annoté `ItemDef[]` (data.ts) donc `techLevel?: number` côté consommateur, mais le prédicat de construction **exige** `techLevel` pour les 31 items → assertion fondée sur le contrat de données (même justification que `researchTeam!` du brief, boot pré-assigné).
+- **Smoke hors DOM** (parade K7, recette Task 12 inexistante) : helpers purs exportés `researchRows`/`staffRows`/`miningRows` **miroirs des renderers DOM** (les renderers les consomment, DRY) → le filet couvre la logique affichée sans `document`.
+
+**Conséquences** :
+- Les 3 panneaux sont testés DOM-free (31 items, sélectionnable seulement si débloqué ET non recherché, rangs dérivés, repli d'équipe absente, gisements/stock).
+- `.panel-hint` ajouté au CSS ; `.panel-table tr.current td` minimal (la classe `current` était déjà émise, sans effet visuel sinon).
+- Newline de fin de fichier sur `earth-screen.ts`/`ui.test.ts` (recommandation reviewer task 9).
+
+---
+
 ## Journal des révisions
 
 | Date | Décision |
@@ -372,3 +389,4 @@ Ajuster l'état de boot (Step 2 du brief, ex. 2 derricks) n'aurait **rien chang�
 | 2026-09-16 | K5 approuvé (ordre de validate `trainStaff` du brief + retrait import inutilisé, task 5) |
 | 2026-09-16 | K6 approuvé (test boucle intégrée : inversion de l'ordonnancement derrick/OF-frame du brief, task 8) |
 | 2026-09-16 | K7 approuvé (GROUND_ITEMS sans gate de catégorie + smoke UI hors DOM au lieu de la recette Task 12, task 9) |
+| 2026-09-16 | K8 approuvé (panneaux Recherche/Personnel/Minage : helper esc() sur les nœuds texte, helpers purs miroirs, retrait `getLevel` inutilisé, task 10) |

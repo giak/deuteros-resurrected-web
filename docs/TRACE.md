@@ -4,6 +4,28 @@
 
 ---
 
+## Session 13 — 2026-09-16 (task 10 du plan v0 — écran Terre : panneaux Recherche, Personnel, Minage)
+
+**Objectif** : deuxième tâche UI — rendre les 3 panneaux restants de l'écran Terre (switch B3-B5), boutons actifs (Sélectionner un projet, Former des producteurs/chercheurs, Installer un derrick).
+
+**Réalisé :**
+- **`src/ui/earth-screen.ts`** — renderers `renderResearch`/`renderStaff`/`renderMining` portés verbatim (brief task 10) et branchés au switch (`case 'research'/'staff'/'mining'` ; le default placeholder est supprimé — le switch couvre désormais les 5 onglets). Imports `selectResearch`/`trainStaff`/`installDerrick` de `@/actions`, `RESEARCHABLE_ITEMS`/`rankName`/`SIM_CONFIG` de `@/simulation`. Badges `✔`/`🔒`/`%`, ligne `panel-hint` d'équipe, panneau Personnel (réservoir, effectifs, rangs, formation en cours, boutons 100 prod./rech.), panneau Minage (rows par gisement, derricks actifs/stock, bouton installer désactivé sans derrick en stock).
+- **Approved additions (recommandation reviewer task 9)** : helper `esc()` appliqué à **toutes** les interpolations de nœud texte (`renderNews` mis à jour, `shortName`, `resource`, `groundLabel`) ; attributs (`data-research`, `data-queue`) laissés hors esc (ids contrôlés, esc altérerait la sémantique) ; newline de fin de fichier sur `src/ui/earth-screen.ts` et `tests/ui.test.ts`.
+- **Écart vs brief consigné (K8)** : l'import `getLevel` du brief était **inutilisé** (les renderers n'utilisent que `rankName`) → retiré pour tsc `noUnusedLocals`/lint (précédent K4/K5) ; `it.techLevel!` dans `researchRows` assumé — le prédicat de `RESEARCHABLE_ITEMS` (data.ts) exige `techLevel`, l'assertion est fondée sur le contrat de données (même type de justification que `researchTeam!`).
+- **Smoke hors DOM** — `tests/ui.test.ts` étendu (recette Task 12 toujours inexistante, parade K7) : helpers purs exportés `researchRows`/`staffRows`/`miningRows` miroirs des renderers DOM. Recherche : 31 items couverts, bouton Sélectionner seulement si débloqué ET non recherché, projet courant signalé ; Personnel : réservoir 5 550, équipes de boot (200 Apprenti / 250 Technicien), rang dérivé des actions (6 → Docteur), repli `—` quand une équipe est absente ; Minage : 8 gisements, statut « à sonder » au boot, libellés sol/sondage et stock reflétés après mutation.
+- **`src/style.css`** — `.panel-hint` ajouté (brief) + `.panel-table tr.current td` minimal pour le projet de recherche courant (la classe `current` était déjà émise par le renderer).
+- **Verdict K8 dans DECISIONS.md** — helper esc + helpers purs testables + retrait `getLevel` inutilisé (précédent K4/K5).
+- **Verification** : vitest **80/80** (8 files, ui.test.ts 10), `bun run lint` 0, `bunx tsc --noEmit` 0, `bun run build` VERT (bundle 78.1 kB js). Aucun `Math.random`/`Date.now` ajouté (UI pure).
+- **Commits** : `feat(ui): panneaux recherche, personnel, minage` puis docs — rapport `.git/sdd/task-10-report.md`.
+
+**Verdict** : B3 (recherche), B4 (personnel) et B5 (minage) livrés — l'écran Terre (B1-B5) est complet. Le clic DOM réel reste couvert par la recette Task 12 (inexistante) ; le filet se compose ici du build + helpers purs.
+
+**Prochaines étapes (TODO) :**
+1. Tasks 11+ du plan v0 (R&D restante hors écran Terre ; la recette d'interaction DOM Task 12 écrire).
+2. Réconcilier le suivi du plan `.git/sdd/` (progress ledger) avec TRACE/DECISIONS.
+
+---
+
 ## Session 12 — 2026-09-16 (task 9 du plan v0 — écran Terre : coquille à onglets + panneau Production)
 
 **Objectif** : première tâche UI — remplacer le panneau latéral statique par l'écran Terre `#earth-screen` (onglets, panneau Production queue/cancel) et poser le helper items-au-sol.
