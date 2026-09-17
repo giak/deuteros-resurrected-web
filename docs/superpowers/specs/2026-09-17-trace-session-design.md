@@ -65,12 +65,13 @@ L'**ordre des lignes** suit l'ordre des phases d'`engine.dayTick` (recherche →
 `runAction` gagne un 4e paramètre **optionnel** :
 
 ```ts
-runAction(action, state, args, traceWay?: { log: (day: number, label: string, outcome: string) => void })
+runAction(action, state, args, trace?: { log: (day: number, label: string, args: unknown, outcome: string) => void })
 ```
 
 - Si présent (le call site UI passe le hook du module trace), `runAction` émet **systématiquement** une ligne, que la validation réussisse ou échoue :
-  - succès → `[J<day>] action <label> → ok`
-  - échec → `[J<day>] action <label> → échec (raison)` — la raison brute de `ValidationResult`
+  - succès → `[J<day>] action <label><détail args> → ok`
+  - échec → `[J<day>] action <label><détail args> → échec (raison)` — la raison brute de `ValidationResult`
+- Le **détail args** (l'item, l'équipe, le compte) est formaté par le module trace depuis `args` (`itemId`, `type`/`count`) — les actions ne connaissent pas le format ; le module actions reste découplé de la trace.
 - **Aucun changement** pour les tests existants (paramètre optionnel) et pour les call sites qui ne fournissent pas le hook.
 - Pas de dépendance `actions → trace` : le hook est injecté, le module actions reste découplé (validé option 1).
 
@@ -92,8 +93,8 @@ Exemples (Français, lisible) :
 [J15] action queueItem of_frame → échec (insufficient_resources)
 [J23] recherche of_frame — 63%
 [J23] production derrick → terminée (wraps 4, valeur 0)
-[J23] minage terre iron +4
-[J23] minage terre titanium +2
+[J23] minage earth iron +4
+[J23] minage earth titanium +2
 [J23] formation production : +100 recrues
 [J40] ennemis : 7 drones construits
 [J42] combat : flotte méthanoïde détruite
