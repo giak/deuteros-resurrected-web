@@ -27,6 +27,7 @@ export {
   ITEM_BY_ID,
   BODY_BY_ID,
   RESEARCHABLE_ITEMS,
+  GROUND_ITEMS,
   SOL_BODIES,
   getItem,
   getBody,

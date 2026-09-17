@@ -1,12 +1,14 @@
 /**
  * Montage de l'application (ARCHITECTURE §2.4) — DOM vanilla.
- * Écran 1 : vue système (canvas) + HUD (jour, contrôles temps, bulletins).
+ * Écran 1 : vue système (canvas) + HUD (jour, contrôles temps). L'écran Terre
+ * à onglets (Bulletins, Production…) vit dans #earth-screen (src/ui/earth-screen.ts).
  * La boucle : requestAnimationFrame accumule le temps réel, appelle dayTick()
  * à la cadence de la vitesse choisie, puis demande le rendu.
  */
 import { initGame, subscribe, getState, notify } from '@/state/store';
-import { createInitialState, dayTick, SOL_BODIES } from '@/simulation';
+import { createInitialState, dayTick } from '@/simulation';
 import { drawSystem, type Camera } from '@/render/canvas-renderer';
+import { mountEarthScreen } from '@/ui/earth-screen';
 
 const SPEEDS: Array<{ label: string; msPerDay: number }> = [
   { label: '⏸', msPerDay: 0 },
@@ -40,16 +42,7 @@ export function mountApp(root: HTMLElement): void {
 
       <main class="hud-main">
         <canvas id="system-canvas" width="960" height="600"></canvas>
-        <aside class="hud-side">
-          <section class="hud-panel">
-            <h2 class="hud-panel-title">Bulletins</h2>
-            <ul id="news-feed" class="news-feed"></ul>
-          </section>
-          <section class="hud-panel">
-            <h2 class="hud-panel-title">Corps suivis</h2>
-            <div id="body-list" class="body-list"></div>
-          </section>
-        </aside>
+        <aside class="hud-side" id="earth-screen"></aside>
       </main>
 
       <footer class="hud-bottom">
@@ -61,7 +54,7 @@ export function mountApp(root: HTMLElement): void {
 
   setupControls();
   setupCanvasInteraction();
-  setupSidebar();
+  mountEarthScreen(document.querySelector('#earth-screen')!);
   subscribe(updateHud);
   updateHud();
   startLoop();
@@ -191,16 +184,6 @@ function updateHud(): void {
   const dayEl = document.querySelector('#hud-day-value');
   if (dayEl) dayEl.textContent = String(state.day);
 
-  const feed = document.querySelector<HTMLUListElement>('#news-feed');
-  if (feed) {
-    feed.innerHTML = '';
-    for (const item of state.newsFeed.slice(-8).reverse()) {
-      const li = document.createElement('li');
-      li.textContent = item;
-      feed.appendChild(li);
-    }
-  }
-
   // Statut Terre : projet de recherche courant + barre de progression
   const earth = document.querySelector<HTMLDivElement>('#earth-status');
   if (earth) {
@@ -211,26 +194,4 @@ function updateHud(): void {
          <div class="progress-track"><div class="progress-fill" style="width:${p.percentage}%"></div></div>`
       : 'Recherche : aucun projet sélectionné';
   }
-}
-
-function setupSidebar(): void {
-  const list = document.querySelector<HTMLDivElement>('#body-list');
-  if (!list) return;
-  for (const b of SOL_BODIES.filter((b) => b.type === 'planet' && b.starId === 'the_sun')) {
-    const row = document.createElement('div');
-    row.className = 'body-row';
-    row.innerHTML = `<span class="body-dot" style="background:${bodyDotColor(b.id)}"></span>
-      <span class="body-name">${b.name}</span>
-      <span class="body-meta">${b.deposits.length} gis.</span>`;
-    list.appendChild(row);
-  }
-}
-
-function bodyDotColor(id: string): string {
-  const colors: Record<string, string> = {
-    mercury: '#9c8f7f', venus: '#d9b26a', earth: '#4f86d4', mars: '#c1543a',
-    asteroids: '#7a7a72', jupiter: '#c99b6a', saturn: '#d9c391', uranus: '#8fd1d6',
-    neptune: '#4a6fd1', pluto: '#b0a49a', decuria: '#8f86b5',
-  };
-  return colors[id] ?? '#a8a8a0';
 }

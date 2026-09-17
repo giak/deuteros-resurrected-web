@@ -4,7 +4,7 @@
  * (source:f53f5ba3fa) — cf. docs/RESEARCH.md §8/§9 et spec tables v1 §3-4.
  */
 import { describe, expect, it } from 'vitest';
-import { BODIES, ITEMS, RESOURCES, RESEARCHABLE_ITEMS, SOL_BODIES, getItem } from '@/simulation/data';
+import { BODIES, ITEMS, RESOURCES, RESEARCHABLE_ITEMS, SOL_BODIES, GROUND_ITEMS, getItem } from '@/simulation/data';
 
 describe('resources.json', () => {
   it('contient les 16 ressources canoniques', () => {
@@ -75,6 +75,14 @@ describe('items.json', () => {
     for (const id of ['pulse_blaster_laser', 'i_chassis', 'g_chassis', 'm_t_x', 'ios_drone', 'star_drone']) {
       expect(getItem(id).orbitOnly).toBe(true);
     }
+  });
+
+  it('GROUND_ITEMS : les 9 items queueables au sol (task 9, K3)', () => {
+    expect(GROUND_ITEMS).toHaveLength(9);
+    expect(GROUND_ITEMS.map((i) => i.id)).toEqual([
+      'derrick', 's_chassis', 's_drive', 'meh_fuel', 'of_frame',
+      'supply_pod', 'tool_pod', 'cryo_pod', 'a_c_c',
+    ]);
   });
 });
 

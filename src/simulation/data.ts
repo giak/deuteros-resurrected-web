@@ -62,6 +62,15 @@ export const RESOURCE_BY_ID = byId(RESOURCES);
 export const ITEM_BY_ID = byId(ITEMS);
 export const BODY_BY_ID = byId(BODIES);
 
+/**
+ * Items queueables à l'usine au sol en v0 (spec §6.2 : 8 tech-1 + a_c_c tech-3).
+ * K3 : PAS de gate de catégorie — meh_fuel (category 'resource') est queueable
+ * au sol ; 'hidden' n'a jamais d'inputs et hed_fuel est orbitOnly (redondants).
+ */
+export const GROUND_ITEMS: ItemDef[] = ITEMS.filter(
+  (i) => i.inputs && !i.orbitOnly,
+);
+
 /** Items avec chaîne de recherche (31), ordonnés par researchIndex. */
 export const RESEARCHABLE_ITEMS: ItemDef[] = ITEMS.filter(
   (i): i is ItemDef & Required<Pick<ItemDef, 'researchIndex' | 'techLevel' | 'researchMultiplier' | 'researchValue'>> =>

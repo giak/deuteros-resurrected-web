@@ -160,40 +160,71 @@ body {
   font-style: italic;
 }
 
-/* ---------- Liste des corps ---------- */
-.body-list {
+/* ---------- Écran Terre : onglets ---------- */
+.tabs {
   display: flex;
-  flex-direction: column;
   gap: 4px;
-  font-size: 0.8rem;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
 }
 
-.body-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 3px 6px;
+.tab {
+  background: #14161f;
+  border: 1px solid #2a2f42;
+  color: #99a;
+  font: inherit;
+  padding: 4px 10px;
+  cursor: pointer;
 }
 
-.body-row:hover {
-  background: #12141f;
-}
-
-.body-dot {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  flex: none;
-}
-
-.body-name {
+.tab:hover {
+  border-color: #4a5578;
   color: #ccd;
 }
 
-.body-meta {
-  margin-left: auto;
-  color: #667;
-  font-size: 0.7rem;
+.tab.active {
+  background: #23305a;
+  border-color: #5a7fd4;
+  color: #eaf;
+}
+
+/* ---------- Panneau production (Terre) ---------- */
+.panel-table {
+  width: 100%;
+  font-size: 0.75rem;
+  border-collapse: collapse;
+}
+
+.panel-table th {
+  text-align: left;
+  color: #778;
+  padding: 3px;
+  border-bottom: 1px solid #2a2f42;
+}
+
+.panel-table td {
+  padding: 3px;
+  border-bottom: 1px solid #1c2130;
+  color: #aab;
+}
+
+.queue-line {
+  margin-top: 8px;
+  font-size: 0.75rem;
+  color: #aab;
+}
+
+.queue-line strong {
+  color: #9fd4e8;
+}
+
+.queue-line .hud-btn {
+  margin-left: 8px;
+}
+
+.hud-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
 }
 
 /* ---------- Barre du bas ---------- */
