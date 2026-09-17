@@ -4,6 +4,29 @@
 
 ---
 
+## Session 15 — 2026-09-17 (diagnostic playtest + brainstrom trace/log)
+
+**Objectif** : comprendre pourquoi le playtest v0 réel (task 12) a échoué (800+ jours à ×20 sans « objectifs atteints »), puis concevoir un outil pour relire une partie.
+
+**Playtest & diagnostic :**
+- **Fait établi** : le moteur est sain — repro `tests/repro-playtest.test.ts` sur 6 seeds (42, 123456789, 987654321, 20260917, 7, 31337) → victoire systématique J106-J112 ≤ J250. Le dist était frais (HEAD `e1cd71b`, code victoire présent).
+- **Écart observé** : la partie réelle de l'utilisateur ne progresse pas car **rien n'est automatisé** : le joueur doit relancer manuellement recherche, production, installation. Feed réel constaté : formation production → production derrick → recherche derrick → production 1 unité → recherche achevée derrick → formation recherche → derrick installé (total 2) → **plus aucun bulletin**. Le jeu ne rapporte rien entre les grands événements (minage, recherche/production en cours silencieux).
+- **Décision utilisateur** : concevoir un **trace/log** pour étudier le fonctionnement du jeu / d'une partie de joueur.
+
+**Brainstorming K10 (skill brainstorming, questions une à une) :**
+- Objectif : diagnostiquer un blocage / comprendre une partie (choisi).
+- Granularité : actions joueur (résultat + raison) **et** journal journalier complet du moteur.
+- Support : **console DevTools + buffer mémoire** (ni panneau, ni export, ni localStorage). Toujours active, buffer FIFO ~3000.
+- Format : texte brut, `[J<jour>] …`. Volume à ×20 : tout tracer, `console.group` repliée.
+- Approche retenue : **A — trace dédiée `src/trace/` + simulation enrichie par retours purs** (rejeté : B logger callback propagé dans les services — fragilise ADR-002 ; C diff d'état — ne dit pas _pourquoi_). Tracé des actions : **option 1** — logger injecté optionnel dans `runAction`.
+- Spec écrite : `docs/superpowers/specs/2026-09-17-trace-session-design.md` ; Décision K10 consignée (DECISIONS.md).
+
+**Prochaines étapes (TODO) :**
+1. Écrire le plan d'implémentation (writing-plans) à partir de la spec K10.
+2. Exécuter le plan (TDD, tâches) puis clôture : retour sur task 12 (playtest avec trace — voir pourquoi la partie réelle stagne, décider de l'ajustement boot/gameplay), finalisation docs v0 + tag `v0.0.1`.
+
+---
+
 ## Session 14 — 2026-09-16 (task 11 du plan v0 — écran de victoire v0, OF Frame)
 
 **Objectif** : détecter la victoire v0 (OF Frame produit) dans la boucle d'affichage — flag unique, bulletin FR, pause, overlay récap (D1).

@@ -381,6 +381,39 @@ Ajuster l'état de boot (Step 2 du brief, ex. 2 derricks) n'aurait **rien chang�
 
 ---
 
+## K10 — Trace de session : journal texte brut (actions + moteur) pour diagnostic (approuvé 2026-09-17)
+
+**Contexte** : playtest v0 réel (task 12 — 800+ jours à ×20 sans victoire) : le jeu ne rapporte rien entre les grands événements et aucune trace ne permet de relire une partie. Le moteur est prouvé sain (repro 6 seeds → victoire J106-112) : l'écart est humain (le joueur doit tout relancer manuellement). Besoin : rendre la **boîte noire visible** pour diagnostiquer un blocage / comprendre une partie.
+
+**Brainstorming complété** (questions utilisateur une à une) :
+
+| Décision | Choix |
+|---|---|
+| Objectif | Diagnostiquer un blocage / comprendre une partie |
+| Granularité | Actions joueur (résultat + raison) **et** journal journalier du moteur |
+| Support | Console DevTools + buffer mémoire (pas de panneau in-game, pas d'export, pas de localStorage) |
+| Activation | Toujours active ; buffer FIFO plafonné (~3000 lignes) |
+| Format | Texte brut lisible, préfixé `[J<jour>]` |
+| Échecs | Tracés avec la raison exacte (`ValidationResult.reason`) |
+| Volume à ×20 | Tout tracer ; `console.group` replié par jour |
+| Approche | **A — trace dédiée** (`src/trace/`) + simulation enrichie par retours purs (ADR-002 préservé : la simulation *retourne* les lignes, n'écrit jamais à la console) |
+| Tracé des actions | **Option 1** — logger injecté en option dans `runAction` (4e paramètre, unique point de vérité) |
+
+**Choix techniques (spec `docs/superpowers/specs/2026-09-17-trace-session-design.md`)** :
+- **`src/trace/trace.ts`** — seul code qui touche `console` : `traceBuffer` FIFO 3000, `traceDay` (group replié par jour), `traceActionLine`, `getTrace`/`clearTrace`, `window.__TRACE__`. Aucun import depuis `src/simulation/`.
+- **Simulation pure enrichie** : `updateResearch` → `ResearchDayResult { finished, progress, blocked }` ; `updateProduction` → `ProductionDayResult { finished, itemId, value, wraps }` ; `dayTick` agrège tout dans `DayTickResult.journal: string[]` dans l'ordre des phases GameCore. `updateMining`/`updateEnemyBuild`/`updateTraining` inchangés (retours déjà suffisants, formatage dans `engine`).
+- **`runAction(action, state, args, trace?)`** — 4e paramètre optionnel : trace succès (`→ ok`) et échecs (`→ échec (raison)`) ; paramètre optionnel → tests et call sites existants inchangés. Pas de dépendance `actions → trace` (hook injecté).
+- **Raccordement** : `traceDay(result)` dans la boucle `app.ts` à côté de `pushNews` ; hook fourni par les call sites UI (`earth-screen.ts`) ; `initTrace()` dans `mountApp`.
+- **Tests** : moteur pur (journal ordonné, valeurs exactes), actions + hook (ok/échec raison, rien sans hook), trace (group ouvre/écrit/ferme, FIFO au-delà de 3000, getTrace copie), smoke UI inchangé.
+
+**Hors périmètre** : panneau in-game, export fichier, localStorage, replay, persistance save (la trace ne fait pas partie de `GameState`), rétro-action, événements de navigation UI.
+
+**Conséquences** :
+- Spec écrite : `docs/superpowers/specs/2026-09-17-trace-session-design.md` — non commitée à ce stade (plan à écrire).
+- La trace durera toute la session DevTools (volume ×20 géré par group replié + FIFO).
+
+---
+
 ## Journal des révisions
 
 | Date | Décision |
@@ -408,3 +441,4 @@ Ajuster l'état de boot (Step 2 du brief, ex. 2 derricks) n'aurait **rien chang�
 | 2026-09-16 | K7 approuvé (GROUND_ITEMS sans gate de catégorie + smoke UI hors DOM au lieu de la recette Task 12, task 9) |
 | 2026-09-16 | K8 approuvé (panneaux Recherche/Personnel/Minage : helper esc() sur les nœuds texte, helpers purs miroirs, retrait `getLevel` inutilisé, task 10) |
 | 2026-09-16 | K9 approuvé (écran de victoire v0 : correction de précédence `??`/`>=`, rang via `rankName`, helper pur `victoryRankLabel`, task 11) |
+| 2026-09-17 | K10 approuvé (trace de session : journal texte brut actions + moteur pour diagnostic, approche A + logger injecté option 1) |
