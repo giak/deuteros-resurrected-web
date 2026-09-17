@@ -364,6 +364,23 @@ Ajuster l'état de boot (Step 2 du brief, ex. 2 derricks) n'aurait **rien chang�
 
 ---
 
+## K9 — Écran de victoire v0 (task 11) : rang réutilisé via `rankName` + helper pur exporté (approuvé 2026-09-16)
+
+**Contexte** : le brief task 11 (`.git/sdd/task-11-brief.md`) contient un bug d'opérateur dans la ligne « Équipe production » du box : `...builder?.actionsTaken ?? 0 >= 12 ? ...` — `>=` lie plus fort que `??`, produisant `actionsTaken ?? (0 >= 12)` (boolean si `undefined`, nombre sinon) → erreur de clé/type. La consigne d'exécution impose une correction : parenthèses explicites, paliers 12/6 non durcis ailleurs que le config.
+
+**Choix** :
+- **Correction de précédence** : `const b = earth.factory.builder?.actionsTaken ?? 0` puis interpolation de `b` et d'une chaîne de rang dérivée — plus aucun ternaire emboîté dans le template.
+- **Rang en réutilisant `rankName` de la simulation** (DRY, pas de re-hardcodage) : le seuil production de `SIM_CONFIG.STAFF_RANK_THRESHOLDS` est déjà `≥6 Ingénieur / ≥12 Expert`, identique aux paliers du brief. Helper pur `victoryRankLabel(actionsTaken)` exporté de `src/ui/app.ts` (miroir du rendu, testable hors DOM — parade K7, recette Task 12 inexistante) ; `rankName` accepte n'importe quel objet `Staff`, on construit un `{ type: 'production', count: 0, actionsTaken }`.
+- **Détection** : `checkVictory()` appelé dans `frame` après `if (steps > 0) notify()` — garde `flags['v0_victory']` (une seule occurrence), condition `(earth.items['of_frame'] ?? 0) >= 1`, puis flag + `pushBulletin` (message exact du brief) + `setSpeed(0)` (pause) + `insertAdjacentHTML` de l'overlay dans `#app`. Bouton inline `onclick` per brief.
+- **CSS** : `.victory-overlay`/`.victory-box` du brief + `h2`/`p` minimaux (cohérence hud, précédent K7/K8).
+
+**Conséquences** :
+- `tests/ui.test.ts` : bloc « écran de victoire v0 » assertant `victoryRankLabel` — 12→Expert, 6-11→Ingénieur, sinon Apprenti (TDD : test ROUGE `not a function` puis VERT).
+- Vitest **81/81** (ui.test.ts 11), lint 0, `tsc --noEmit` 0, build VERT (js 78.91 kB). Aucun `Math.random`/`Date.now` ajouté.
+- Overlay non testé en DOM (aucun harnais DOM dans le projet) — couvert par le build + le helper pur (précédent K7).
+
+---
+
 ## Journal des révisions
 
 | Date | Décision |
@@ -390,3 +407,4 @@ Ajuster l'état de boot (Step 2 du brief, ex. 2 derricks) n'aurait **rien chang�
 | 2026-09-16 | K6 approuvé (test boucle intégrée : inversion de l'ordonnancement derrick/OF-frame du brief, task 8) |
 | 2026-09-16 | K7 approuvé (GROUND_ITEMS sans gate de catégorie + smoke UI hors DOM au lieu de la recette Task 12, task 9) |
 | 2026-09-16 | K8 approuvé (panneaux Recherche/Personnel/Minage : helper esc() sur les nœuds texte, helpers purs miroirs, retrait `getLevel` inutilisé, task 10) |
+| 2026-09-16 | K9 approuvé (écran de victoire v0 : correction de précédence `??`/`>=`, rang via `rankName`, helper pur `victoryRankLabel`, task 11) |

@@ -4,6 +4,28 @@
 
 ---
 
+## Session 14 — 2026-09-16 (task 11 du plan v0 — écran de victoire v0, OF Frame)
+
+**Objectif** : détecter la victoire v0 (OF Frame produit) dans la boucle d'affichage — flag unique, bulletin FR, pause, overlay récap (D1).
+
+**Réalisé :**
+- **`src/ui/app.ts`** — `checkVictory()` appelé dans `frame` après `if (steps > 0) notify()` (après les ticks) : garde `!flags['v0_victory']` ET `(earth.items['of_frame'] ?? 0) >= 1` → flag, `pushBulletin(st, 'VICTOIRE v0 : OF Frame produit !')`, `setSpeed(0)` (pause + bouton actif), `insertAdjacentHTML` de l'overlay dans `#app` (`victory-overlay`/`victory-box`, bouton inline « Continuer à observer » per brief).
+- **Bug de précédence du brief corrigé** (consigne d'exécution) : `builder?.actionsTaken ?? 0 >= 12 ? …` → `?? (0 >= 12)` (boolean si undefined). Remplacé par `const builderActions = … ?? 0` + helper pur. Aucun ternaire emboîté dans le template.
+- **`victoryRankLabel(actionsTaken)` exporté de `src/ui/app.ts`** — helper pur testable hors DOM (parade K7) qui réutilise `rankName` de `@/simulation` (`{ type: 'production', count: 0, actionsTaken }`) : pas de re-hardcodage des paliers, `SIM_CONFIG` reste la source unique (≥6 Ingénieur / ≥12 Expert).
+- **`src/style.css`** — `.victory-overlay`/`.victory-box` (brief) + `h2`/`p` minimaux.
+- **`tests/ui.test.ts`** — bloc « écran de victoire v0 » : `victoryRankLabel` 0/5→Apprenti, 6/11→Ingénieur, 12/30→Expert. TDD : ROUGE (`victoryRankLabel is not a function`) → VERT.
+- **Décision K9** consignée (DECISIONS.md).
+- **Verification** : vitest **81/81** (8 files, ui.test.ts 11), `bun run lint` 0, `bunx tsc --noEmit` 0, `bun run build` VERT (js 78.91 kB). Aucun `Math.random`/`Date.now` ajouté.
+- **Commits** : `feat(ui): écran de victoire v0 (OF Frame)` puis docs — rapport `.git/sdd/task-11-report.md`.
+
+**Verdict** : la condition de victoire v0 (1 OF Frame) est détectée une seule fois en jeu, consignée au bulletin et à l'overlay, partie mise en pause. Overlay non testé en DOM (aucun harnais) : filet = build + helper pur, conformément à la parade K7.
+
+**Prochaines étapes (TODO) :**
+1. Task 12 du plan v0 (recette d'interaction DOM) puis clôture v0 (D2/D3 : smoke étendu, docs, tag).
+2. Réconcilier le suivi du plan `.git/sdd/` (progress ledger) avec TRACE/DECISIONS.
+
+---
+
 ## Session 13 — 2026-09-16 (task 10 du plan v0 — écran Terre : panneaux Recherche, Personnel, Minage)
 
 **Objectif** : deuxième tâche UI — rendre les 3 panneaux restants de l'écran Terre (switch B3-B5), boutons actifs (Sélectionner un projet, Former des producteurs/chercheurs, Installer un derrick).
