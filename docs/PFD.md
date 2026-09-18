@@ -184,10 +184,11 @@ En 2200, un astéroïde détruit la civilisation terrienne. Des survivants sur l
 | Station orbitale | émetteur, acte de commerce, défense |
 | Station planétaire | liaison au sol, production |
 | Sonde | exploration passive d'un corps |
-| Vaisseau cargo | transport interplanétaire |
+| Navette | transport intra-système (pods/slots) |
+| IOS | transport interplanétaire (pods/slots) |
+| SCG | transport interstellaire FTL |
 | Vaisseau d'assaut | combat |
 | Briseur d'astéroïde | minage de la ceinture |
-| Vaisseau FTL | voyage entre systèmes |
 
 ### 3.6 Combat
 
@@ -200,12 +201,17 @@ En 2200, un astéroïde détruit la civilisation terrienne. Des survivants sur l
 
 - Événements scriptés (timeline 1991 revisitée) + événements dynamiques (sondes extraterrestres, épidémies, raz-de-marée…).
 - Système de « danger » global Méthanoïde qui monte si on les ignore.
+- Quête de fin de partie : **8 segments Hydroïdes** révélés par leur message crypto (jour 300) et éparpillés un par système extrasolaire → victoire lorsqu'ils sont tous récupérés.
 
 ### 3.8 Fin de partie
 
-- **Victoire** : extermination / pacification des Méthanoïdes + recolonisation complète de la Terre.
-- **Défaite** : destruction de la Terre-Ville / invasion.
-- Écran récap (partie, durée, statistiques).
+**Victoire** : 8 systèmes conquis + **8 segments Hydroïdes récupérés** (Atlantic, Chloé, Babylone, Hadrien, Romulus, Césius, Pliocène, Alpha) → clip de victoire.
+
+**Défaite** (l'une des deux conditions) :
+1. Perte de la Terre-Ville (invasion réussie) ;
+2. Effondrement économique et militaire : plus aucune installation de production ni unité de combat opérationnelle.
+
+Écran récap (partie, durée, statistiques).
 
 ### 3.9 Sauvegarde
 
