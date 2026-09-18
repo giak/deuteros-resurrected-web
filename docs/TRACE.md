@@ -4,6 +4,20 @@
 
 ---
 
+## Session 19 — 2026-09-18 (K12 — reprise manuelle après pause auto)
+
+**Objectif** : corriger le comportement de reprise issu du playtest (Session 18) — la pause auto doit être un arrêt net, la reprise un choix explicite de vitesse (spec `docs/superpowers/specs/2026-09-18-pause-reprise-manuelle-design.md`).
+
+**Décision K12** (révise K11) : bouton renommé « Fermer (Espace) » (ferme sans relancer) ; clic ×1..×20 = ferme + relance ; Espace avec bannière = ferme sans relancer ; suppression de `pause.prevSpeed`.
+
+**Réalisé** : `src/ui/app.ts` — `pauseForObjectives` sans capture de vitesse, `resumeAfterPause` → `dismissPauseBanner`, handler Espace mis à jour ; `setSpeed` inchangé (la fermeture sur `index > 0` réalise la reprise par choix de vitesse).
+
+**Verification** : vitest **111/111** (10 fichiers), `npm run lint` 0, `npm run build` VERT.
+
+**Prochaines étapes (TODO) :** playtest humain (bannière → Fermer reste en pause ; clic vitesse relance), puis clôture v0 (tag `v0.0.1`).
+
+---
+
 ## Session 18 — 2026-09-18 (Task 12 — clôture v0 : contrat repro, docs, ADR-018)
 
 **Objectif** : clore la v0 (Task 12 du plan « Boucle Terre ») — vérifier le contrat chiffré, consigner les valeurs constatées, finaliser ADR-018 et les docs, préparer le tag `v0.0.1`.

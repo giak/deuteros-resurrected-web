@@ -449,6 +449,20 @@ Ajuster l'état de boot (Step 2 du brief, ex. 2 derricks) n'aurait **rien chang�
 
 ---
 
+## Décision K12 — Reprise manuelle après pause auto (révise K11) (approuvé 2026-09-18)
+
+**Contexte** : retour de playtest v0 (Session 18) — « quand la pause se met en place, on reset aussi les ticks en mode pause. l'utilisateur choisit l'avancement pour reprendre. » La K11 restaurait automatiquement la vitesse d'avant à la reprise, ce qui ne laisse pas le joueur choisir.
+
+**Choix** :
+- **Reprise = choix explicite de vitesse** : cliquer ×1/×2/×5/×20 ferme la bannière et relance à cette vitesse (via `setSpeed`, index > 0).
+- **Le bouton « Fermer (Espace) »** ferme la bannière **sans** relancer (reste en pause) ; Espace fait de même quand la bannière est visible.
+- **Suppression de la mémoire de vitesse** `pause.prevSpeed` (YAGNI) ; `resumeAfterPause` → `dismissPauseBanner` (aucun `setSpeed`).
+- Toggle Espace sans bannière inchangé ; auto-pause (`setSpeed(0)` + bannière) inchangée ; moteur/helpers/CSS inchangés.
+
+**Conséquences** : aucun nouveau test (DOM sans harnais, précédent K9/K11) ; vérification 111/111 + lint 0 + build vert ; validation d'usage par playtest manuel.
+
+---
+
 ## Journal des révisions
 
 | Date | Décision |
@@ -480,3 +494,4 @@ Ajuster l'état de boot (Step 2 du brief, ex. 2 derricks) n'aurait **rien chang�
 | 2026-09-17 | K10 exécuté (plan trace-session) : src/trace/, journal moteur, hook runAction, raccordement UI |
 | 2026-09-18 | K11 approuvé — pause auto sur objectif actif (révision `17-pause-auto`) : approche A signal pur + bannière + reprise Espace |
 | 2026-09-18 | Task 12 clôture v0 (révision `18-cloture-v0`) : contrat repro J106–J112 ≤ J250, boot inchangé, ADR-018 Accepté, tag `v0.0.1` en attente (playtest humain) |
+| 2026-09-18 | K12 approuvé — reprise manuelle après pause auto (révise K11) : bannière « Fermer », reprise par choix de vitesse |

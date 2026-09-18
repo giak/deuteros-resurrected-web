@@ -23,7 +23,6 @@ const SPEEDS: Array<{ label: string; msPerDay: number }> = [
 
 const cam: Camera = { x: 0, y: 0, zoom: 1 };
 const time = { speedIndex: 0, accumulator: 0, lastFrame: 0 };
-const pause = { prevSpeed: 0 };
 
 export interface ObjectiveCompletion {
   kind: 'recherche' | 'production' | 'formation';
@@ -133,12 +132,12 @@ function startLoop(): void {
 }
 
 // ---------------------------------------------------------------------------
-// Pause auto sur objectif atteint (K11) — bannière jusqu'à la reprise.
-// Reprise → vitesse d'avant (au sinon à ×1). Pas de conflit avec la victoire :
+// Pause auto sur objectif atteint (K11/K12) — arrêt net, reprise par choix de
+// vitesse. La bannière se ferme (bouton/Espace) sans relancer ; cliquer une
+// vitesse ×1..×20 ferme et relance (via setSpeed, index > 0). Priorité victoire :
 // si v0_victory est posé dans la frame, seule l'overlay de victoire s'affiche.
 // ---------------------------------------------------------------------------
 function pauseForObjectives(labels: string[]): void {
-  pause.prevSpeed = time.speedIndex;
   setSpeed(0);
   const list = labels.map((l) => `<li>${l}</li>`).join('');
   document.querySelector('#app')!.insertAdjacentHTML(
@@ -146,15 +145,14 @@ function pauseForObjectives(labels: string[]): void {
     `<div class="pause-banner" id="pause-banner">
        <span class="pause-title">Objectif atteint</span>
        <ul class="pause-list">${list}</ul>
-       <button class="hud-btn pause-resume">Reprendre (Espace)</button>
+       <button class="hud-btn pause-resume">Fermer (Espace)</button>
      </div>`,
   );
-  document.querySelector<HTMLButtonElement>('.pause-resume')!.addEventListener('click', resumeAfterPause);
+  document.querySelector<HTMLButtonElement>('.pause-resume')!.addEventListener('click', dismissPauseBanner);
 }
 
-function resumeAfterPause(): void {
+function dismissPauseBanner(): void {
   document.querySelector('#pause-banner')?.remove();
-  setSpeed(pause.prevSpeed);
 }
 
 // ---------------------------------------------------------------------------
@@ -262,7 +260,7 @@ function setupControls(): void {
     if (e.code !== 'Space') return;
     e.preventDefault();
     if (document.querySelector('#pause-banner')) {
-      resumeAfterPause();
+      dismissPauseBanner();
       return;
     }
     setSpeed(time.speedIndex === 0 ? 1 : 0);
