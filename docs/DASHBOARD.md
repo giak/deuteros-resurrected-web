@@ -13,7 +13,7 @@
 |---|---|
 | Documentation cadrage | 🟢 Réalisée |
 | Recherche de référence (original) | 🟢 `RESEARCH.md` (commit `0ee27d7`) |
-| Repo / git | 🟢 74 commits — tag `v0.0.1` posé |
+| Repo / git | 🟢 80 commits — tag `v0.0.1` posé |
 | Build Vite + TS | 🟢 OK (npm) |
 | Spec tables v1 | 🟢 commit `08107fb` |
 | Tables v1 (data + moteur + tests) | 🟢 `src/simulation/`, contrat v0 verrouillé (111 tests) |
@@ -68,7 +68,7 @@
 |---|---|
 | Sessions de travail | 23 |
 | Tickets ouverts | 0 |
-| Commits | 74 |
+| Commits | 80 |
 | Tests | 111 |
 | Build jouable | oui — tag `v0.0.1` posé (2026-09-18) |
 
