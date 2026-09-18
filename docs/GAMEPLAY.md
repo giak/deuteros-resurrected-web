@@ -79,9 +79,11 @@
 
 ## 3. Recherche
 
-- Chaque scientifique produit `PR` points/jour (base 1, modifiable par compétence).
-- Pool de points accumulé ; un projet coûte `C` points.
-- Liste des catégories et exemple de technologies :
+- Recherche : un seul projet courant (géré depuis la Terre) ; progression `v = (équipe × 2^rang) × multiplicateur / 801`, wrap à 100 % (RE). Eureka bonus +X %.
+- **Milestones** : certains contenus (Hyperlight, TMT, SCG…) ne sont débloquables que par événements temporels (gates timeline), pas par les seuls points.
+- **Rétro-ingénierie** : capturer une tech Méthanoïde la débloque à coût moindre.
+
+Liste des catégories et exemple de technologies :
 
 | Catégorie | Exemples de techs |
 |---|---|
@@ -93,28 +95,14 @@
 | Biologie | Mutations humaines, terraformation, eugénisme contrôlé |
 | Exotique | Transducteur de masse, hypernavigation |
 
-- **Découvertes** : bonus aléatoire « Eureka ! » qui donne +X% de points pendant N jours ou crédite un projet partiellement.
-- **Rétro-ingénierie** : capturer une tech Méthanoïde la débloque (coût moindre).
-
 ---
 
 ## 4. Production / Manufacture
 
-- Recette : `inputs` → `outputs`, une unité de temps de fabrication `T` (jours).
-- Atelier : produit 1 lot/`T`, coût humain (salaires, logement).
-- Automate : produit 2 lots/`T`, consomme `É` énergie + `M` maintenance/jour.
-- Support de production : les recettes se font dans une **structure** (station orbitale, station planétaire, usine au sol).
-
-### Exemples de recettes (v1)
-
-| Produit | Inputs | T (jours) |
-|---|---|---|
-| Composant électronique | 1 Pd + 1 TR | 2 |
-| Coque de vaisseau | 4 Ti + 2 C | 6 |
-| Carburant LOx | 3 H₂O | 1 |
-| Panneau solaire | 1 Ag + 1 C | 2 |
-| Torpille | 1 U + 1 Ir | 3 |
-| Module FTL | 3 D + 1 He3 + 2 TR | 10 |
+- Recette : `inputs` (16 ressources) → `outputs`, temps `T` (jours). L'usine consomme la recette complète au départ.
+- Les **46 items** (dont dérricks, châssis/drives, pods, carburants) ont une **masse** (contrainte de transport, §2.3) et un mode orbite (`orbitOnly`) : **tout ce qui est gros (châssis I/G, drives stellaires, drones, PTL…) se construit uniquement en orbite**.
+- Référence exhaustive : table RESEARCH §9 (46 items, coûts/masses) — ne pas dupliquer ici.
+- Atelier : 1 lot/T, coût humain ; Automate : 2 lots/T, consomme énergie + maintenance.
 
 ---
 
@@ -133,15 +121,24 @@
 
 ### 5.2 Vaisseaux
 
-| Vaisseau | Coût (t) | Vitesse (UA/j) | Capacité (t) | Rôle |
+**Transporteurs** (pods/slots, §2.3) :
+
+| Vaisseau | Slots | Capacité (t) | Carburant | Portée |
 |---|---|---|---|---|
-| Sonde | 2 Ti, 1 C | 0,5 | 1 | exploration |
-| Cargo léger | 10 Ti, 5 C | 0,35 | 100 | transport |
-| Cargo lourd | 40 Ti, 15 C, 5 Pd | 0,25 | 500 | transport |
-| Briseur d'astéroïde | 25 Ti, 10 Ir | 0,2 | 200 | minage ceinture |
-| Frégate | 20 Ti, 10 Pd, 5 Ir | 0,4 | 50 | combat |
-| Croiseur | 60 Ti, 20 Pd, 10 Ir, 5 TR | 0,3 | 150 | combat lourd |
-| Vaisseau FTL | 80 Ti, 30 C, 40 D, 20 TR | 20 (systèmes) | 300 | interstellaire |
+| Navette | 1 (`supply` ou `tool`) | 100 | MeH | intra-système + atterrissage |
+| IOS (Interplanetary Ops) | 3 (1 `tool` + 2 `supply`) | 2 500 | MeH | inter-planètes |
+| SCG (FTL) | 3 (1 `tool` + 2 `supply`) | 5 000 | HeD | inter-systèmes |
+
+**Combat / outillage** (conservé de v0.1, remodelage à l'originale = v0.3) :
+
+| Vaisseau | Coût (t) | Role |
+|---|---|---|
+| Sonde | 2 Ti, 1 C | exploration passive |
+| Briseur d'astéroïde | 25 Ti, 10 Ir | minage ceinture |
+| Frégate | 20 Ti, 10 Pd, 5 Ir | combat |
+| Croiseur | 60 Ti, 20 Pd, 10 Ir, 5 TR | combat lourd |
+
+> ⚠️ Coûts du tableau combat issus de v0.1 (ressources exotiques remplacées) : **provisoires**, recalés sur la table items 46 à la v0.3 (combat).
 
 ---
 
