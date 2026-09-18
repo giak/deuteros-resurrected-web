@@ -58,4 +58,5 @@ export { canSelect, updateResearch, initResearchProgress } from './research';
 export { canMine, updateMining } from './mining';
 export { fleetPower, startBattle, battleRound, firePtl } from './combat';
 export { travelDays, shuttleLandDays, shuttleTakeoffDays, shuttleRepairDays } from './travel';
+export { fuelCost, planSupplyLoad, planToolLoad, cargoUnitMass, cargoSlotKind, loadedMass, emptySlots, vesselArrivalDay } from './vessels';
 export { nextEnemyBuildDay, updateEnemyBuild, scheduleAttack, onSystemRecaptured } from './enemy';

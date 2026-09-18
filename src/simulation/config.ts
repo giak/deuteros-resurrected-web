@@ -56,6 +56,8 @@ export const SIM_CONFIG = {
   // --- Voyage (InterStellarShip.cs TravelTimeRemain) ---
   TRAVEL_INTRA_MIN_DAYS: 1, // max(|Δorder|, 1)
   TRAVEL_INTER_SYSTEM_MULT: 4, // |Δorder| × 4
+  FUEL_MASS_FACTOR: 100, // spec transport §4.5 : carburant = ceil(d × (100 + masse) / 100)
+  SUPPLY_SLOT_MAX: 250,  // charge max par emplacement supply (GAMEPLAY §2.3 / ACC.cs)
   SHUTTLE_LAND_DAYS: 2,
   SHUTTLE_TAKEOFF_DAYS: 5,
   SHUTTLE_REPAIR_DAYS: 2,
