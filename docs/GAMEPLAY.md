@@ -48,6 +48,7 @@
 | Carburant HeD | HeD | — | — | non (He×2 + D×2, orbite seule) |
 
 > Valeurs : `data/resources.json` + RESEARCH §9. `MeH` : toute base planétaire ; `HeD` : usine en orbite uniquement.
+> Notation : ces docs (littéraires) écrivent le méthane `CH₄` ; dans `data/resources.json` le symbole machine est sans indice (`CH4`). `MeH`/`HeD` s'écrivent à l'identique dans les deux.
 
 ### 2.2 Production minière
 
@@ -131,7 +132,7 @@ Liste des catégories et exemple de technologies :
 
 **Combat / outillage** (conservé de v0.1, remodelage à l'originale = v0.3) :
 
-| Vaisseau | Coût (t) | Role |
+| Vaisseau | Coût (t) | Rôle |
 |---|---|---|
 | Sonde | 2 Ti, 1 C | exploration passive |
 | Briseur d'astéroïde | 25 Ti, 10 Ir | minage ceinture |
@@ -160,7 +161,7 @@ pertes_def    = f(puissance_eff, effectifs, random)
 
 ---
 
-### 7. IA Méthanoïde
+## 7. IA Méthanoïde
 
 - Niveau de menace `M` croît si le joueur attaque les Méthanoïdes (ou les ignore trop longtemps). Seuil : raids, puis **Prises de position** (voir §10).
 - **Guerre déclenchée par les actes du joueur** (pas aléatoirement) : **6ᵉ usine orbitale construite** ou **obtention du laser Méthanoïde** (commerce).
@@ -185,14 +186,14 @@ pertes_def    = f(puissance_eff, effectifs, random)
 ### 8.1 Segments Hydroïdes
 
 - Les **8 segments** sont des **artefacts Hydroïdes** (la « machine » démontée par les Méthanoïdes), un par système extrasolaire : Atlantic, Chloé, Babylone, Hadrien, Romulus, Césius, Pliocène, Alpha.
-- Objectif de fin de partie : les récupérer tous → victoire (clip final). Chaque segment récupéré est consigné (flags + bulletin).
+- Objectif de fin de partie : **8 systèmes conquis + 8 segments récupérés** → victoire (clip final). Chaque segment récupéré est consigné (flags + bulletin).
 - Ils sont **fragiles à préserver** : détruire/abîmer un segment compromet la victoire.
 
 ---
 
 ## 9. Difficultés
 
-| Difficulté | Start ressource | Multiplicateur IA |
+| Difficulté | Ressources départ | Multiplicateur IA |
 |---|---|---|
 | Découverte | +50 % | 0,6 |
 | Commandant | +20 % | 1,0 |
