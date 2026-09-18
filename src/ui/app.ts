@@ -270,6 +270,7 @@ function setupControls(): void {
 }
 
 function setSpeed(index: number): void {
+  if (index > 0) document.querySelector('#pause-banner')?.remove();
   time.speedIndex = index;
   time.accumulator = 0;
   for (const btn of document.querySelectorAll<HTMLButtonElement>('.hud-btn')) {

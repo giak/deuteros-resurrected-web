@@ -63,7 +63,7 @@
 |---|---|
 | Sessions de travail | 17 |
 | Tickets ouverts | 0 |
-| Commits | 42 |
+| Commits | 52 |
 | Tests | 111 |
 | Build jouable | oui (v0, playtest réel effectué) |
 
