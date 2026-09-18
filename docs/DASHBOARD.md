@@ -13,7 +13,7 @@
 |---|---|
 | Documentation cadrage | 🟢 Réalisée |
 | Recherche de référence (original) | 🟢 `RESEARCH.md` (commit `0ee27d7`) |
-| Repo / git | 🟢 57 commits — tag `v0.0.1` posé |
+| Repo / git | 🟢 74 commits — tag `v0.0.1` posé |
 | Build Vite + TS | 🟢 OK (npm) |
 | Spec tables v1 | 🟢 commit `08107fb` |
 | Tables v1 (data + moteur + tests) | 🟢 `src/simulation/`, contrat v0 verrouillé (111 tests) |
@@ -46,10 +46,10 @@
 |---|---|---|
 | README | `README.md` | 🟢 |
 | Vision | `docs/VISION.md` | 🟢 v0.1 |
-| PFD (Plan Fonctionnel Détaillé) | `docs/PFD.md` | 🟢 v0.1 |
-| Gameplay (règles chiffrées) | `docs/GAMEPLAY.md` | 🟢 v0.1 valeurs à valider |
+| PFD (Plan Fonctionnel Détaillé) | `docs/PFD.md` | 🟢 v0.2 |
+| Gameplay (règles chiffrées) | `docs/GAMEPLAY.md` | 🟢 v0.2 |
 | Architecture | `docs/ARCHITECTURE.md` | 🟢 v0.1 |
-| Data model | `docs/DATA.md` | 🟢 v0.1 (§1.3/§2 à aligner sur items.json) |
+| Data model | `docs/DATA.md` | 🟢 v0.2 (§1.3/§2 à aligner sur items.json) |
 | Spec tables v1 | `docs/superpowers/specs/2026-09-15-tables-v1-design.md` | 🟢 validée |
 | Roadmap | `docs/ROADMAP.md` | 🟢 v0.1 |
 | Tech stack | `docs/TECH_STACK.md` | 🟢 v0.1 |
