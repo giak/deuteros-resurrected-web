@@ -20,7 +20,9 @@
 
 **Verification finale** : vitest **107/107 (10 fichiers)** — skeleton 1, data 16, state 4, simulation 28, contracts 4, actions 20, trace 15, repro-playtest 6, integration 2, ui 11 ; `bun run lint` 0, `bunx tsc --noEmit` 0, `bun run build` VERT (js 81.39 kB).
 
-**Commits du chantier (ordre)** : `7824e97` T1 module trace · `728f7aa` docs(plans) fix test FIFO · `383452b`+`b3a2d06` T2 retours purs + adaptation engine · `62f94c4` T3 journal moteur · `5c4a79a` T4 hook runAction · `9a40058` T5 raccordement UI · puis commit de clôture (docs).
+**Commits du chantier (ordre)** : `7824e97` T1 module trace · `728f7aa` docs(plans) fix test FIFO · `383452b`+`b3a2d06` T2 retours purs + adaptation engine · `62f94c4` T3 journal moteur · `5c4a79a` T4 hook runAction · `9a40058` T5 raccordement UI · `21e71b5`+`c71d353` fix review finale (group replié via `console.groupCollapsed`, titre test, import) · `ffec602` clôture (docs).
+
+**Fix review finale (whole-branch)** : la spec K10 exigeait un group **replié** ; le plan-implémentation avait livré `console.group` (déplié) — corrigé en `console.groupCollapsed` (`21e71b5`, +1 témoignage test), titre de test « arrêt → itemId derrick » et import `updateMining` inutile (`c71d353`). Re-review approuvé. Minor backlog accepté : lignes formation/ennemis/combat non testées, branche item-absent non testée, `state.day` lu après `execute`, `tsconfig` ne couvre que `src/` (voir suggestions task 12).
 
 **Prochaines étapes (TODO) :**
 1. Retour sur task 12 : playtest avec trace — comprendre pourquoi la partie réelle stagne, décider de l'ajustement boot/gameplay.

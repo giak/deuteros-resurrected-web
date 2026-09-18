@@ -413,13 +413,14 @@ Ajuster l'état de boot (Step 2 du brief, ex. 2 derricks) n'aurait **rien chang�
 - La trace durera toute la session DevTools (volume ×20 géré par group replié + FIFO).
 
 **Exécution (plan 2026-09-17-trace-session)** :
-- Spec + plan commités (`3e3105f`, `6bbc4a2`) puis exécutés en 6 tâches TDD ; commits du chantier : `7824e97` (module trace) · `728f7aa` (fix test FIFO) · `383452b`+`b3a2d06` (retours purs + adaptation engine) · `62f94c4` (journal moteur) · `5c4a79a` (hook runAction) · `9a40058` (raccordement UI) + commit docs de clôture.
+- Spec + plan commités (`3e3105f`, `6bbc4a2`) puis exécutés en 6 tâches TDD ; commits du chantier : `7824e97` (module trace) · `728f7aa` (fix test FIFO) · `383452b`+`b3a2d06` (retours purs + adaptation engine) · `62f94c4` (journal moteur) · `5c4a79a` (hook runAction) · `9a40058` (raccordement UI) · `21e71b5`+`c71d353` (fix review finale) + commit docs de clôture.
 - **`src/trace/`** livré tel que spécifié : `TRACE_BUFFER_CAP=3000`, `initTrace(seed)`, `traceDay(day, journal)`, `describeActionArgs(args)`, `actionTrace`, `getTrace()`/`clearTrace()`, `window.__TRACE__` — seul module qui touche `console`, zéro import `simulation → trace`.
 - **Retours purs enrichis** : `updateResearch` → `ResearchDayResult { finished, progress, blocked }` ; `updateProduction` → `ProductionDayResult { finished, itemId, value, wraps }` (ADR-002 préservé : la simulation *retourne* les lignes, n'écrit jamais à la console).
 - **Journal moteur** : `DayTickResult.journal: string[]` agrégé dans l'ordre des phases GameCore, lignes préfixées **`[J<jour simulé>]`**.
 - **`runAction(action, state, args, trace?)`** — 4e paramètre optionnel confirmé : succès `→ ok`, échecs `→ échec (raison)` ; tests et call sites existants inchangés (pas de dépendance `actions → trace`).
 - **États bloqués** : distinction **`blocked`/`progress`** (recherche : `… — bloquée.` ; production : `… → bloquée (pas d'équipe).`).
 - **Raccordement** : `initTrace()` dans `mountApp`, `traceDay` dans la boucle `app.ts`, hook fourni par les call sites `earth-screen.ts`.
+- Volume ×20 : group **replié** par jour via `console.groupCollapsed` (retour review finale — `console.group` déplié ne répondait pas à l'intention K10 ; corrigé `21e71b5`).
 - **Verification** : vitest **107/107 (10 fichiers)**, `bun run lint` 0, `bunx tsc --noEmit` 0, `bun run build` VERT.
 - Hors périmètre respecté : pas de panneau in-game / export / localStorage / replay ; sondages non tracés (`updateMining` ne les expose pas — conservé « peut », hors périmètre d'exécution).
 
