@@ -4,7 +4,7 @@
 
 **Un spiritual successor de *Deuteros: The Next Millennium* (Ian Bird, 1991) en webapp.**
 
-Jeu de gestion spatiale post-apocalyptique : exploitez les ressources du système solaire, développez votre recherche, construisez vos flottes et partez débarrasser la galaxie des Méthanoïdes.
+Jeu de gestion spatiale post-apocalyptique : exploitez les ressources du système solaire, développez votre recherche, construisez vos flottes, conquérez les 8 systèmes extrasolaires et récupérez les 8 segments Hydroïdes.
 
 - **100 % navigateur** — aucune installation, aucun serveur, jouable hors-ligne
 - **TypeScript + Vite + Canvas 2D** — rendu 2D stylé, UI dense façon écrans Amiga
