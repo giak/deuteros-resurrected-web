@@ -1,5 +1,7 @@
 # Deuteros Resurrected Web
 
+[![CI](https://github.com/giak/deuteros-resurrected-web/actions/workflows/ci.yml/badge.svg)](https://github.com/giak/deuteros-resurrected-web/actions/workflows/ci.yml)
+
 **Un spiritual successor de *Deuteros: The Next Millennium* (Ian Bird, 1991) en webapp.**
 
 Jeu de gestion spatiale post-apocalyptique : exploitez les ressources du système solaire, développez votre recherche, construisez vos flottes et partez débarrasser la galaxie des Méthanoïdes.
