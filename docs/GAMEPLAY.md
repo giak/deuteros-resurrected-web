@@ -160,16 +160,17 @@ pertes_def    = f(puissance_eff, effectifs, random)
 
 ---
 
-## 7. IA Méthanoïde
+### 7. IA Méthanoïde
 
-- Un **niveau de menace** `M` croît si le joueur attaque les Méthanoïdes (ou les ignore pendant trop longtemps).
-- La flotte Méthanoïde se renforce selon `M` : apparitions de raids, puis d'invasions.
-- Si `M` dépasse un seuil, les Méthanoïdes attaquent des stations « non défendues ».
-- Le joueur peut « négocier » (pacte scénarisé, via comms) pour baisser temporairement `M`.
+- Niveau de menace `M` croît si le joueur attaque les Méthanoïdes (ou les ignore trop longtemps). Seuil : raids, puis **Prises de position** (voir §10).
+- **Guerre déclenchée par les actes du joueur** (pas aléatoirement) : **6ᵉ usine orbitale construite** ou **obtention du laser Méthanoïde** (commerce).
+- **Raids** : attaques de convois et de points faibles → pertes de vaisseaux.
+- **Prises de position** (à partir d'un seuil `M` + guerre déclarée) : invasion d'une base → les **derricks sont remplacés par des ruines** (productivité amputée), reconstruction coûteuse.
+- Pacte « négocié » (via comms/scénario) : baisse temporairement `M`.
 
 ---
 
-## 8. Événements scénarisés (timeline v0.1)
+## 8. Événements scénarisés (timeline v0.2)
 
 | Jour jeu | Événement |
 |---|---|
@@ -177,8 +178,15 @@ pertes_def    = f(puissance_eff, effectifs, random)
 | 15 | Premier contact avec une colonie lointaine |
 | 60 | Découverte d'artefacts Mohammed sur la Lune (indice FTL) |
 | 120 | Première incursion Méthanoïde (si M positif) |
-| 300 | Message des Hydroïdes |
+| 300 | **Message des Hydroïdes (crypto)** : « Nous avons transmuté un don aux Méthanoïdes. Ils l'ont démonté, les segments sont éparpillés dans 8 étoiles. » |
+| +90 j (récursif) | Bulletins Hydroïdes épisodiques (fragments chiffrés : indices segments, avertissements) |
 | (variable) | Déblocage possible de la fin de partie |
+
+### 8.1 Segments Hydroïdes
+
+- Les **8 segments** sont des **artefacts Hydroïdes** (la « machine » démontée par les Méthanoïdes), un par système extrasolaire : Atlantic, Chloé, Babylone, Hadrien, Romulus, Césius, Pliocène, Alpha.
+- Objectif de fin de partie : les récupérer tous → victoire (clip final). Chaque segment récupéré est consigné (flags + bulletin).
+- Ils sont **fragiles à préserver** : détruire/abîmer un segment compromet la victoire.
 
 ---
 
@@ -190,3 +198,20 @@ pertes_def    = f(puissance_eff, effectifs, random)
 | Commandant | +20 % | 1,0 |
 | Vétéran | 0 % | 1,4 |
 | Méthanoïde | -20 % | 1,8 |
+
+> Le « on perd ses deux premières parties » n'est pas une règle : c'est la difficulté par défaut (Vétéran/Méthanoïde) qui l'exprime.
+
+---
+
+## 10. Défaite
+
+**Game over si l'une des deux conditions :**
+
+1. **Perte de la Terre-Ville** — l'invasion de la Terre par les Méthanoïdes réussit (défense submergée).
+2. **Effondrement économique et militaire** — toutes les installations de production (stations, bases, derricks) sont détruites ou occupées **ET** aucune unité de combat opérationnelle ne subsiste.
+
+### 10.1 Spiral (mécanique)
+
+- Elle se construit par **prises de position** successives (§7) : chaque base perdue réduit la production, donc la capacité de reconstruction et de défense.
+- La reconstruction d'un relais qui coûte plus que ce que rapporte l'économie restante = zone de défaite par **inertie** — pas de compte à rebours.
+- Ordre d'explosion préféré de l'original : les Méthanoïdes dégradent l'infrastructure, pas seulement les flottes.
