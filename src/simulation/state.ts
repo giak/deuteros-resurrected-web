@@ -3,8 +3,8 @@
  * Terre usine au sol + 1 derrick, Lune base endommagée, colonies Méthanoïdes
  * (jupiter, uranus, titania, neptune, triton, pluto), réservoir 6 000.
  */
-import { SOL_BODIES, getBody, RESEARCHABLE_ITEMS } from './data';
-import type { GameState, PlanetRuntime, ResearchState } from './types';
+import { SOL_BODIES, getBody, RESEARCHABLE_ITEMS, VESSEL_BY_ID } from './data';
+import type { GameState, PlanetRuntime, ResearchState, VesselRuntime } from './types';
 
 /** Items débloqués au démarrage (Research.Locked = false dans CoreData.cs). */
 const STARTING_UNLOCKED = new Set([
@@ -39,6 +39,22 @@ export function createPlanetRuntime(id: string): PlanetRuntime {
   };
 }
 
+/** Navette de départ (spec transport §4.7) : pod supply monté, vide, à quai Terre. */
+function createStarterShuttle(): VesselRuntime {
+  return {
+    id: 'shuttle-1',
+    templateId: 'shuttle',
+    planetId: 'earth',
+    inOrbit: false,
+    state: 'docked',
+    slots: [{ kind: 'supply', itemId: null, quantity: 0 }], // pod supply monté, vide
+    fuel: 0,
+    fuelType: VESSEL_BY_ID['shuttle'].fuelType,
+    mission: null,
+    health: 100,
+  };
+}
+
 export function createInitialState(seed: number): GameState {
   const planets: Record<string, PlanetRuntime> = {};
   for (const b of SOL_BODIES) {
@@ -50,6 +66,12 @@ export function createInitialState(seed: number): GameState {
   planets.earth.derricks = 1;
   const moon = planets.the_moon;
   if (moon) moon.baseDamaged = true; // la Lune démarre endommagée
+
+  // Flotte de départ (spec transport §4.7) : 1 navette + 3 pods en stock.
+  const earthItems = planets.earth.items;
+  earthItems['supply_pod'] = (earthItems['supply_pod'] ?? 0) + 1;
+  earthItems['tool_pod'] = (earthItems['tool_pod'] ?? 0) + 1;
+  earthItems['cryo_pod'] = (earthItems['cryo_pod'] ?? 0) + 1;
 
   // Équipes pré-assignées au boot (spec v0 §5.1) — 450 sur le réservoir.
   planets.earth.factory.builder = { type: 'production', count: 200, actionsTaken: 0 };
@@ -67,7 +89,7 @@ export function createInitialState(seed: number): GameState {
   }
 
   return {
-    version: 1,
+    version: 2,
     seed,
     day: 1,
     planets,
@@ -79,6 +101,7 @@ export function createInitialState(seed: number): GameState {
     },
     fleets: [],
     battles: [],
+    vessels: [createStarterShuttle()],
     atWar: false,
     warDeclaredDay: null,
     enemyBuildDay: null,

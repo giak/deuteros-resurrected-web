@@ -17,9 +17,12 @@ describe('contrat production', () => {
   it('supply_pod en 23 j à 31/j (départ 64, c=1, 3 wraps)', () => {
     const s = createInitialState(1);
     s.planets.earth.stores = { titanium: 999, aluminium: 999, copper: 999 };
+    // v2 (spec §4.7) : 1er supply_pod fourni au stock Terre — le contrat porte
+    // sur le 2e pod produit par l'usine (même régime 31/j → 23 j).
+    expect(s.planets.earth.items['supply_pod']).toBe(1);
     runAction(queueItem, s, { itemId: 'supply_pod' });
     let days = 0;
-    while (!s.planets.earth.items['supply_pod'] && days < 100) { dayTick(s); days++; }
+    while (s.planets.earth.items['supply_pod'] < 2 && days < 100) { dayTick(s); days++; }
     expect(days).toBe(23);
   });
 });

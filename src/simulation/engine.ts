@@ -29,6 +29,7 @@ export function dayTick(state: GameState): DayTickResult {
     enemyDronesBuilt: 0,
     battlesResolved: [],
     trainingFinished: [],
+    arrived: [],
     journal: [],
   };
   const journal = result.journal;

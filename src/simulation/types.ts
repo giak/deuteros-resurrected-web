@@ -5,6 +5,35 @@
 import type { ResourceId } from './config';
 
 export type SlotKind = 'supply' | 'tool' | 'cryo';
+export type VesselState = 'docked' | 'taking_off' | 'in_transit' | 'landing' | 'docking' | 'launching';
+
+/** Emplacement de pod monté (kind fixé par le pod) — spec transport §4.1. */
+export interface CargoSlot {
+  kind: SlotKind;
+  itemId: string | null; // null = emplacement vide ; ressource (supply) ou item toolPod (tool)
+  quantity: number;      // > 0 si rempli ; ≤ 250 pour supply
+}
+
+export interface VesselMission {
+  fromPlanetId: string;
+  toPlanetId: string;
+  startDay: number;
+  arrivalDay: number; // jour d'arrivée inclus (manœuvres incluses)
+  fuelCost: number;
+}
+
+export interface VesselRuntime {
+  id: string;
+  templateId: string;
+  planetId: string;
+  inOrbit: boolean; // amarré en station vs base planétaire
+  state: VesselState;
+  slots: CargoSlot[];
+  fuel: number;
+  fuelType: ResourceId;
+  mission: VesselMission | null;
+  health: number;
+}
 
 export type StaffType = 'research' | 'production' | 'marines';
 
@@ -114,7 +143,7 @@ export interface Battle {
 
 /** État global de la partie (DATA.md §2, adapté tables v1). */
 export interface GameState {
-  version: 1;
+  version: 2;
   seed: number;
   day: number;
   planets: Record<string, PlanetRuntime>;
@@ -122,6 +151,8 @@ export interface GameState {
   training: TrainingState;
   fleets: Fleet[];
   battles: Battle[];
+  /** Flotte de transport du joueur (spec transport §4.7). */
+  vessels: VesselRuntime[];
   atWar: boolean;
   warDeclaredDay: number | null;
   enemyBuildDay: number | null;
@@ -141,6 +172,8 @@ export interface DayTickResult {
   battlesResolved: Battle[];
   /** Formations arrivées à échéance ce jour (type + effectif promu). */
   trainingFinished: Array<{ type: StaffType; count: number }>;
+  /** Vaisseaux arrivés à destination ce jour (spec transport). */
+  arrived: Array<{ vesselId: string; planetId: string }>;
   /** Lignes de trace du jour (texte brut, préfixées `[J<jour simulé>]` — spec K10). */
   journal: string[];
 }

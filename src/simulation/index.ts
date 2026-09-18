@@ -17,6 +17,11 @@ export type {
   DayTickResult,
   ResearchDayResult,
   ProductionDayResult,
+  SlotKind,
+  VesselState,
+  CargoSlot,
+  VesselMission,
+  VesselRuntime,
 } from './types';
 
 export { createRng, randInt } from './rng';
