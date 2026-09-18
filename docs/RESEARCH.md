@@ -104,7 +104,7 @@ L'original comporte **16 ressources/matériaux** (une colonne SQL conservée par
 - Les gisements sont **répartis par corps céleste** (voir §8) : toutes les matières ne sont pas partout → le transport et le séquençage de l'exploitation sont le cœur du jeu.
 - Ressources "exotiques" hors-Zone-Terre (platine, argent…) en ceinture et systèmes lointains (cf. section « asteroids not found on Earth (silver, platinum) »).
 
-> ⚠️ **Écart avec nos docs** : GAMEPLAY §2.1 liste 10 ressources (Ti, C, Pd, Ag, Ir, H₂O, D, U, He3, TR). L'original utilise fer, aluminium, cuivre, hydrogène, méthane, platine, or, silice et deux carburants composés. **Décision à prendre au moment de figer DATA.md** : garder notre modèle épuré ou se rapprocher des 16 de l'original.
+> ⚠️ **Écart avec nos docs** : GAMEPLAY §2.1 liste 10 ressources (Ti, C, Pd, Ag, Ir, H₂O, D, U, He3, TR). L'original utilise fer, aluminium, cuivre, hydrogène, méthane, platine, or, silice et deux carburants composés. **Décision à prendre au moment de figer DATA.md** : garder notre modèle épuré ou se rapprocher des 16 de l'original. **Résolu en v0.2** : GAMEPLAY §2.1 et `data/resources.json` retiennent les 16 de l'original (MeH/HeD compris).
 
 ---
 
@@ -234,7 +234,7 @@ Sources : oocities ; Kimimi ; Track's Mini Guide.
 - **TMT** : téléporte la production **des champs de derricks à la station orbitale, puis n'importe où** — met fin au ferraillage manuel (items transportables uniquement, pas les êtres).
 - **Carburant** requis par masse/distance ; deux mélanges (MeH, HeD) selon la propulsion.
 
-> ⚠️ **Écart avec nos docs** : GAMEPLAY §2.3 prévoit des cargos par tonnage. L'original pense en **pods + châssis + carburant** (items physiques empilés dans des slots, pas des tonnes abstraites). À arbitrer : nombre de pods, slots, et la masse comme contrainte dominante ou accessoire.
+> ⚠️ **Écart avec nos docs** : GAMEPLAY §2.3 prévoit des cargos par tonnage. L'original pense en **pods + châssis + carburant** (items physiques empilés dans des slots, pas des tonnes abstraites). À arbitrer : nombre de pods, slots, et la masse comme contrainte dominante ou accessoire. **Résolu en v0.2** : GAMEPLAY §2.3 retient le modèle **pods/slots hybride** — la masse comme contrainte de charge (Σ quantité × masse unitaire ≤ capacité), pas le tonnage abstrait.
 
 ---
 
@@ -265,7 +265,7 @@ Sources : en.Wikipedia ; fr.Wikipedia ; dixiak.
 - Vérité de joueur d'époque : les Méthanoïdes **gagnent vos deux premières parties** ; perdre est intégré au scénario.
 - Les **Hydroïdes** contactent le joueur (crypto-affichée) : « Nous avons transmuté un don aux Méthanoïdes. Ils l'ont démonté, les segments sont éparpillés dans 8 étoiles. »
 
-> ⚠️ **Écart/scénario** : nos docs PFD §1.2 et GAMEPLAY §8 ont déjà une timeline (jour 15 « premier contact », jour 300 « message des Hydroïdes ») compatible, mais **les Hydroïdes n'existent quasiment pas** dans notre GAMEPLAY (une ligne). C'est un fil narratif à travailler si on veut le garder.
+> ⚠️ **Écart/scénario** : nos docs PFD §1.2 et GAMEPLAY §8 ont déjà une timeline (jour 15 « premier contact », jour 300 « message des Hydroïdes ») compatible, mais **les Hydroïdes n'existent quasiment pas** dans notre GAMEPLAY (une ligne). C'est un fil narratif à travailler si on veut le garder. **Résolu en v0.2** : GAMEPLAY §8 développe la timeline Hydroïdes et les **8 segments** (quête de victoire), PFD §3.8 aligné.
 
 Sources : fr.Wikipedia ; oocities (cryptographiques) ; dixiak ; en.Wikipedia.
 
@@ -414,7 +414,7 @@ D'après le remake pixel-perfect (deuteros.com), le jeu original contient (statu
 - Montes en level d'équipages avec gates Expert/Amiral.
 - Milestones qui déclenchent la recherche.
 - Déclenchement de guerre par vos actes (6ᵉ usine / laser).
-- Victoire = 8 systèmes conquis + 8 segments récupérés (Atlantic/Chloé/Babylone/Hadrian/Romulus/Césius/Pliocène/Alpha).
+- Victoire = 8 systèmes conquis + 8 segments récupérés (Atlantic/Chloé/Babylone/Hadrien/Romulus/Césius/Pliocène/Alpha).
 - Interface largement héritée de Millennium 2.2 (CTR, toolbar, 8 derniers bulletins, mini-jeu 3D simple).
 - 16 ressources dont 2 carburants composés (MeH/HeD) ; la restriction « uniquement en orbite » pour le HeD structure la progression.
 
@@ -429,11 +429,11 @@ D'après le remake pixel-perfect (deuteros.com), le jeu original contient (statu
 - ✅ **Défaite = spirale** (perte d'infra, pas le seul « Terre détruite ») : voir GAMEPLAY §10, PFD §3.8.
 
 **À décider dans nos docs :**
-- **Ressources** : notre liste (10, exotiques) vs liste originale (16, dont fer/aluminium/cuivre + carburants composés). → DATA.md est à affiner ici.
-- **Transport** : masses + pods + slots vs tonnage abstrait. → GAMEPLAY §2.3.
-- **Hydroïdes** : les mettre au premier plan narratif ou laisser de côté. → GAMEPLAY §8.
-- **Défaite = perte d'infra** (productivité détruite, pas seulement flotte perdue) vs défaite = Terre détruite. → PFD §3.8.
-- **TMT** : instantané mais coûteux en énergie vs catégorie rare.
+- ~~**Ressources** : notre liste (10, exotiques) vs liste originale (16, dont fer/aluminium/cuivre + carburants composés). → DATA.md est à affiner ici.~~ → **tranché en v0.2** (✅ Ressources (16) ci-dessus).
+- ~~**Transport** : masses + pods + slots vs tonnage abstrait. → GAMEPLAY §2.3.~~ → **tranché en v0.2** (✅ Transport pods/slots hybride ci-dessus).
+- ~~**Hydroïdes** : les mettre au premier plan narratif ou laisser de côté. → GAMEPLAY §8.~~ → **tranché en v0.2** (✅ Hydroïdes narratifs ci-dessus).
+- ~~**Défaite = perte d'infra** (productivité détruite, pas seulement flotte perdue) vs défaite = Terre détruite. → PFD §3.8.~~ → **tranché en v0.2** (✅ Défaite = spirale ci-dessus).
+- **TMT** : instantané mais coûteux en énergie vs catégorie rare. GAMEPLAY §2.3 tranche « envoi instantané mais coûteux » (items matériels uniquement) ; le détail énergétique reste à caler en implémentation.
 - **« Seven systems » (Amiga Power, 1991)** : erreur du reviewer ; la source canonique est 8 systèmes (+ Soleil) → 8 segments = victoire.
 - **15 vs 16 ressources** : le walkthrough cite 15 ; la table oocities/code source en listent 16. À vérifier in-game : le MeH Fuel (item 5) est-il un matériau minable ou uniquement un produit crafté ? Les deux sources disent « productible sur tout corps avec les matières ».
 
