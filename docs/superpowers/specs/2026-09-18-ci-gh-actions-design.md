@@ -107,4 +107,4 @@ Le job échoue à la **première** étape défaillante → commit rouge, PR non 
 |---|---|
 | Node 22 vs local 24 : comportement divergent | Vite/Vitest 3 supportent `^18 \|\| ^20 \|\| >=22` ; divergence non attendue (tests pur Node, pas de natif) |
 | Premier push rejette mal (history, hooks) | Push simple de `main` existant ; pas de force, pas de secret dans l'historique à ce jour |
-| Le cache npm ralentit la toute première fois | Normal ; cache pupulé après le premier run vert |
+| Le cache npm ralentit la toute première fois | Normal ; cache peuplé après le premier run vert |
