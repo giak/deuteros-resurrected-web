@@ -57,7 +57,7 @@ masse totale ≤ `capacity` ET `supply` ≤ 250/emplacement (canon).
 {
   "meta": {
     "version": 1,
-    "source": "GAMEPLAY v0.2 §5.2 + ACC.cs (remake, source:f53f5ba3fa)"
+    "source": "GAMEPLAY v0.2 §5.2; ACC.cs/Enums.cs/Ship.cs (remake, clone local d252446f079fc4e7de766f28a22509bd71ed1023 — RESEARCH §3/§14)"
   },
   "vessels": [
     {
@@ -232,7 +232,10 @@ interface VesselRuntime {
   (ressource → `stores` de la destination, plafonné 50 000/ressource ;
   item → `items`), `mission = null` ; ligne journal + `DayTickResult.arrived`
   (`Array<{ vesselId, planetId }>`).
-- `travelDays(a, b)` existant (`travel.ts`) reste la pure fonction de durée.
+- `travelDays(a, b)` existant (`travel.ts`) reste la pure fonction de durée
+  (intra/inter). La durée **inter-systèmes** (SCG FTL) n'est pas définie :
+  hors périmètre (v1 = système du Soleil) — la validation de range refuse toute
+  route inter-systèmes tant que le SCG n'est pas opérationnel/codé.
 
 ### 4.5 Carburant — formule concrète
 ```
