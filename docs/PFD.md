@@ -20,7 +20,7 @@ Gérer le temps
    ├─ Explorer (envoyer des sondes / vaisseaux)
    ├─ Coloniser (stations orbitales puis planétaires)
    ├─ Défendre (boucliers, missiles, flottes)
-   └─ Attaquer (éliminer la menace Méthanoïde) → VICTOIRE
+   └─ Conquérir les 8 systèmes & récupérer les 8 segments Hydroïdes → VICTOIRE
 ```
 
 ### 1.2 Cadre narratif (spiritual successor)
@@ -74,7 +74,7 @@ En 2200, un astéroïde détruit la civilisation terrienne. Des survivants sur l
 **Fonctions :**
 - Arbre de technologies (catégories : Construction, Propulsion, Énergie, Industrie, Combat, Biologie, Exotique).
 - ÆArbre visuel (noeuds + prérequis), surbrillance des déblocables.
-- Allouer des scientifiques à un projet ; progression = points de recherche/tick.
+- Un seul projet courant ; progression `v = (équipe × 2^rang) × multiplicateur / 801`, wrap à 100 % (GAMEPLAY §3).
 - Découvertes aléatoires (« brainstorm ») qui boostent la recherche.
 - Rétro-ingénierie des technologies Méthanoïdes capturées (ex : MAD, transducteur de masse).
 
@@ -148,28 +148,37 @@ En 2200, un astéroïde détruit la civilisation terrienne. Des survivants sur l
 
 ### 3.2 Ressources
 
-| Ressource | Usage principal | Disponibilité |
-|---|---|---|
-| Titane | structure, vaisseaux | Lune, Mars, ceinture |
-| Carbone | composants, carburant | Terre, Mars |
-| Palladium | électronique | ceinture, Jupiter |
-| Argent | conducteurs | Mercure, ceinture |
-| Iridium | armement, FTL | rare, ceinture externe |
-| Eau/H₂O | survie, carburant | Lune, Europe |
-| Deutérium | fusion, FTL | Europe, Neptune |
-| Uranium | fission, armes lourdes | Terre, ceinture |
-| Hélium-3 | fusion | Lune, gaz géants |
-| Terres rares | électronique avancée | très rare |
+16 matières (enum original) — valeurs `data/resources.json` + GAMEPLAY §2.1 :
 
-- Chaque gisement a une **quantité restante** → épuisable, spa endanger le choix.
-- Le transport se fait par vaisseau-cargo (masses volumiques à gérer) ou par **transducteur de masse** (débloquable).
+| Ressource | Symbole | Dérrick/j | Minable |
+|---|---|---|---|
+| Fer | Fe | 2 | oui |
+| Titane | Ti | 2 | oui |
+| Aluminium | Al | 2 | oui |
+| Carbone | C | 2 | oui |
+| Cuivre | Cu | 2 | oui |
+| Hydrogène | H | 1 | oui |
+| Deutérium | D | 1 | oui |
+| Méthane | CH₄ | 1 | oui |
+| Hélium | He | 1 | oui |
+| Palladium | Pd | 1 | oui |
+| Platine | Pt | 1 | oui |
+| Argent | Ag | 1 | oui |
+| Or | Au | 1 | oui |
+| Silice | Si | 2 | oui |
+| Carburant MeH | MeH | — | non (H×2 + CH₄×2, toute base) |
+| Carburant HeD | HeD | — | non (He×2 + D×2, orbite seule) |
+
+- Chaque gisement a une **quantité restante** → épuisable ; stock local plafonné à **50 000 t par ressource** (GAMEPLAY §2.2).
+- Le transport se fait par **pods/slots** (GAMEPLAY §2.3) : un vaisseau = `capacité` (t) + `slots` portant chacun une cargaison homogène ; la masse (Σ quantité × masse unitaire ≤ capacité) borne le passage à l'échelle. **Navette** 1 slot · 100 t · MeH · intra-système — **IOS** 3 slots · 2 500 t · MeH · inter-planètes — **SCG** 3 slots · 5 000 t · HeD · inter-systèmes (FTL) (GAMEPLAY §5.2).
+- Transfert instantané (**items matériels uniquement**) via **transducteur de masse** (tech exotique, débloquable).
 
 ### 3.3 Recherche
 
-- Points de recherche produits par les scientifiques, accumulés dans un pool.
-- Projets : le joueur choisit quelle tech consommer le pool.
+- Un seul **projet courant** (géré depuis la Terre) ; progression `v = (équipe × 2^rang) × multiplicateur / 801`, wrap à 100 % (GAMEPLAY §3).
+- **Milestones** : certains contenus (Hyperlight, TMT, SCG…) ne sont débloquables que par les événements temporels (timeline), pas par les seuls points.
+- Rétro-ingénierie : capturer une tech Méthanoïde la débloque à coût moindre (inversement, la vôtre peut être volée s'ils gagnent).
 - Prérequis : arbre à graphe acyclique. 4-6 niveaux de profondeur.
-- Technologies exotiques capturées des Méthanoïdes (inversement, la vôtre peut être volée s'ils gagnent).
 
 ### 3.4 Production
 
