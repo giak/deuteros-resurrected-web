@@ -134,12 +134,7 @@ export const sendCargo: Action<SendCargoArgs> = {
     const kind = cargoSlotKind(args.itemId);
     if (!kind) return { ok: false, reason: 'not_carriable' };
 
-    const here = state.planets[vessel.planetId];
-    const stock = kind === 'supply'
-      ? (here.stores[args.itemId as ResourceId] ?? 0)
-      : (here.items[args.itemId] ?? 0);
     if (args.quantity <= 0) return { ok: false, reason: 'invalid_quantity' };
-    if (stock < args.quantity) return { ok: false, reason: 'insufficient_stock' };
 
     const fromBody = getBody(vessel.planetId);
     const toBody = getBody(args.toPlanetId);
@@ -147,6 +142,12 @@ export const sendCargo: Action<SendCargoArgs> = {
     if (fromBody.starId !== toBody.starId && def.range !== 'interstellar') {
       return { ok: false, reason: 'out_of_range' };
     }
+
+    const here = state.planets[vessel.planetId];
+    const stock = kind === 'supply'
+      ? (here.stores[args.itemId as ResourceId] ?? 0)
+      : (here.items[args.itemId] ?? 0);
+    if (stock < args.quantity) return { ok: false, reason: 'insufficient_stock' };
 
     const plan = kind === 'supply'
       ? planSupplyLoad(vessel, args.itemId, args.quantity)

@@ -141,7 +141,15 @@ describe('sendCargo (spec §4.2)', () => {
 
   it('refuse hors de la portée du vaisseau (inter-systèmes → scg requis)', () => {
     const s = createInitialState(1);
-    s.planets.earth.stores['iron'] = 1000;
+    s.planets['alpha'] = createPlanetRuntime('alpha');
+    s.vessels[0].fuel = 100;
+    expect(runAction(sendCargo, s, { vesselId: 'shuttle-1', itemId: 'iron', quantity: 1, toPlanetId: 'alpha' }))
+      .toEqual({ ok: false, reason: 'out_of_range' });
+  });
+
+  it('refuse out_of_range avant insufficient_stock (range §4.2 étape 4 avant stock étape 5)', () => {
+    const s = createInitialState(1);
+    s.planets.earth.stores['iron'] = 0;
     s.planets['alpha'] = createPlanetRuntime('alpha');
     s.vessels[0].fuel = 100;
     expect(runAction(sendCargo, s, { vesselId: 'shuttle-1', itemId: 'iron', quantity: 1, toPlanetId: 'alpha' }))
