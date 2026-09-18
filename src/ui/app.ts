@@ -7,6 +7,7 @@
  */
 import { initGame, subscribe, getState, notify } from '@/state/store';
 import { createInitialState, dayTick, rankName } from '@/simulation';
+import type { DayTickResult } from '@/simulation';
 import { pushBulletin } from '@/actions';
 import { drawSystem, type Camera } from '@/render/canvas-renderer';
 import { mountEarthScreen } from '@/ui/earth-screen';
@@ -22,6 +23,33 @@ const SPEEDS: Array<{ label: string; msPerDay: number }> = [
 
 const cam: Camera = { x: 0, y: 0, zoom: 1 };
 const time = { speedIndex: 0, accumulator: 0, lastFrame: 0 };
+
+export interface ObjectiveCompletion {
+  kind: 'recherche' | 'production' | 'formation';
+  label: string;
+}
+
+/** Libellés français des objectifs terminés d'une frame (pause auto K11). */
+export function completedObjectives(result: DayTickResult): ObjectiveCompletion[] {
+  const out: ObjectiveCompletion[] = [];
+  if (result.researchFinished) {
+    out.push({ kind: 'recherche', label: `Recherche achevée : ${result.researchFinished}.` });
+  }
+  for (const p of result.produced) {
+    const planet = p.planetId === 'earth' ? 'Terre' : p.planetId;
+    out.push({ kind: 'production', label: `Production terminée : ${p.itemId} (${planet}).` });
+  }
+  for (const t of result.trainingFinished) {
+    const role = { production: 'producteurs', research: 'chercheurs', marines: 'marines' }[t.type];
+    out.push({ kind: 'formation', label: `Formation terminée : ${t.count} ${role} disponibles.` });
+  }
+  return out;
+}
+
+/** Vrai si au moins un objectif s'est terminé dans la frame (à pauser). */
+export function shouldAutoPause(result: DayTickResult): boolean {
+  return result.researchFinished !== null || result.produced.length > 0 || result.trainingFinished.length > 0;
+}
 
 export function mountApp(root: HTMLElement): void {
   const state = createInitialState(Date.now() % 2 ** 31);

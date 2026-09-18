@@ -9,7 +9,8 @@ import { describe, expect, it } from 'vitest';
 import { createInitialState, RESEARCHABLE_ITEMS } from '@/simulation';
 import { GROUND_ITEMS } from '@/simulation/data';
 import { productionRows, researchRows, staffRows, miningRows } from '@/ui/earth-screen';
-import { victoryRankLabel } from '@/ui/app';
+import { victoryRankLabel, completedObjectives, shouldAutoPause } from '@/ui/app';
+import type { DayTickResult } from '@/simulation';
 
 const GROUND_ITEM_IDS = [
   'derrick', 's_chassis', 's_drive', 'meh_fuel', 'of_frame',
@@ -131,5 +132,42 @@ describe('écran Terre — panneau Minage (hors DOM, task 10)', () => {
     iron.surveyTicks = 3;
     r = miningRows(s).find((x) => x.resource === 'iron')!;
     expect(r.groundLabel).toBe('sondage : 3 j');
+  });
+});
+
+describe('pause auto — helpers purs (K11)', () => {
+  const mkResult = (over: Partial<DayTickResult> = {}): DayTickResult => ({
+    day: 1,
+    produced: [],
+    researchFinished: null,
+    enemyDronesBuilt: 0,
+    battlesResolved: [],
+    journal: [],
+    trainingFinished: [],
+    ...over,
+  });
+
+  it('completedObjectives : libellés recherche / production (Terre ou id) / formation', () => {
+    const r = mkResult({
+      researchFinished: 'derrick',
+      produced: [
+        { planetId: 'earth', itemId: 'derrick' },
+        { planetId: 'the_moon', itemId: 's_drive' },
+      ],
+      trainingFinished: [{ type: 'research', count: 100 }],
+    });
+    expect(completedObjectives(r)).toEqual([
+      { kind: 'recherche', label: 'Recherche achevée : derrick.' },
+      { kind: 'production', label: 'Production terminée : derrick (Terre).' },
+      { kind: 'production', label: 'Production terminée : s_drive (the_moon).' },
+      { kind: 'formation', label: 'Formation terminée : 100 chercheurs disponibles.' },
+    ]);
+  });
+
+  it('shouldAutoPause : vrai sur chaque signal, faux sans signal', () => {
+    expect(shouldAutoPause(mkResult({ researchFinished: 'of_frame' }))).toBe(true);
+    expect(shouldAutoPause(mkResult({ produced: [{ planetId: 'earth', itemId: 'derrick' }] }))).toBe(true);
+    expect(shouldAutoPause(mkResult({ trainingFinished: [{ type: 'marines', count: 10 }] }))).toBe(true);
+    expect(shouldAutoPause(mkResult())).toBe(false);
   });
 });
