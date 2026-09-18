@@ -1,6 +1,6 @@
 # PFD — Plan Fonctionnel Détaillé
 
-> Version 0.1 — 2026-09-15
+> Version 0.2 — 2026-09-18
 > Statut : **document-cadre** (à affiner au fil des phases)
 
 Ce document décrit **chaque écran et chaque système** du jeu, à un niveau fonctionnel. Il sert de référence pour l'implémentation (voir [ROADMAP.md](ROADMAP.md)) et se lit comme une spécification produit.
