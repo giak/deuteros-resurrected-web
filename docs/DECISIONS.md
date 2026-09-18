@@ -426,6 +426,29 @@ Ajuster l'état de boot (Step 2 du brief, ex. 2 derricks) n'aurait **rien chang�
 
 ---
 
+## Décision K11 — Pause auto sur objectif actif (recherche, production, formation) (approuvé 2026-09-18)
+
+**Contexte** : en v0, une recherche achevée, une production terminée ou une formation à échéance passent silencieusement — le joueur doit surveiller le feed et tout relancer à la main. La trace (K10) a rendu la boîte noire visible ; on veut maintenant **interrompre l'écoulement du temps dès qu'un objectif productif se termine** et l'afficher.
+
+**Choix** :
+- **Périmètre** : recherche achevée + production terminée + formation à échéance (les 3 objectifs productifs).
+- **Toujours active** (pas de toggle) — même posture que la trace (K10).
+- **Approche A — signal pur** : le moteur fournit le dernier signal structuré manquant (`DayTickResult.trainingFinished`, task 1) ; `app.ts` lit les trois signaux (`researchFinished`, `produced`, `trainingFinished`) via des helpers purs exportés `completedObjectives`/`shouldAutoPause` (task 2).
+- **Retour visuel** : bannière `#pause-banner` « Objectif atteint » (liste des objectifs de la frame) + bouton « Reprendre (Espace) » (task 3).
+- **Priorité victoire** : si `v0_victory` est posé dans la même frame, **seule** l'overlay de victoire s'affiche — la bannière ne se superpose jamais.
+- **Reprise** : retour à la vitesse d'avant (`pause.prevSpeed`).
+- **Pas de fuite** : bannière supprimée à la reprise ; Espace ne boucle pas sur lui-même (bannière visible → reprise ; sinon → toggle pause).
+- **Trace** : non modifiée (spec §3.5 — la ligne `[J<n>] formation…` du journal suffit).
+
+**Écart technique (contrainte liante lint)** : le bloc du plan déclare `let pending` — jamais réassigné → eslint `prefer-const` (0 erreur exigé) ; corrigé en `const pending` (précédent K4/K5/K8). Comportement identique (mutation via `.push`).
+
+**Conséquences** :
+- UI DOM non testée (aucun harnais, précédent K9/K7) : le filet = helpers purs testés au TDD (tasks 1-2) + build/lint.
+- `pauseForObjectives`/`resumeAfterPause` dans `app.ts` ; `pushNews`/`traceDay`/`checkVictory` inchangés ; aucun `console.log` ajouté hors `src/trace/`.
+- Verification : vitest **111/111** (10 fichiers — 107 + 2 task 1 + 2 task 2), lint 0, build VERT (js 82.76 kB).
+
+---
+
 ## Journal des révisions
 
 | Date | Décision |
@@ -455,3 +478,4 @@ Ajuster l'état de boot (Step 2 du brief, ex. 2 derricks) n'aurait **rien chang�
 | 2026-09-16 | K9 approuvé (écran de victoire v0 : correction de précédence `??`/`>=`, rang via `rankName`, helper pur `victoryRankLabel`, task 11) |
 | 2026-09-17 | K10 approuvé (trace de session : journal texte brut actions + moteur pour diagnostic, approche A + logger injecté option 1) |
 | 2026-09-17 | K10 exécuté (plan trace-session) : src/trace/, journal moteur, hook runAction, raccordement UI |
+| 2026-09-18 | K11 approuvé — pause auto sur objectif actif (révision `17-pause-auto`) : approche A signal pur + bannière + reprise Espace |

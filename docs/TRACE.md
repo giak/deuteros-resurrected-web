@@ -4,6 +4,27 @@
 
 ---
 
+## Session 17 — 2026-09-18 (Pause auto sur objectif actif — K11)
+
+**Objectif** : interrompre l'écoulement du temps dès qu'un objectif productif se termine (recherche achevée, production terminée, formation à échéance) et afficher la bannière « Objectif atteint » jusqu'à la reprise — plan `docs/superpowers/plans/2026-09-18-pause-objectifs.md`.
+
+**Décision K11** (DECISIONS.md) : périmètre recherche+production+formation, retour visuel bannière + bouton reprise, toujours active, approche A (signal pur `trainingFinished`), priorité victoire, reprise à la vitesse d'avant.
+
+**Réalisé (3 tâches) :**
+- **T1 — signal moteur** : `DayTickResult.trainingFinished: Array<{ type, count }>` rempli dans le callback `updateTraining` de `dayTick` (+ ligne journal) — commit `86258eb`.
+- **T2 — helpers purs** : `completedObjectives` / `shouldAutoPause` dans `src/ui/app.ts` (labels français, 3 signaux agrégés) + tests TDD — commit `d4b1a8a`.
+- **T3 — raccordement UI** : état `pause.prevSpeed`, accumulation `pending` dans la boucle `frame` (pause seulement si `!flags['v0_victory']` → priorité victoire), `pauseForObjectives` (bannière `#pause-banner` + bouton `.pause-resume`), `resumeAfterPause` (bannière supprimée + reprise à la vitesse d'avant), Espace sans boucle (bannière visible → reprise ; sinon → toggle), CSS `.pause-banner` (append après `.victory-box p`).
+
+**Écart technique consigné** : `let pending` du plan → `const pending` (eslint `prefer-const`, contrainte liante, précédent K4/K5/K8) — comportement identique.
+
+**Verification finale** : vitest **111/111 (10 fichiers)** — skeleton 1, data 16, state 4, simulation 30, contracts 4, actions 20, repro-playtest 6, trace 15, integration 2, ui 13 ; `npm run lint` 0 (eslint `src/`), `npm run build` VERT (tsc + vite, js 82.76 kB).
+
+**Prochaines étapes (TODO) :**
+1. Retour sur task 12 : playtest avec trace + pause auto — comprendre pourquoi la partie réelle stagne, décider de l'ajustement boot/gameplay.
+2. Clôture v0 : relecture docs finales, tag `v0.0.1`.
+
+---
+
 ## Session 16 — 2026-09-17 (plan trace de session K10 — exécution des 6 tâches)
 
 **Objectif** : exécuter le plan « trace de session » (K10, `docs/superpowers/specs/2026-09-17-trace-session-design.md`) — rendre la boîte noire visible : trace console + buffer (FIFO 3000) des actions joueur (succès + raison d'échec) et du journal journalier du moteur, sans dépendance `simulation → trace`.

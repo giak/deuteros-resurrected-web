@@ -1,6 +1,6 @@
 # DASHBOARD — État d'avancement
 
-> Dernière mise à jour : 2026-09-17
+> Dernière mise à jour : 2026-09-18
 > Source de vérité pour « où en est le projet ? ». Mettre à jour après chaque session.
 
 ---
@@ -61,10 +61,10 @@
 
 | Métrique | Valeur |
 |---|---|
-| Sessions de travail | 16 |
+| Sessions de travail | 17 |
 | Tickets ouverts | 0 |
 | Commits | 42 |
-| Tests | 107 |
+| Tests | 111 |
 | Build jouable | oui (v0, playtest réel effectué) |
 
 *(colonnes à alimenter au fil du projet)*

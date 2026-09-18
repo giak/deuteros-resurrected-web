@@ -23,6 +23,7 @@ const SPEEDS: Array<{ label: string; msPerDay: number }> = [
 
 const cam: Camera = { x: 0, y: 0, zoom: 1 };
 const time = { speedIndex: 0, accumulator: 0, lastFrame: 0 };
+const pause = { prevSpeed: 0 };
 
 export interface ObjectiveCompletion {
   kind: 'recherche' | 'production' | 'formation';
@@ -107,21 +108,53 @@ function startLoop(): void {
     if (msPerDay > 0) {
       time.accumulator += dt;
       let steps = 0;
+      const pending: string[] = [];
       while (time.accumulator >= msPerDay && steps < 50) {
         time.accumulator -= msPerDay;
         const result = dayTick(getState());
         traceDay(result.day - 1, result.journal);
         pushNews(result);
+        if (shouldAutoPause(result)) {
+          pending.push(...completedObjectives(result).map((o) => o.label));
+        }
         steps += 1;
       }
       if (steps > 0) notify();
       checkVictory();
+      if (pending.length > 0 && !getState().flags['v0_victory']) {
+        pauseForObjectives(pending);
+      }
     }
 
     drawSystem(ctx, cam, now);
     requestAnimationFrame(frame);
   };
   requestAnimationFrame(frame);
+}
+
+// ---------------------------------------------------------------------------
+// Pause auto sur objectif atteint (K11) — bannière jusqu'à la reprise.
+// Reprise → vitesse d'avant (au sinon à ×1). Pas de conflit avec la victoire :
+// si v0_victory est posé dans la frame, seule l'overlay de victoire s'affiche.
+// ---------------------------------------------------------------------------
+function pauseForObjectives(labels: string[]): void {
+  pause.prevSpeed = time.speedIndex;
+  setSpeed(0);
+  const list = labels.map((l) => `<li>${l}</li>`).join('');
+  document.querySelector('#app')!.insertAdjacentHTML(
+    'beforeend',
+    `<div class="pause-banner" id="pause-banner">
+       <span class="pause-title">Objectif atteint</span>
+       <ul class="pause-list">${list}</ul>
+       <button class="hud-btn pause-resume">Reprendre (Espace)</button>
+     </div>`,
+  );
+  document.querySelector<HTMLButtonElement>('.pause-resume')!.addEventListener('click', resumeAfterPause);
+}
+
+function resumeAfterPause(): void {
+  document.querySelector('#pause-banner')?.remove();
+  setSpeed(pause.prevSpeed);
 }
 
 // ---------------------------------------------------------------------------
@@ -226,10 +259,13 @@ function setupControls(): void {
   setSpeed(0); // démarrage en pause
 
   window.addEventListener('keydown', (e) => {
-    if (e.code === 'Space') {
-      e.preventDefault();
-      setSpeed(time.speedIndex === 0 ? 1 : 0);
+    if (e.code !== 'Space') return;
+    e.preventDefault();
+    if (document.querySelector('#pause-banner')) {
+      resumeAfterPause();
+      return;
     }
+    setSpeed(time.speedIndex === 0 ? 1 : 0);
   });
 }
 

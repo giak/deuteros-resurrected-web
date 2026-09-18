@@ -307,3 +307,41 @@ body {
   color: #aab;
   margin-bottom: 8px;
 }
+
+/* ---------- Bannière de pause sur objectif (K11) ---------- */
+.pause-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 10px 18px;
+  background: rgba(8, 10, 18, 0.95);
+  border-bottom: 1px solid #5a7fd4;
+}
+
+.pause-banner .pause-title {
+  color: #e8d8a0;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+.pause-banner .pause-list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  margin: 0;
+  padding: 0;
+  color: #aab;
+  font-size: 0.85rem;
+}
+
+.pause-banner .pause-list li::before {
+  content: '✓ ';
+  color: #59c96a;
+}
