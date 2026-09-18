@@ -128,6 +128,10 @@ Toutes les valeurs dérivées des formules du remake (RESEARCH.md §14c, moteur 
 
 Dépendance critique : la vitesse réelle dépend du rythme d'accumulation des 250 t d'intrants OF Frame (9-10 derricks nécessaires) — c'est le point à observer en playtest, ajustable via l'état de boot seulement (§1).
 
+**Valeurs constatées (clôture v0, 2026-09-18)** — repro déterministe `tests/repro-playtest.test.ts` (stratégie raisonnable scriptée : installation continue de derricks, recherche OF Frame, queue production continue), 6 seeds, build post-K11 : victoire **J106–J112** (42→J112, 123456789→J110, 987654321→J106, 20260917→J110, 7→J112, 31337→J108), toutes **≤ J250**. Premier miner : J4-J18 (survey × jours pairs). **Boot retenu = 1 derrick (CoreData) + équipes 200 production / 250 recherche, inchangé** — aucun ajustement nécessaire (contrat §1 respecté avec marge).
+
+**Écart playtest humain (Session 15)** : la partie réelle de l'utilisateur n'atteignait pas la victoire non par faiblesse du moteur (repro saine) mais par **absence d'automatisation** — recherche/production/installation à relancer manuellement, sans signal. Traité par K10 (trace de session) puis K11 (pause auto sur objectif) ; un nouveau playtest humain avec ces outils reste l'étape de validation d'usage (voir TRACE Session 18).
+
 ## 7. Stratégie de tests
 
 1. **Tests actions** (par action) : `validate` (refus orbit-only, refus rang, refus stock insuffisant, refus double projet) + `execute` (mutation exacte) + effet (bulletin).

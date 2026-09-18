@@ -31,7 +31,7 @@ La documentation complète vit dans [`docs/`](docs/).
 
 ## Statut actuel
 
-📦 **Phase 0 — Documentation.** Le projet vient d'être créé. Voir [DASHBOARD.md](docs/DASHBOARD.md) pour l'état précis.
+🎮 **v0 — « Boucle Terre » jouable, prête à taguer `v0.0.1`.** Boucle économique complète (minage → production → recherche → formation) sur l'écran Terre, écran de victoire OF Frame, trace de session (K10) et pause automatique sur objectif atteint (K11). Voir [DASHBOARD.md](docs/DASHBOARD.md) pour l'état précis.
 
 ## Licence
 

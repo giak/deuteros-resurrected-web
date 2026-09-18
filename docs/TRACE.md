@@ -4,6 +4,29 @@
 
 ---
 
+## Session 18 — 2026-09-18 (Task 12 — clôture v0 : contrat repro, docs, ADR-018)
+
+**Objectif** : clore la v0 (Task 12 du plan « Boucle Terre ») — vérifier le contrat chiffré, consigner les valeurs constatées, finaliser ADR-018 et les docs, préparer le tag `v0.0.1`.
+
+**Contrat C6 (playtest)** — la validation mécanisée remplace/encadre le playtest humain :
+- **Repro déterministe** `tests/repro-playtest.test.ts` (6 seeds, stratégie raisonnable scriptée) : victoire **J106–J112**, toutes **≤ J250** (contrat §1). Aucun ajustement de boot requis.
+- **Boot retenu** : 1 derrick + 200 production / 250 recherche (CoreData, inchangé) — consigné en spec §6.5 (valeurs constatées).
+- **Écart playtest humain** (Session 15) : la stagnation réelle venait de l'absence d'automatisation/signal, pas du moteur. Outils livrés : K10 (trace) + K11 (pause auto sur objectif). **Playtest humain avec ces outils = validation d'usage restante** avant/avec le tag.
+
+**Verification finale** : vitest **111/111 (10 fichiers)** — skeleton 1, data 16, state 4, simulation 30, contracts 4, actions 20, repro-playtest 6, trace 15, integration 2, ui 13 ; `npm run lint` 0 (eslint `src/`), `npm run build` VERT (tsc + vite, js 82.84 kB).
+
+**Docs clôturés** : spec v0 §6.5 (valeurs constatées + boot), ADR-018 (facade — statut Accepté, validé par la clôture), README (statut v0 jouable), DASHBOARD (stats/phase), présent journal.
+
+**Commits du chantier K11 (rappel)** : `86258eb` T1 signal moteur · `d4b1a8a` T2 helpers purs · `edda47b` T3 bannière+pause+docs · `7194d07` fix review finale (fermeture bannière sur vitesse > 0).
+
+**Tag** : `v0.0.1` **en attente de décision** — contrat repro acquis ; playtest humain d'usage recommandé avant de poser le tag.
+
+**Prochaines étapes (TODO) :**
+1. Playtest humain réel à ×20 avec trace + pause auto (valider l'usage après K10/K11) — si stagnation persistante, décider boot/gameplay.
+2. Post-v0 : CI GH Actions (lint, typecheck, tests), puis Phase 1 MVP.
+
+---
+
 ## Session 17 — 2026-09-18 (Pause auto sur objectif actif — K11)
 
 **Objectif** : interrompre l'écoulement du temps dès qu'un objectif productif se termine (recherche achevée, production terminée, formation à échéance) et afficher la bannière « Objectif atteint » jusqu'à la reprise — plan `docs/superpowers/plans/2026-09-18-pause-objectifs.md`.

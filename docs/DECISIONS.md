@@ -241,7 +241,7 @@
 
 ---
 
-## ADR-018 — Facade d'actions : seule porte de mutation (approuvé 2026-09-16)
+## ADR-018 — Facade d'actions : seule porte de mutation (Accepté — approuvé 2026-09-16, validé à la clôture v0 2026-09-18)
 
 **Contexte** : le v0 « Boucle Terre » a besoin de canaliser toutes les mutations du jeu. Le moteur tables-v1 est **mutable** (décision documentée, tests verts) ; l'UI ne doit jamais écrire directement dans `GameState`.
 
@@ -479,3 +479,4 @@ Ajuster l'état de boot (Step 2 du brief, ex. 2 derricks) n'aurait **rien chang�
 | 2026-09-17 | K10 approuvé (trace de session : journal texte brut actions + moteur pour diagnostic, approche A + logger injecté option 1) |
 | 2026-09-17 | K10 exécuté (plan trace-session) : src/trace/, journal moteur, hook runAction, raccordement UI |
 | 2026-09-18 | K11 approuvé — pause auto sur objectif actif (révision `17-pause-auto`) : approche A signal pur + bannière + reprise Espace |
+| 2026-09-18 | Task 12 clôture v0 (révision `18-cloture-v0`) : contrat repro J106–J112 ≤ J250, boot inchangé, ADR-018 Accepté, tag `v0.0.1` en attente (playtest humain) |

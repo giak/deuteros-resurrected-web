@@ -7,17 +7,21 @@
 
 ## 1. Statut global
 
-🟢 **Phase 0 — Fondations** *(en cours, ~80 % — reste écran + CI)*
+🟢 **v0 — Boucle Terre jouable, prête à taguer `v0.0.1`** *(clôture Task 12, 2026-09-18)*
 
 | Domaine | Statut |
 |---|---|
 | Documentation cadrage | 🟢 Réalisée |
 | Recherche de référence (original) | 🟢 `RESEARCH.md` (commit `0ee27d7`) |
-| Repo / git | 🟢 4 commits (`060a402` → `59b6157`) |
-| Build Vite + TS | 🟢 Squelette OK (bun) |
+| Repo / git | 🟢 53 commits (v0 prête à taguer) |
+| Build Vite + TS | 🟢 OK (npm) |
 | Spec tables v1 | 🟢 commit `08107fb` |
-| Tables v1 (data + moteur + tests) | 🟢 commit `59b6157`, 42/42 tests |
+| Tables v1 (data + moteur + tests) | 🟢 `src/simulation/`, contrat v0 verrouillé (111 tests) |
 | Simulation squelettique | ✅ couvert par tables v1 (`src/simulation/`) |
+| Facade d'actions (ADR-018) | 🟢 `src/actions/`, seule porte de mutation |
+| Écran Terre (panneaux + victoire) | 🟢 v0 jouable |
+| Trace de session (K10) | 🟢 `src/trace/` |
+| Pause auto sur objectif (K11) | 🟢 bannière + reprise |
 | CI (lint, typecheck, tests) | 🟡 Scripts OK, pipeline GH à créer |
 
 ---
@@ -26,8 +30,8 @@
 
 | Phase | Statut | Notes |
 |---|---|---|
-| 0 — Fondations | 🟨 en cours | docs écrites |
-| 1 — MVP jouable | 🔲 | |
+| 0 — Fondations | 🟢 terminée | docs + tables + UI v0 |
+| 1 — MVP jouable | 🟨 en cours | v0 « Boucle Terre » prête à taguer ; reste playtest humain d'usage |
 | 2 — Expansion & logistique | 🔲 | |
 | 3 — Recherche complète & industrie | 🔲 | |
 | 4 — Combat & menace | 🔲 | |
@@ -53,6 +57,7 @@
 | Dashboard | `docs/DASHBOARD.md` | 🟢 |
 | Trace (journal) | `docs/TRACE.md` | 🟢 |
 | Trace de session (spec K10) | `docs/superpowers/specs/2026-09-17-trace-session-design.md` | 🟢 exécutée (`src/trace/`) |
+| Pause auto sur objectif (spec K11) | `docs/superpowers/specs/2026-09-18-pause-objectifs-design.md` | 🟢 exécutée |
 | Recherche original Deuteros | `docs/RESEARCH.md` | 🟢 v0.1 |
 
 ---
@@ -61,11 +66,11 @@
 
 | Métrique | Valeur |
 |---|---|
-| Sessions de travail | 17 |
+| Sessions de travail | 18 |
 | Tickets ouverts | 0 |
-| Commits | 52 |
+| Commits | 53 |
 | Tests | 111 |
-| Build jouable | oui (v0, playtest réel effectué) |
+| Build jouable | oui (v0 prête à taguer `v0.0.1`) |
 
 *(colonnes à alimenter au fil du projet)*
 
@@ -81,7 +86,7 @@
 
 ## 6. Prochains pas (TODO court terme)
 
-1. Commiter les tables v1 (data + simulation + tests) après revue.
-2. Rendre le premier écran : canvas + barre de statut branchée sur `dayTick()`.
-3. CI GH Actions (lint, typecheck, tests).
-4. GAMEPLAY v0.2 : arbitrer transport/Hydroïdes/défaite + répercuter les corrections tables v1.
+1. Playtest humain réel à ×20 avec trace + pause auto (valider l'usage après K10/K11).
+2. CI GH Actions (lint, typecheck, tests).
+3. GAMEPLAY v0.2 : arbitrer transport/Hydroïdes/défaite + répercuter les corrections tables v1.
+4. Phase 1 MVP : automatisation des relances (réduire la charge manuelle constatée en playtest).
