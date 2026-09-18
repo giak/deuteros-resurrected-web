@@ -4,7 +4,19 @@
  * (source:f53f5ba3fa) — cf. docs/RESEARCH.md §8/§9 et spec tables v1 §3-4.
  */
 import { describe, expect, it } from 'vitest';
-import { BODIES, ITEMS, RESOURCES, RESEARCHABLE_ITEMS, SOL_BODIES, GROUND_ITEMS, getItem } from '@/simulation/data';
+import {
+  BODIES,
+  GROUND_ITEMS,
+  ITEMS,
+  ITEM_BY_ID,
+  RESOURCES,
+  RESOURCE_BY_ID,
+  RESEARCHABLE_ITEMS,
+  SOL_BODIES,
+  VESSELS,
+  VESSEL_BY_ID,
+  getItem,
+} from '@/simulation/data';
 
 describe('resources.json', () => {
   it('contient les 16 ressources canoniques', () => {
@@ -131,5 +143,60 @@ describe('planets.json', () => {
   it('les colonies Méthanoïdes de départ sont posées (scénario CoreData.cs)', () => {
     const start = BODIES.filter((b) => b.methanoidColony).map((b) => b.id);
     expect(start).toEqual(expect.arrayContaining(['jupiter', 'uranus', 'titania', 'neptune', 'triton', 'pluto']));
+  });
+});
+
+describe('resources.json — masse unitaire (spec transport §3.0)', () => {
+  it('chaque ressource a une masse de 1 t/unité', () => {
+    for (const r of RESOURCES) expect(r.mass).toBe(1);
+  });
+});
+
+describe('vessels.json (spec transport §3.1)', () => {
+  it('contient les 3 vaisseaux canoniques', () => {
+    expect(VESSELS.map((v) => v.id)).toEqual(['shuttle', 'ios', 'scg']);
+  });
+
+  it('capacités, slots, slotTotal et ranges canon (GAMEPLAY §5.2)', () => {
+    expect(VESSEL_BY_ID['shuttle']).toMatchObject({
+      capacity: 100, slots: { supply: 1, tool: 1 }, slotTotal: 1, range: 'intrasolar',
+    });
+    expect(VESSEL_BY_ID['ios']).toMatchObject({
+      capacity: 2500, slots: { supply: 2, tool: 1 }, slotTotal: 3, range: 'interplanetary',
+    });
+    expect(VESSEL_BY_ID['scg']).toMatchObject({
+      capacity: 5000, slots: { supply: 2, tool: 1 }, slotTotal: 3, range: 'interstellar',
+    });
+  });
+
+  it('carburant et réservoirs canon (ACC.cs)', () => {
+    expect(VESSEL_BY_ID['shuttle'].fuelType).toBe('meh_fuel');
+    expect(VESSEL_BY_ID['shuttle'].tankCap).toBe(100);
+    expect(VESSEL_BY_ID['ios'].fuelType).toBe('meh_fuel');
+    expect(VESSEL_BY_ID['ios'].tankCap).toBe(250);
+    expect(VESSEL_BY_ID['scg'].fuelType).toBe('hed_fuel');
+    expect(VESSEL_BY_ID['scg'].tankCap).toBe(250);
+  });
+
+  it('manœuvres sol uniquement pour la navette', () => {
+    expect(VESSEL_BY_ID['shuttle'].travel).toEqual({ landDays: 2, takeoffDays: 5, repairDays: 2 });
+    expect(VESSEL_BY_ID['ios'].travel).toBeNull();
+    expect(VESSEL_BY_ID['scg'].travel).toBeNull();
+  });
+
+  it('châssis/drives et pods référencés existent dans ITEMS', () => {
+    for (const v of VESSELS) {
+      expect(ITEM_BY_ID[v.build.chassis]).toBeDefined();
+      expect(ITEM_BY_ID[v.build.drive]).toBeDefined();
+    }
+    for (const pod of ['supply_pod', 'tool_pod', 'cryo_pod']) expect(ITEM_BY_ID[pod]).toBeDefined();
+  });
+
+  it('les carburants de vaisseaux sont des ressources composées connues', () => {
+    for (const v of VESSELS) {
+      const def = RESOURCE_BY_ID[v.fuelType];
+      expect(def).toBeDefined();
+      expect(def.type).toBe('compound_fuel');
+    }
   });
 });

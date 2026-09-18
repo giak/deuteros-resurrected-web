@@ -4,7 +4,9 @@
 import rawResources from '../../data/resources.json';
 import rawItems from '../../data/items.json';
 import rawPlanets from '../../data/planets.json';
+import rawVessels from '../../data/vessels.json';
 import type { ResourceId } from './config';
+import type { SlotKind } from './types';
 
 export interface ResourceDef {
   id: ResourceId;
@@ -14,6 +16,7 @@ export interface ResourceDef {
   minable: boolean;
   derrickRate: number;
   surveyMultiplier: number;
+  mass: number; // spec transport §3.0 : 1 t/unité
 }
 
 export type ItemCategory = 'resource' | 'item' | 'hidden';
@@ -33,6 +36,21 @@ export interface ItemDef {
   researchMultiplier?: number;
   researchValue?: number;
   inputs?: Partial<Record<ResourceId, number>>;
+}
+
+/** Vaisseau transport (spec transport §3.1) — schéma data/vessels.json. */
+export interface VesselDef {
+  id: string;
+  name: string;
+  category: 'transport';
+  capacity: number;
+  slots: Partial<Record<SlotKind, number>>;
+  slotTotal: number;
+  fuelType: ResourceId;
+  tankCap: number;
+  range: 'intrasolar' | 'interplanetary' | 'interstellar';
+  travel: { landDays: number; takeoffDays: number; repairDays: number } | null;
+  build: { chassis: string; drive: string };
 }
 
 export interface BodyDef {
@@ -61,6 +79,15 @@ const byId = <T extends { id: string }>(list: T[]): Record<string, T> =>
 export const RESOURCE_BY_ID = byId(RESOURCES);
 export const ITEM_BY_ID = byId(ITEMS);
 export const BODY_BY_ID = byId(BODIES);
+
+export const VESSELS = rawVessels.vessels as VesselDef[];
+export const VESSEL_BY_ID = byId(VESSELS);
+
+export function getVessel(id: string): VesselDef {
+  const v = VESSEL_BY_ID[id];
+  if (!v) throw new Error(`Vaisseau inconnu : ${id}`);
+  return v;
+}
 
 /**
  * Items queueables à l'usine au sol en v0 (spec §6.2 : 8 tech-1 + a_c_c tech-3).

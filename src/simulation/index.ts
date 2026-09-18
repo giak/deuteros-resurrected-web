@@ -33,7 +33,11 @@ export {
   SOL_BODIES,
   getItem,
   getBody,
+  VESSELS,
+  VESSEL_BY_ID,
+  getVessel,
 } from './data';
+export type { VesselDef } from './data';
 export { createInitialState, createPlanetRuntime } from './state';
 export { dayTick } from './engine';
 export { getLevel, rankName, startTraining, canTrain, updateTraining } from './staff';

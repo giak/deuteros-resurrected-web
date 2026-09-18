@@ -4,6 +4,8 @@
  */
 import type { ResourceId } from './config';
 
+export type SlotKind = 'supply' | 'tool' | 'cryo';
+
 export type StaffType = 'research' | 'production' | 'marines';
 
 /** Équipe (Staff.cs) — rang dérivé des ActionsTaken, jamais stocké. */

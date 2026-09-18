@@ -23,22 +23,22 @@ COREDATA = Path("/tmp/opencode/deuteros/remake/CoreData.cs")
 # 1. Ressources (16) — enum ItemTypes 1-16 du remake
 # ---------------------------------------------------------------------------
 RESOURCES = [
-    ("iron", "Fer", "Fe", "raw"),
-    ("titanium", "Titane", "Ti", "raw"),
-    ("aluminium", "Aluminium", "Al", "raw"),
-    ("carbon", "Carbone", "C", "raw"),
-    ("copper", "Cuivre", "Cu", "raw"),
-    ("hydrogen", "Hydrogène", "H", "raw"),
-    ("deuterium", "Deutérium", "D", "raw"),
-    ("methane", "Méthane", "CH4", "raw"),
-    ("helium", "Hélium", "He", "raw"),
-    ("palladium", "Palladium", "Pd", "precious"),
-    ("platinum", "Platine", "Pt", "precious"),
-    ("silver", "Argent", "Ag", "precious"),
-    ("gold", "Or", "Au", "precious"),
-    ("silica", "Silice", "Si", "raw"),
-    ("meh_fuel", "Carburant MeH", "MeH", "compound_fuel"),
-    ("hed_fuel", "Carburant HeD", "HeD", "compound_fuel"),
+    ("iron", "Fer", "Fe", "raw", 1),
+    ("titanium", "Titane", "Ti", "raw", 1),
+    ("aluminium", "Aluminium", "Al", "raw", 1),
+    ("carbon", "Carbone", "C", "raw", 1),
+    ("copper", "Cuivre", "Cu", "raw", 1),
+    ("hydrogen", "Hydrogène", "H", "raw", 1),
+    ("deuterium", "Deutérium", "D", "raw", 1),
+    ("methane", "Méthane", "CH4", "raw", 1),
+    ("helium", "Hélium", "He", "raw", 1),
+    ("palladium", "Palladium", "Pd", "precious", 1),
+    ("platinum", "Platine", "Pt", "precious", 1),
+    ("silver", "Argent", "Ag", "precious", 1),
+    ("gold", "Or", "Au", "precious", 1),
+    ("silica", "Silice", "Si", "raw", 1),
+    ("meh_fuel", "Carburant MeH", "MeH", "compound_fuel", 1),
+    ("hed_fuel", "Carburant HeD", "HeD", "compound_fuel", 1),
 ]
 
 # ---------------------------------------------------------------------------
@@ -280,11 +280,11 @@ def main():
     resources = {
         "meta": {"version": 1, "source": "Deuteros-Resurrected develop (source:f53f5ba3fa), Enums.cs ItemTypes 1-16"},
         "resources": [
-            {"id": rid, "name": name, "symbol": sym, "type": typ,
+            {"id": rid, "name": name, "symbol": sym, "type": typ, "mass": mass,
              "minable": typ in ("raw", "precious"),
              "derrickRate": 2 if rid in ("iron", "titanium", "aluminium", "carbon", "copper", "silica") else 1,
              "surveyMultiplier": {"helium": 4, "platinum": 2, "silver": 2, "gold": 3}.get(rid, 1)}
-            for rid, name, sym, typ in RESOURCES
+            for rid, name, sym, typ, mass in RESOURCES
         ],
     }
     (DATA / "resources.json").write_text(json.dumps(resources, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
@@ -321,6 +321,31 @@ def main():
         "items": items,
     }
     (DATA / "items.json").write_text(json.dumps(items_doc, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+    # --- vessels.json (spec 2026-09-18-vessels-transport-design.md §3.1) ---
+    VESSELS = [
+        dict(id="shuttle", name="Navette", category="transport", capacity=100,
+             slots={"supply": 1, "tool": 1}, slotTotal=1,
+             fuelType="meh_fuel", tankCap=100, range="intrasolar",
+             travel={"landDays": 2, "takeoffDays": 5, "repairDays": 2},
+             build={"chassis": "s_chassis", "drive": "s_drive"}),
+        dict(id="ios", name="IOS (Interplanetary Ops)", category="transport", capacity=2500,
+             slots={"supply": 2, "tool": 1}, slotTotal=3,
+             fuelType="meh_fuel", tankCap=250, range="interplanetary",
+             travel=None,
+             build={"chassis": "i_chassis", "drive": "i_drive"}),
+        dict(id="scg", name="SCG (FTL)", category="transport", capacity=5000,
+             slots={"supply": 2, "tool": 1}, slotTotal=3,
+             fuelType="hed_fuel", tankCap=250, range="interstellar",
+             travel=None,
+             build={"chassis": "g_chassis", "drive": "star_drive"}),
+    ]
+    vessels_doc = {
+        "meta": {"version": 1,
+                 "source": "GAMEPLAY v0.2 §5.2; ACC.cs/Enums.cs/Ship.cs (remake, clone local d252446f079fc4e7de766f28a22509bd71ed1023)"},
+        "vessels": VESSELS,
+    }
+    (DATA / "vessels.json").write_text(json.dumps(vessels_doc, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
     # --- planets.json + astronomical.json ---
     bodies = parse_coredata_planets()
@@ -423,6 +448,7 @@ def main():
     seg = [p["id"] for p in planets if p["segment"]]
     print(f"resources.json : {len(resources['resources'])} ressources")
     print(f"items.json     : {len(items)} items ({items_doc['meta']['counts']['researchable']} recherchables)")
+    print(f"vessels.json   : {len(VESSELS)} vaisseaux")
     print(f"planets.json   : {len(planets)} corps / {n_sys} systèmes (v1 scope: {len(sun)} corps Soleil)")
     print(f"segments       : {seg}")
     print(f"astronomical/difficulties/events : OK")

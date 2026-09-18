@@ -9,6 +9,7 @@
       "name": "Fer",
       "symbol": "Fe",
       "type": "raw",
+      "mass": 1,
       "minable": true,
       "derrickRate": 2,
       "surveyMultiplier": 1
@@ -18,6 +19,7 @@
       "name": "Titane",
       "symbol": "Ti",
       "type": "raw",
+      "mass": 1,
       "minable": true,
       "derrickRate": 2,
       "surveyMultiplier": 1
@@ -27,6 +29,7 @@
       "name": "Aluminium",
       "symbol": "Al",
       "type": "raw",
+      "mass": 1,
       "minable": true,
       "derrickRate": 2,
       "surveyMultiplier": 1
@@ -36,6 +39,7 @@
       "name": "Carbone",
       "symbol": "C",
       "type": "raw",
+      "mass": 1,
       "minable": true,
       "derrickRate": 2,
       "surveyMultiplier": 1
@@ -45,6 +49,7 @@
       "name": "Cuivre",
       "symbol": "Cu",
       "type": "raw",
+      "mass": 1,
       "minable": true,
       "derrickRate": 2,
       "surveyMultiplier": 1
@@ -54,6 +59,7 @@
       "name": "Hydrogène",
       "symbol": "H",
       "type": "raw",
+      "mass": 1,
       "minable": true,
       "derrickRate": 1,
       "surveyMultiplier": 1
@@ -63,6 +69,7 @@
       "name": "Deutérium",
       "symbol": "D",
       "type": "raw",
+      "mass": 1,
       "minable": true,
       "derrickRate": 1,
       "surveyMultiplier": 1
@@ -72,6 +79,7 @@
       "name": "Méthane",
       "symbol": "CH4",
       "type": "raw",
+      "mass": 1,
       "minable": true,
       "derrickRate": 1,
       "surveyMultiplier": 1
@@ -81,6 +89,7 @@
       "name": "Hélium",
       "symbol": "He",
       "type": "raw",
+      "mass": 1,
       "minable": true,
       "derrickRate": 1,
       "surveyMultiplier": 4
@@ -90,6 +99,7 @@
       "name": "Palladium",
       "symbol": "Pd",
       "type": "precious",
+      "mass": 1,
       "minable": true,
       "derrickRate": 1,
       "surveyMultiplier": 1
@@ -99,6 +109,7 @@
       "name": "Platine",
       "symbol": "Pt",
       "type": "precious",
+      "mass": 1,
       "minable": true,
       "derrickRate": 1,
       "surveyMultiplier": 2
@@ -108,6 +119,7 @@
       "name": "Argent",
       "symbol": "Ag",
       "type": "precious",
+      "mass": 1,
       "minable": true,
       "derrickRate": 1,
       "surveyMultiplier": 2
@@ -117,6 +129,7 @@
       "name": "Or",
       "symbol": "Au",
       "type": "precious",
+      "mass": 1,
       "minable": true,
       "derrickRate": 1,
       "surveyMultiplier": 3
@@ -126,6 +139,7 @@
       "name": "Silice",
       "symbol": "Si",
       "type": "raw",
+      "mass": 1,
       "minable": true,
       "derrickRate": 2,
       "surveyMultiplier": 1
@@ -135,6 +149,7 @@
       "name": "Carburant MeH",
       "symbol": "MeH",
       "type": "compound_fuel",
+      "mass": 1,
       "minable": false,
       "derrickRate": 1,
       "surveyMultiplier": 1
@@ -144,6 +159,7 @@
       "name": "Carburant HeD",
       "symbol": "HeD",
       "type": "compound_fuel",
+      "mass": 1,
       "minable": false,
       "derrickRate": 1,
       "surveyMultiplier": 1

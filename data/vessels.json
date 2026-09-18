@@ -1,0 +1,69 @@
+{
+  "meta": {
+    "version": 1,
+    "source": "GAMEPLAY v0.2 §5.2; ACC.cs/Enums.cs/Ship.cs (remake, clone local d252446f079fc4e7de766f28a22509bd71ed1023)"
+  },
+  "vessels": [
+    {
+      "id": "shuttle",
+      "name": "Navette",
+      "category": "transport",
+      "capacity": 100,
+      "slots": {
+        "supply": 1,
+        "tool": 1
+      },
+      "slotTotal": 1,
+      "fuelType": "meh_fuel",
+      "tankCap": 100,
+      "range": "intrasolar",
+      "travel": {
+        "landDays": 2,
+        "takeoffDays": 5,
+        "repairDays": 2
+      },
+      "build": {
+        "chassis": "s_chassis",
+        "drive": "s_drive"
+      }
+    },
+    {
+      "id": "ios",
+      "name": "IOS (Interplanetary Ops)",
+      "category": "transport",
+      "capacity": 2500,
+      "slots": {
+        "supply": 2,
+        "tool": 1
+      },
+      "slotTotal": 3,
+      "fuelType": "meh_fuel",
+      "tankCap": 250,
+      "range": "interplanetary",
+      "travel": null,
+      "build": {
+        "chassis": "i_chassis",
+        "drive": "i_drive"
+      }
+    },
+    {
+      "id": "scg",
+      "name": "SCG (FTL)",
+      "category": "transport",
+      "capacity": 5000,
+      "slots": {
+        "supply": 2,
+        "tool": 1
+      },
+      "slotTotal": 3,
+      "fuelType": "hed_fuel",
+      "tankCap": 250,
+      "range": "interstellar",
+      "travel": null,
+      "build": {
+        "chassis": "g_chassis",
+        "drive": "star_drive"
+      }
+    }
+  ]
+}
