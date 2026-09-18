@@ -22,7 +22,7 @@
 | Écran Terre (panneaux + victoire) | 🟢 v0 jouable |
 | Trace de session (K10) | 🟢 `src/trace/` |
 | Pause auto sur objectif (K11) | 🟢 bannière + reprise |
-| CI (lint, typecheck, tests) | 🟡 Scripts OK, pipeline GH à créer |
+| CI (lint, typecheck, tests) | 🟢 `.github/workflows/ci.yml` — run vert 2026-09-18 |
 
 ---
 

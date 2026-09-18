@@ -477,6 +477,20 @@ Ajuster l'état de boot (Step 2 du brief, ex. 2 derricks) n'aurait **rien chang�
 
 ---
 
+## Décision K14 — CI GitHub Actions : dépôt public + vérification continue (approuvé 2026-09-18)
+
+**Contexte** : TODO court terme n°2 (DASHBOARD) — verrouiller la non-régression ; le repo est local, sans remote, depuis l'init.
+
+**Choix** :
+- Créer `giak/deuteros-resurrected-web` (**public**) via `gh repo create` (remote `origin`, push `main` + tag `v0.0.1`, topics `game`/`deuteros`/`typescript`/`vite`).
+- **Vérification seule** : workflow unique `.github/workflows/ci.yml` (approche A), job `checks` = `npm ci` → `lint` → `test:run` → `build` (typecheck via tsc dans `build`), triggers push/PR `main`, `cache: npm`, `concurrency` cancel-in-progress, `permissions: contents: read`.
+- **Reproductibilité** : `package-lock.json` commité et `engines: { "node": ">=22" }` (Node 22 LTS en CI).
+- **Déviation alignement deps** (blocage ERESOLVE, option A validée utilisateur) : `@eslint/js ^10.0.1` → `^9.39.5` (ses peers exigent eslint `^10`, incompatible avec eslint 9.39.5 + typescript-eslint 8 + eslint-plugin-vitest).
+
+**Conséquences** : chaque commit/PR `main` est vérifié (échec à la première étape défaillante) ; run CI #1 **vert** ; aucun secret, aucun déploiement ; branch protection à activer plus tard (hors périmètre).
+
+---
+
 ## Journal des révisions
 
 | Date | Décision |
@@ -511,3 +525,4 @@ Ajuster l'état de boot (Step 2 du brief, ex. 2 derricks) n'aurait **rien chang�
 | 2026-09-18 | K12 approuvé — reprise manuelle après pause auto (révise K11) : bannière « Fermer », reprise par choix de vitesse |
 | 2026-09-18 | K13 approuvé — sources internes : un seul remake public (Godot/C#), clone de référence `develop` hors dépôt, correction DASHBOARD, sources RESEARCH S14–S16 |
 | 2026-09-18 | **Clôture v0** : playtest humain validé (K10/K11/K12), tag `v0.0.1` posé sur `2035976` |
+| 2026-09-18 | K14 approuvé — CI GH Actions : dépôt public `giak/deuteros-resurrected-web`, workflow vérif seule (npm ci → lint → test → build, approche A), lockfile + engines >=22, @eslint/js aligné sur 9 (ERESOLVE) |

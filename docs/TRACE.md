@@ -4,6 +4,27 @@
 
 ---
 
+## Session 22 — 2026-09-18 (CI GitHub Actions : dépôt public + workflow vérification)
+
+**Objectif** : TODO court terme n°2 — installer la non-régression CI (lint, typecheck, tests, build) et créer le dépôt `giak/deuteros-resurrected-web` (public ; le repo était local, sans remote).
+
+**Décision K14** (DECISIONS.md) : périmètre vérif seule (pas de déploiement), lockfile commité (`npm ci`), Node 22 LTS (`engines >=22`), approche A (workflow unique à un job).
+
+**Réalisé** :
+- **Blocage résolu** : `@eslint/js ^10.0.1` exigeait un peer eslint `^10` incompatible avec eslint 9.39.5 (typescript-eslint 8 / plugin vitest) → option A validée utilisateur : **`@eslint/js` → `^9.39.5`** (ligne eslint 9), puis lockfile générable.
+- `package-lock.json` commité (`6257ea9`) + `engines >=22` ; `.github/workflows/ci.yml` commité (`e7316d4`).
+- Dépôt public créé (`gh repo create --source=. --push`) : `main` + tag `v0.0.1` poussés, topics ajoutés.
+- **Run CI #1 : SUCCESS** (~45 s, `35306506372`).
+
+**Verification** : `npm ci` ok ; lint 0 ; vitest **111/111** ; build VERT — après passage à @eslint/js 9.
+
+**Prochaines étapes (TODO) :**
+1. GAMEPLAY v0.2 : arbitrer transport/Hydroïdes/défaite + répercussion tables v1.
+2. Phase 1 MVP : automatisation des relances (réduire la charge manuelle).
+3. (Plus tard) branch protection + required status checks ; déploiement Pages sur demande.
+
+---
+
 ## Session 21 — 2026-09-18 (clôture v0 : playtest validé + tag `v0.0.1`)
 
 **Objectif** : validation d'usage finale (K10 trace + K11 pause auto + K12 reprise manuelle) puis pose du tag `v0.0.1`.
