@@ -79,7 +79,8 @@
 ## 5. Liens utiles
 
 - **Original** : https://fr.wikipedia.org/wiki/Deuteros:_The_Next_Millennium
-- **Fan remake de référence (C++)** : https://github.com/tonyoddspherecom/Deuteros-Resurrected/
+- **Fan remake de référence (Godot / C#)** : https://github.com/tonyoddspherecom/Deuteros-Resurrected/ (clone local de référence : `/home/giak/projects/Deuteros-Resurrected`, br. `develop`, HEAD `d252446f`)
+- **Manuel original (scan PDF)** : https://archive.org/download/amiga_games_manual/Deuteros%20-%20The%20next%20Millennium%20-%20Manual-ENG.zip
 - **Discord community remake** : https://discord.gg/SwmR4MFJpG
 
 ---

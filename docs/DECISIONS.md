@@ -463,6 +463,20 @@ Ajuster l'état de boot (Step 2 du brief, ex. 2 derricks) n'aurait **rien chang�
 
 ---
 
+## Décision K13 — Sources internes : clone de référence du remake + correction doc (approuvé 2026-09-18)
+
+**Contexte** : recherche demandée sur les PDF/docs/git/projets détaillant le fonctionnement interne de Deuteros (autres remakes inclus). Protocole mem-first respecté (Mnemolite `b85cca89-c254-4aae-995a-226d9399d4fc`, write-back après recherche web).
+
+**Constat** : **un seul remake public** — `tonyoddspherecom/Deuteros-Resurrected` (Godot / C#), soit le « PC remake in beta » de Wikipedia EN. Il fournit le code complet par écran (CoreData.cs 167 Ko + Production/Research/Training/ShipBay/StarMap/MTX/ACC/BattleLogic…), `SourceMaterials/Notes.txt` (reverse engineering : algo production `/ $321` hex = /801, AOC = 128, MOON INDEX) et les manuels originaux en PDF (`SourceMaterials/GameManuals/`, **Git LFS**, non tirés ici). Aucune autre réimplémentation publique (candidats écartés : `deuteros76.itch.io`, `destec-2026`, `deusXmachina-dev/DEStiny`).
+
+**Choix** :
+- **Clone de référence hors dépôt** : `/home/giak/projects/Deuteros-Resurrected` (br. `develop`, HEAD `d252446f`, ~31 Mo) — source primaire pour la Phase 2+ (combat, vaisseaux, écrans), sans polluer notre repo.
+- **Correction doc** : `DASHBOARD.md` §5 « (C++) » → « (Godot / C#) » (+ lien manuel archive.org) ; `RESEARCH.md` §16 + sources S14–S16 et complément daté.
+
+**Conséquences** : aucun code projet modifié (doc + clone hors dépôt) ; les manuels PDF du repo restent indirectement disponibles via archive.org (S10) tant que `git-lfs` n'est pas installé.
+
+---
+
 ## Journal des révisions
 
 | Date | Décision |
@@ -495,3 +509,4 @@ Ajuster l'état de boot (Step 2 du brief, ex. 2 derricks) n'aurait **rien chang�
 | 2026-09-18 | K11 approuvé — pause auto sur objectif actif (révision `17-pause-auto`) : approche A signal pur + bannière + reprise Espace |
 | 2026-09-18 | Task 12 clôture v0 (révision `18-cloture-v0`) : contrat repro J106–J112 ≤ J250, boot inchangé, ADR-018 Accepté, tag `v0.0.1` en attente (playtest humain) |
 | 2026-09-18 | K12 approuvé — reprise manuelle après pause auto (révise K11) : bannière « Fermer », reprise par choix de vitesse |
+| 2026-09-18 | K13 approuvé — sources internes : un seul remake public (Godot/C#), clone de référence `develop` hors dépôt, correction DASHBOARD, sources RESEARCH S14–S16 |

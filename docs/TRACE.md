@@ -4,6 +4,23 @@
 
 ---
 
+## Session 20 — 2026-09-18 (recherche sources internes : clone du remake + maj docs)
+
+**Objectif** : inventorier les PDF/docs/git/projets détaillant le fonctionnement interne du jeu (autres remakes inclus).
+
+**Résultat** : **un seul remake public** — `tonyoddspherecom/Deuteros-Resurrected` (Godot/C#), à l'origine du « PC remake in beta » cité par Wikipedia EN. Le repo contient le code complet par écran (CoreData.cs + Production/Research/Training/ShipBay/MTX/ACC/BattleLogic…), `SourceMaterials/Notes.txt` (algo production `/ $321` = /801, AOC = 128, MOON INDEX) et les manuels originaux en PDF (Git LFS). Aucune autre réimplémentation (candidats écartés : `deuteros76.itch.io`, `destec-2026`, `deusXmachina-dev/DEStiny`). Manuel alternatif : archive.org `amiga_games_manual`.
+
+**Réalisé** :
+- Clone de référence hors dépôt : `/home/giak/projects/Deuteros-Resurrected` (br. `develop`, HEAD `d252446f`, 2026-09-16, ~31 Mo). Les PDF manuels sont des pointeurs **Git LFS** (pas de `git-lfs` → non téléchargés ; archive.org reste la source primaire S10).
+- `docs/DASHBOARD.md` §5 : « remake (C++) » → « Godot / C# » (+ lien manuel archive.org).
+- `docs/RESEARCH.md` §16 : ajout des sources **S14** (clone local), **S15** (`Notes.txt`), **S16** (manuels PDF LFS) + complément daté.
+- Décision K13 consignée (DECISIONS.md, journal à jour).
+- Mémoire : `b85cca89-c254-4aae-995a-226d9399d4fc` (write-back).
+
+**Prochaines étapes (TODO) :** playtest humain K12 (bannière → Fermer reste en pause ; clic vitesse relance), puis clôture v0 (tag `v0.0.1`).
+
+---
+
 ## Session 19 — 2026-09-18 (K12 — reprise manuelle après pause auto)
 
 **Objectif** : corriger le comportement de reprise issu du playtest (Session 18) — la pause auto doit être un arrêt net, la reprise un choix explicite de vitesse (spec `docs/superpowers/specs/2026-09-18-pause-reprise-manuelle-design.md`).
