@@ -74,7 +74,23 @@
 }
 ```
 
-### 1.5 `vessels.json` — similaire (voir GAMEPLAY §5.2).
+### 1.5 `vessels.json`
+
+```jsonc
+{
+  "id": "ios",
+  "name": "IOS (Interplanetary Ops)",
+  "category": "transport",
+  "capacity": 2500,               // t — masse maximale transportable
+  "slots": { "tool": 1, "supply": 2, "cryo": 0 },
+  "fuelType": "meh_fuel",         // meh_fuel (sol/intra) | hed_fuel (orbite/FTL)
+  "fuelCostPerMassDay": 0.01,     // → coût = fond × (distance × masse)
+  "range": "interplanetary",      // shuttle | intra | interplanetary | interstellar
+  "travel": { "landDays": 2, "takeoffDays": 5 }   // navette seulement
+}
+```
+
+> Note : `data/vessels.json` n'existe pas encore ; ce bloc documente le format **cible** (v2 des data, implémentation sim future).
 
 ### 1.6 `events.json`
 
@@ -143,13 +159,23 @@ type StructureRuntime = {
 
 type VesselRuntime = {
   id: string;
-  templateId: string;
+  templateId: string;         // référence data/vessels.json (cible)
   position: Position;         // { kind: "orbiting", planetId } | { kind: "transit", from, to, progress }
-  cargo: Record<ResourceId, number>;
-  fuel: number;
-  orders: Order[];
+  modules: CargoSlot[];       // slots : 1 cargaison homogène par slot
+  fuel: number;               // niveau de carburant restant (MeH/HeD)
+  fuelType: "meh_fuel" | "hed_fuel";
+  orders: Order[];            // envoi manuel ou routes de ravitaillement
   health: number;
 };
+
+type CargoSlot = {
+  kind: "supply" | "tool" | "cryo";
+  itemId?: string;            // ressource (supply) ou item (tool)
+  quantity: number;           // max 250/chargement pour supply ; 1 équipe pour cryo
+  crewTeamId?: string;        // si cryo
+};
+
+> **Détection de défaite** (GameState) : les conditions GAMEPLAY §10 se lisent dans l'état — `flags` (Terre-Ville perdue, segments endommagés), état des installations de production (`caution` des structures), unités de combat opérationnelles (flotte). L'implémentation exacte relève de la sim (EPIC future).
 ```
 
 ---
