@@ -68,7 +68,7 @@
 |---|---|
 | Sessions de travail | 19 |
 | Tickets ouverts | 0 |
-| Commits | 56 |
+| Commits | 65 |
 | Tests | 111 |
 | Build jouable | oui — tag `v0.0.1` posé (2026-09-18) |
 
