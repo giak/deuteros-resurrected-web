@@ -756,7 +756,7 @@ describe('refuel (spec §4.2)', () => {
     expect(s.planets.earth.items['meh_fuel']).toBe(150);
   });
 
-  it('conserve l&#39;excédent du stock si le réservoir est petit', () => {
+  it('conserve l\'excédent du stock si le réservoir est petit', () => {
     const s = createInitialState(1);
     s.planets.earth.items['meh_fuel'] = 30;
     runAction(refuel, s, { vesselId: 'shuttle-1' });
@@ -846,8 +846,6 @@ describe('sendCargo (spec §4.2)', () => {
   });
 });
 ```
-
-> Remarque : la syntaxe `&#39;` dans le nom du test « conserve l&#39;excédent… » est une coquille : utiliser `conserve l'excédent du stock si le réservoir est petit`.
 
 - [ ] **Step 2 : Vérifier l'échec**
 
