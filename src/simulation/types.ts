@@ -137,6 +137,8 @@ export interface DayTickResult {
   researchFinished: string | null;
   enemyDronesBuilt: number;
   battlesResolved: Battle[];
+  /** Formations arrivées à échéance ce jour (type + effectif promu). */
+  trainingFinished: Array<{ type: StaffType; count: number }>;
   /** Lignes de trace du jour (texte brut, préfixées `[J<jour simulé>]` — spec K10). */
   journal: string[];
 }

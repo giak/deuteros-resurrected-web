@@ -28,6 +28,7 @@ export function dayTick(state: GameState): DayTickResult {
     researchFinished: null,
     enemyDronesBuilt: 0,
     battlesResolved: [],
+    trainingFinished: [],
     journal: [],
   };
   const journal = result.journal;
@@ -81,6 +82,7 @@ export function dayTick(state: GameState): DayTickResult {
     }
     // marines : hors v0 (spec §9) — la promotion rejoint le réservoir d'affectation UI
     journal.push(`[J${day}] formation ${type} : +${count} recrues.`);
+    result.trainingFinished.push({ type, count });
   });
 
   // 5. Ennemis

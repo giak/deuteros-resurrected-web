@@ -8,6 +8,7 @@ import {
   BATTLE_FACTORS,
   createInitialState,
   createRng,
+  dayTick,
   getLevel,
   fleetPower,
   startBattle,
@@ -384,5 +385,24 @@ describe('retours enrichis (trace — task 2)', () => {
     expect(out.blocked).toBe(false);
     expect(out.progress).toEqual({ itemId: 'of_frame', percentage: 1 });
     expect(out.progress?.percentage).toBe(1);
+  });
+});
+
+describe('pause auto — signal moteur trainingFinished (K11)', () => {
+  it('dayTick : formation à échéance (24 j) renvoie trainingFinished {type,count} + ligne journal', () => {
+    const state = createInitialState(1);
+    expect(startTraining(state, 'production', 100)).toBe(true);
+    state.day += 24;
+    const result = dayTick(state);
+    expect(result.trainingFinished).toEqual([{ type: 'production', count: 100 }]);
+    expect(result.journal).toContain('[J25] formation production : +100 recrues.');
+    expect(state.training.inTraining.production).toBe(0);
+  });
+
+  it('dayTick : sans échéance, trainingFinished est vide', () => {
+    const state = createInitialState(1);
+    startTraining(state, 'production', 100);
+    state.day += 23;
+    expect(dayTick(state).trainingFinished).toEqual([]);
   });
 });
