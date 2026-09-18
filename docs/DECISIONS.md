@@ -510,3 +510,4 @@ Ajuster l'état de boot (Step 2 du brief, ex. 2 derricks) n'aurait **rien chang�
 | 2026-09-18 | Task 12 clôture v0 (révision `18-cloture-v0`) : contrat repro J106–J112 ≤ J250, boot inchangé, ADR-018 Accepté, tag `v0.0.1` en attente (playtest humain) |
 | 2026-09-18 | K12 approuvé — reprise manuelle après pause auto (révise K11) : bannière « Fermer », reprise par choix de vitesse |
 | 2026-09-18 | K13 approuvé — sources internes : un seul remake public (Godot/C#), clone de référence `develop` hors dépôt, correction DASHBOARD, sources RESEARCH S14–S16 |
+| 2026-09-18 | **Clôture v0** : playtest humain validé (K10/K11/K12), tag `v0.0.1` posé sur `2035976` |

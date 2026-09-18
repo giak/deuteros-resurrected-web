@@ -7,13 +7,13 @@
 
 ## 1. Statut global
 
-🟢 **v0 — Boucle Terre jouable, prête à taguer `v0.0.1`** *(clôture Task 12, 2026-09-18)*
+🟢 **v0 — Boucle Terre jouable — `v0.0.1` posé** *(clôture v0, playtest validé 2026-09-18)*
 
 | Domaine | Statut |
 |---|---|
 | Documentation cadrage | 🟢 Réalisée |
 | Recherche de référence (original) | 🟢 `RESEARCH.md` (commit `0ee27d7`) |
-| Repo / git | 🟢 56 commits (v0 prête à taguer) |
+| Repo / git | 🟢 57 commits — tag `v0.0.1` posé |
 | Build Vite + TS | 🟢 OK (npm) |
 | Spec tables v1 | 🟢 commit `08107fb` |
 | Tables v1 (data + moteur + tests) | 🟢 `src/simulation/`, contrat v0 verrouillé (111 tests) |
@@ -31,7 +31,7 @@
 | Phase | Statut | Notes |
 |---|---|---|
 | 0 — Fondations | 🟢 terminée | docs + tables + UI v0 |
-| 1 — MVP jouable | 🟨 en cours | v0 « Boucle Terre » prête à taguer ; reste playtest humain d'usage |
+| 1 — MVP jouable | 🟨 en cours | v0 « Boucle Terre » **v0.0.1 posé** ; playtest humain validé (2026-09-18) |
 | 2 — Expansion & logistique | 🔲 | |
 | 3 — Recherche complète & industrie | 🔲 | |
 | 4 — Combat & menace | 🔲 | |
@@ -70,7 +70,7 @@
 | Tickets ouverts | 0 |
 | Commits | 56 |
 | Tests | 111 |
-| Build jouable | oui (v0 prête à taguer `v0.0.1`) |
+| Build jouable | oui — tag `v0.0.1` posé (2026-09-18) |
 
 *(colonnes à alimenter au fil du projet)*
 

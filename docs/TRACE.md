@@ -4,6 +4,28 @@
 
 ---
 
+## Session 21 — 2026-09-18 (clôture v0 : playtest validé + tag `v0.0.1`)
+
+**Objectif** : validation d'usage finale (K10 trace + K11 pause auto + K12 reprise manuelle) puis pose du tag `v0.0.1`.
+
+**Playtest humain** (serveur dev, script Session 19) — **validé** par l'utilisateur (« tout me semble correct ») :
+- Démarrage ×1 et trace `[J<n>]` ok ;
+- pause auto sur objectif achevé = arrêt net + bannière (K11) ;
+- « Fermer (Espace) » **reste en pause**, aucun jour ne s'écoule (K12) ;
+- Espace avec bannière = ferme sans relancer ; clic vitesse ×2/×5/×20 = ferme + relance (K12) ;
+- Espace hors bannière = toggle 0↔1 intact ; victoire OF Frame ok.
+
+**Verification** : vitest 111/111, lint 0, build VERT (js 82.77 kB) — arbre propre.
+
+**Tag** : `v0.0.1` posé (annoté) sur `2035976` — **clôture v0** 🟢. Docs : DASHBOARD (statut, 57 commits), README, présent journal.
+
+**Prochaines étapes (TODO) :**
+1. CI GH Actions (lint, typecheck, tests) — TODO court terme n°2.
+2. GAMEPLAY v0.2 : arbitrer transport/Hydroïdes/défaite + répercussion tables v1.
+3. Phase 1 MVP : automatisation des relances (réduire la charge manuelle).
+
+---
+
 ## Session 20 — 2026-09-18 (recherche sources internes : clone du remake + maj docs)
 
 **Objectif** : inventorier les PDF/docs/git/projets détaillant le fonctionnement interne du jeu (autres remakes inclus).
