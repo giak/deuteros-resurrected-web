@@ -423,6 +423,10 @@ D'après le remake pixel-perfect (deuteros.com), le jeu original contient (statu
 - ✅ **Recettes** : corrigées via `CoreData.cs` — le cuivre (Derrick/Pods) était erroné dans la source OCR d'origine (carbone/titane).
 - ✅ **Chronologie** : 3100 AD (pas 3000) pour la fin de la Terre-Ville (confirmé manuel OCR : « By the year 3100 AD the City was complete »).
 - ✅ **Algorithme de production** : `v = (engineers << rank) × multiplier / 801` (et non `/321` — valeur corrigée après lecture de `Factory.cs`), wrap 8 bits, 4 cycles, AOC=128 → croissance non-linéaire de l'expérience.
+- ✅ **Ressources (16)** : l'original en a 16 (fer, aluminium, cuivre… + carburants composés MeH/HeD) — les « 10 exotiques » v0.1 sont abandonnées ; `GAMEPLAY.md` v0.2 et `data/resources.json` alignés.
+- ✅ **Transport pods/slots hybride** (pas le tonnage abstrait) : voir GAMEPLAY §2.3.
+- ✅ **Hydroïdes narratifs** (message + bulletins + segments) : voir GAMEPLAY §8.
+- ✅ **Défaite = spirale** (perte d'infra, pas le seul « Terre détruite ») : voir GAMEPLAY §10, PFD §3.8.
 
 **À décider dans nos docs :**
 - **Ressources** : notre liste (10, exotiques) vs liste originale (16, dont fer/aluminium/cuivre + carburants composés). → DATA.md est à affiner ici.

@@ -66,9 +66,9 @@
 
 | Métrique | Valeur |
 |---|---|
-| Sessions de travail | 19 |
+| Sessions de travail | 23 |
 | Tickets ouverts | 0 |
-| Commits | 65 |
+| Commits | 74 |
 | Tests | 111 |
 | Build jouable | oui — tag `v0.0.1` posé (2026-09-18) |
 
@@ -89,5 +89,5 @@
 
 1. Playtest humain réel à ×20 avec trace + pause auto (valider l'usage après K10/K11).
 2. CI GH Actions (lint, typecheck, tests).
-3. GAMEPLAY v0.2 : arbitrer transport/Hydroïdes/défaite + répercuter les corrections tables v1.
+3. ~~GAMEPLAY v0.2 — arbitrages posés (spec + docs v0.2)~~ ✅.
 4. Phase 1 MVP : automatisation des relances (réduire la charge manuelle constatée en playtest).

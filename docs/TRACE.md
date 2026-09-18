@@ -4,6 +4,15 @@
 
 ---
 
+## Session 23 — 2026-09-18 (GAMEPLAY v0.2 : arbitrages transport / Hydroïdes / défaite)
+
+- Brainstorming 4 sections validées → spec `docs/superpowers/specs/2026-09-18-gameplay-v0.2-design.md` (commit `e173252`).
+- Réécriture `GAMEPLAY.md` v0.2 : ressources 16, transport pods/slots (Navette/IOS/SCG), routage + ACC/AOC, IA Méthanoïde (Prises de position), timeline Hydroïdes + segments, nouveau § Défaite.
+- `PFD.md` §3.5/§3.7/§3.8 ; `DATA.md` §1.5/§2 (vessels/VesselRuntime) ; note détection défaite.
+- Décision K15 consignée. Sim et data json inchangés (implémentation = EPIC transport/Lune).
+
+---
+
 ## Session 22 — 2026-09-18 (CI GitHub Actions : dépôt public + workflow vérification)
 
 **Objectif** : TODO court terme n°2 — installer la non-régression CI (lint, typecheck, tests, build) et créer le dépôt `giak/deuteros-resurrected-web` (public ; le repo était local, sans remote).

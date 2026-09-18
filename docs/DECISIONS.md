@@ -491,10 +491,26 @@ Ajuster l'état de boot (Step 2 du brief, ex. 2 derricks) n'aurait **rien chang�
 
 ---
 
+## Décision K15 — GAMEPLAY v0.2 : transport pods/slots, Hydroïdes narratifs, défaite spirale (approuvé 2026-09-18)
+
+**Contexte** : TODO court terme n°3 — arbitrer les écarts RESEARCH §15 (transport, Hydroïdes, défaite) et répercuter les tables.
+
+**Choix** :
+- **Transport hybride UX** : vaisseau = capacité (t) + slots ; slot homogène `{ ressource|item, quantité }` ; types supply (250/chargement) / tool (item `toolPod`) / cryo (équipe) ; masse = contrainte de charge ; carburant MeH/HeD = f(distance, masse) ; routage manuel + routes (pré-ACC), ACC/AOC automatisent.
+- **Vaisseaux transporteurs** : Navette (1 slot, 100 t, MeH), IOS (3 slots, 2 500 t, MeH), SCG (3 slots, 5 000 t, HeD, FTL). Combat v0.1 conservé (remodelage v0.3).
+- **Ressources : 16** d'origine (au lieu des 10 exotiques v0.1) — les data (`resources.json`, `items.json`) étaient déjà conformes.
+- **Hydroïdes narratifs renforcés** : message crypto jour 300 + bulletins épisodiques ; 8 segments = artefacts à préserver (victoire).
+- **Défaite spirale** : perte Terre-Ville OU effondrement (plus d'infra productive ni d'unité de combat) ; expansion Méthanoïde par « Prises de position » à partir d'un seuil M + guerre déclarée.
+
+**Conséquences** : `GAMEPLAY.md` v0.2, `PFD.md` (§3.5/§3.7/§3.8), `DATA.md` (§1.5/§2) mis à jour ; les `data/*.json` et la sim restent inchangés (implémentation = EPIC transport/Lune et menace).
+
+---
+
 ## Journal des révisions
 
 | Date | Décision |
 |---|---|
+| 2026-09-18 | K15 approuvé — GAMEPLAY v0.2 (transport pods/slots, Hydroïdes narratifs, défaite spirale) ; spec `2026-09-18-gameplay-v0.2-design.md` |
 | 2026-09-15 | ADR-001 à 006 approuvés |
 | 2026-09-15 | Début de session, tout le cadre documentaire créé |
 | 2026-09-16 | ADR-007 approuvé (IoC — tsyringe) |
