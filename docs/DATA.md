@@ -1,11 +1,13 @@
 # DATA — Modèle de données
 
-> Version 0.1 — 2026-09-15
+> Version 0.2 — 2026-09-18
 > Ce document définit la **forme des données** statiques (dans `data/`) et **dynamiques** (le `GameState`).
 
 ---
 
 ## 1. Données statiques (fichiers JSON dans `data/`)
+
+> ⚠️ Les IDs des exemples §1.1-§1.4 (ex. « titane », « helium3 ») sont **illustratifs** (format cible v1) et ne constituent pas l'ensemble canonique : les IDs canoniques de ressources sont ceux de `data/resources.json` (anglais : `titanium`, `helium`, `meh_fuel`…).
 
 ### 1.1 `planets.json`
 
@@ -66,7 +68,7 @@
   "name": "Station orbitale",
   "cost": { "titane": 50, "carbone": 20, "palladium": 10 },
   "buildTime": 30,              // jours
-  "storage": 5000,              // t
+  "storage": 5000,              // t — capacité de stockage de la structure (exemple) ; le plafond 50 000 t (GAMEPLAY §2.2) est par ressource, pas par bâtiment
   "energyProduction": 0,        // ou consommation
   "defense": 100,
   "humanSlots": 4,              // logement
@@ -84,9 +86,9 @@
   "capacity": 2500,               // t — masse maximale transportable
   "slots": { "tool": 1, "supply": 2, "cryo": 0 },
   "fuelType": "meh_fuel",         // meh_fuel (sol/intra) | hed_fuel (orbite/FTL)
-  "fuelCostPerMassDay": 0.01,     // → coût = fond × (distance × masse)
+  "fuelCostPerMassDay": 0.01,     // → coût = f(distance, masse)
   "range": "interplanetary",      // shuttle | intra | interplanetary | interstellar
-  "travel": { "landDays": 2, "takeoffDays": 5 }   // navette seulement
+  "travel": { "landDays": 2, "takeoffDays": 5, "repairDays": 2 }   // navette seulement
 }
 ```
 
@@ -174,9 +176,9 @@ type CargoSlot = {
   quantity: number;           // max 250/chargement pour supply ; 1 équipe pour cryo
   crewTeamId?: string;        // si cryo
 };
+```
 
 > **Détection de défaite** (GameState) : les conditions GAMEPLAY §10 se lisent dans l'état — `flags` (Terre-Ville perdue, segments endommagés), état des installations de production (`caution` des structures), unités de combat opérationnelles (flotte). L'implémentation exacte relève de la sim (EPIC future).
-```
 
 ---
 
