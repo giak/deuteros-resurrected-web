@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { createInitialState, RESOURCE_BY_ID } from '@/simulation';
+import { createInitialState, dayTick, RESOURCE_BY_ID } from '@/simulation';
 import {
   cargoUnitMass, cargoSlotKind, fuelCost, loadedMass, emptySlots,
   planSupplyLoad, planToolLoad, vesselArrivalDay,
@@ -87,5 +87,47 @@ describe('durée de voyage (spec §4.4)', () => {
   });
   it('IOS/SCG : trajet seul', () => {
     expect(vesselArrivalDay('ios', 'earth', 'the_moon', 1)).toBe(3); // 1+2
+  });
+});
+
+describe('arrivée de vaisseau (spec §4.4)', () => {
+  it('débarque la cargaison dans stores/items, mission déposée, état docked', () => {
+    const s = createInitialState(1);
+    s.vessels[0].state = 'in_transit';
+    s.vessels[0].slots = [
+      { kind: 'supply', itemId: 'iron', quantity: 80 },
+      { kind: 'tool', itemId: 'derrick', quantity: 2 },
+    ];
+    s.vessels[0].mission = { fromPlanetId: 'earth', toPlanetId: 'the_moon', startDay: 1, arrivalDay: 10, fuelCost: 4 };
+    for (let i = 0; i < 10; i++) dayTick(s);
+    const v = s.vessels[0];
+    expect(v.state).toBe('docked');
+    expect(v.planetId).toBe('the_moon');
+    expect(v.mission).toBeNull();
+    expect(v.slots).toEqual([
+      { kind: 'supply', itemId: null, quantity: 0 },
+      { kind: 'tool', itemId: null, quantity: 0 },
+    ]);
+    expect(s.planets.the_moon.stores['iron']).toBe(80);
+    expect(s.planets.the_moon.items['derrick']).toBe(2);
+  });
+
+  it('plafonne le dépôt à 50 000', () => {
+    const s = createInitialState(1);
+    s.planets.the_moon.stores['iron'] = 49980;
+    s.vessels[0].state = 'in_transit';
+    s.vessels[0].slots = [{ kind: 'supply', itemId: 'iron', quantity: 100 }];
+    s.vessels[0].mission = { fromPlanetId: 'earth', toPlanetId: 'the_moon', startDay: 1, arrivalDay: 3, fuelCost: 2 };
+    for (let i = 0; i < 3; i++) dayTick(s);
+    expect(s.planets.the_moon.stores['iron']).toBe(50000);
+  });
+
+  it('signale les arrivées dans le résultat du tick', () => {
+    const s = createInitialState(1);
+    s.vessels[0].state = 'in_transit';
+    s.vessels[0].mission = { fromPlanetId: 'earth', toPlanetId: 'the_moon', startDay: 1, arrivalDay: 5, fuelCost: 2 };
+    let r;
+    for (let i = 0; i < 5; i++) r = dayTick(s);
+    expect(r!.arrived).toEqual([{ vesselId: 'shuttle-1', planetId: 'the_moon' }]);
   });
 });

@@ -4,7 +4,9 @@
  * 5. BuildDrones (ennemis) · 6. MTX · 7. Navigation · 8. Combat.
  */
 import type { DayTickResult, GameState } from './types';
+import type { ResourceId } from './config';
 import { SIM_CONFIG } from './config';
+import { RESOURCE_BY_ID, getBody, getVessel } from './data';
 import { createRng } from './rng';
 import { updateResearch } from './research';
 import { updateProduction } from './production';
@@ -90,6 +92,30 @@ export function dayTick(state: GameState): DayTickResult {
   result.enemyDronesBuilt = updateEnemyBuild(state);
   if (result.enemyDronesBuilt > 0) {
     journal.push(`[J${day}] ennemis : ${result.enemyDronesBuilt} drones construits.`);
+  }
+
+  // 6. Navigation — arrivées des vaisseaux joueurs (spec transport §4.4)
+  for (const vessel of state.vessels) {
+    if (vessel.mission && state.day >= vessel.mission.arrivalDay) {
+      const dest = state.planets[vessel.mission.toPlanetId];
+      for (const slot of vessel.slots) {
+        if (slot.quantity > 0 && slot.itemId) {
+          if (RESOURCE_BY_ID[slot.itemId]) {
+            const cur = dest.stores[slot.itemId as ResourceId] ?? 0;
+            dest.stores[slot.itemId as ResourceId] = Math.min(SIM_CONFIG.MINE_STOCK_CAP, cur + slot.quantity);
+          } else {
+            dest.items[slot.itemId] = (dest.items[slot.itemId] ?? 0) + slot.quantity;
+          }
+          slot.itemId = null;
+          slot.quantity = 0;
+        }
+      }
+      vessel.state = 'docked';
+      vessel.planetId = dest.id;
+      vessel.mission = null;
+      result.arrived.push({ vesselId: vessel.id, planetId: dest.id });
+      journal.push(`[J${day}] arrivée : ${getVessel(vessel.templateId).name} sur ${getBody(dest.id).name}.`);
+    }
   }
 
   // 8. Combat (rounds journaliers)
